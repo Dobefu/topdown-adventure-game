@@ -3,30 +3,20 @@ package main
 import (
 	"log"
 
+	"github.com/Dobefu/topdown-adventure-game/internal/game"
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 )
-
-type Game struct{}
-
-func (g *Game) Update() error {
-	return nil
-}
-
-func (g *Game) Draw(screen *ebiten.Image) {
-	ebitenutil.DebugPrint(screen, screen.Bounds().Max.String())
-}
-
-func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	return outsideWidth, outsideHeight
-}
 
 func main() {
 	ebiten.SetWindowTitle("Top-down Adventure Game")
+	ebiten.SetWindowResizingMode(ebiten.WindowResizingModeEnabled)
+
+	// Set a minimum size limit.
+	ebiten.SetWindowSizeLimits(320, 320, int(^uint16(0)), int(^uint16(0)))
 
 	gameOptions := ebiten.RunGameOptions{}
 
-	err := ebiten.RunGameWithOptions(&Game{}, &gameOptions)
+	err := ebiten.RunGameWithOptions(game.NewGame(), &gameOptions)
 
 	if err != nil {
 		log.Fatal(err)
