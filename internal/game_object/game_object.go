@@ -9,6 +9,7 @@ import (
 type GameObject struct {
 	interfaces.GameObject
 
+	scene    *interfaces.Scene
 	position vectors.Vector3
 	isActive bool
 }
