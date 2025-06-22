@@ -10,10 +10,16 @@ type Level1Scene struct {
 }
 
 func (s *Level1Scene) Init() {
+	s.Scene.Init()
+
 	s.AddGameObject(
 		player.NewPlayer(vectors.Vector3{
 			X: 10,
 			Y: 10,
 			Z: 0,
 		}))
+}
+
+func (s *Level1Scene) InitUI() {
+	s.Scene.InitUI()
 }
