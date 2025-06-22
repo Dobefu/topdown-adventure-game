@@ -1,6 +1,8 @@
 package scene
 
 import (
+	"log"
+
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 	"github.com/ebitenui/ebitenui"
 	"github.com/ebitenui/ebitenui/widget"
@@ -29,6 +31,23 @@ func (s *Scene) InitUI() {
 			widget.ContainerOpts.Layout(widget.NewAnchorLayout()),
 		),
 	}
+}
+
+func (s *Scene) InitSceneMap(path string) {
+	sceneMap, err := tiled.LoadFile(path, tiled.WithFileSystem(mapsFS))
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	s.sceneMap = sceneMap
+	sceneMapRenderer, err := render.NewRendererWithFileSystem(s.sceneMap, mapsFS)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	s.sceneMapRenderer = sceneMapRenderer
 }
 
 func (s *Scene) SetGame(game interfaces.Game) {

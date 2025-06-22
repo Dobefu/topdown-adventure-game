@@ -9,6 +9,7 @@ import (
 type Scene interface {
 	Init()
 	InitUI()
+	InitSceneMap(path string)
 	SetGame(game Game)
 	GetGameObjects() []GameObject
 	GetSceneMapData() (sceneMap *tiled.Map, sceneMapRenderer *render.Renderer)
