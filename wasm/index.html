@@ -50,5 +50,26 @@
       Created by
       <a href="https://cv.connor.nl" target="_blank">Connor van Spronssen</a>
     </p>
+
+    <script>
+      const aspectRatio = 16 / 9;
+      addEventListener("resize", resizeHandler);
+
+      function resizeHandler() {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        if (width / height > aspectRatio) {
+          game.style.width = `${height * aspectRatio}px`;
+          game.style.height = `${height}px`;
+          return;
+        }
+
+        game.style.width = `${width}px`;
+        game.style.height = `${width / aspectRatio}px`;
+      }
+
+      resizeHandler();
+    </script>
   </body>
 </html>
