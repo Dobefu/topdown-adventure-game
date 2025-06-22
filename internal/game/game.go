@@ -1,6 +1,7 @@
 package game
 
 import (
+	"image/color"
 	"log"
 
 	"github.com/Dobefu/topdown-adventure-game/internal/input"
@@ -81,7 +82,7 @@ func (g *game) Draw(screen *ebiten.Image) {
 			log.Fatal(err)
 		}
 
-		screen.Fill(sceneMap.BackgroundColor)
+		screen.Fill(color.Black)
 		screen.DrawImage(ebiten.NewImageFromImage(sceneMapRenderer.Result), nil)
 		sceneMapRenderer.Clear()
 	} else {
