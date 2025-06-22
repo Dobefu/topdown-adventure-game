@@ -70,13 +70,9 @@ func loadButtonImage() (*widget.ButtonImage, error) {
 		return nil, err
 	}
 
-	idle := imageUI.NewNineSliceSimple(ebiten.NewImageFromImage(imgIdle), 12, 40)
-	hover := imageUI.NewNineSliceSimple(ebiten.NewImageFromImage(imgHover), 12, 40)
-	pressed := imageUI.NewNineSliceSimple(ebiten.NewImageFromImage(imgPressed), 12, 40)
-
 	return &widget.ButtonImage{
-		Idle:    idle,
-		Hover:   hover,
-		Pressed: pressed,
+		Idle:    imageUI.NewNineSliceSimple(ebiten.NewImageFromImage(imgIdle), 12, 40),
+		Hover:   imageUI.NewNineSliceSimple(ebiten.NewImageFromImage(imgHover), 12, 40),
+		Pressed: imageUI.NewNineSliceSimple(ebiten.NewImageFromImage(imgPressed), 12, 40),
 	}, nil
 }
