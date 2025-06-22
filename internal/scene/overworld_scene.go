@@ -5,11 +5,11 @@ import (
 	"github.com/Dobefu/vectors"
 )
 
-type Level1Scene struct {
+type OverworldScene struct {
 	Scene
 }
 
-func (s *Level1Scene) Init() {
+func (s *OverworldScene) Init() {
 	s.Scene.Init()
 
 	s.AddGameObject(
@@ -20,6 +20,6 @@ func (s *Level1Scene) Init() {
 		}))
 }
 
-func (s *Level1Scene) InitUI() {
+func (s *OverworldScene) InitUI() {
 	s.Scene.InitUI()
 }

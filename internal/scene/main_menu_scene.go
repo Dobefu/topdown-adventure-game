@@ -46,7 +46,7 @@ func (s *MainMenuScene) InitUI() {
 	container.AddChild(ui.NewButton(
 		widget.ButtonOpts.TextLabel("Start"),
 		widget.ButtonOpts.ClickedHandler(func(args *widget.ButtonClickedEventArgs) {
-			s.Game.SetScene(&Level1Scene{})
+			s.Game.SetScene(&OverworldScene{})
 		}),
 
 		widget.ButtonOpts.WidgetOpts(
