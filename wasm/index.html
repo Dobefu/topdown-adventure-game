@@ -18,16 +18,23 @@
         height: 100vh;
         justify-content: center;
         margin: 0;
+        overflow: hidden;
       }
 
       #game {
+        aspect-ratio: 16/9;
         border: 0;
-        height: 100%;
         width: 100%;
       }
 
       p {
+        bottom: -100%;
+        position: fixed;
         text-align: center;
+
+        &:focus-within {
+          bottom: 0;
+        }
       }
 
       a {
@@ -39,6 +46,9 @@
   <body>
     <iframe id="game" src="game.html" title="Top-down Adventure Game"></iframe>
 
-    <p>Created by <a href="https://cv.connor.nl">Connor van Spronssen</a></p>
+    <p>
+      Created by
+      <a href="https://cv.connor.nl" target="_blank">Connor van Spronssen</a>
+    </p>
   </body>
 </html>
