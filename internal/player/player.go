@@ -98,6 +98,7 @@ func (p *Player) Update() (err error) {
 
 	pos := p.GetPosition()
 	isMoving := false
+	prevAnimationState := p.animationState
 
 	if p.input.ActionIsPressed(input.ActionMoveLeft) {
 		p.animationState = animation.AnimationStateWalkingLeft
@@ -129,6 +130,10 @@ func (p *Player) Update() (err error) {
 
 	if !isMoving {
 		p.animationState = animation.AnimationState(int(p.animationState) % 4)
+	}
+
+	if p.animationState != prevAnimationState {
+		p.frameIndex = 0
 	}
 
 	return nil
