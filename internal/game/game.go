@@ -1,7 +1,6 @@
 package game
 
 import (
-	"fmt"
 	"image/color"
 	"log"
 
@@ -34,7 +33,7 @@ func (g *game) GetScene() (scene interfaces.Scene) {
 
 func (g *game) SetScene(scene interfaces.Scene) {
 	g.scene = scene
-	fmt.Println(g.screenHeight)
+
 	g.scene.SetGame(g)
 	g.scene.SetCamera(kamera.NewCamera(0, 0, float64(g.screenWidth), float64(g.screenHeight)))
 
