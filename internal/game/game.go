@@ -1,6 +1,7 @@
 package game
 
 import (
+	"github.com/Dobefu/topdown-adventure-game/internal/input"
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 	"github.com/Dobefu/topdown-adventure-game/internal/scene"
 	"github.com/hajimehoshi/ebiten/v2"
@@ -33,6 +34,8 @@ func (g *game) SetScene(scene interfaces.Scene) {
 }
 
 func (g *game) Update() (err error) {
+	input.Input.Update()
+
 	if g.scene == nil {
 		return nil
 	}
