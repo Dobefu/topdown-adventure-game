@@ -1,6 +1,7 @@
 package game
 
 import (
+	"fmt"
 	"image/color"
 	"log"
 
@@ -8,12 +9,16 @@ import (
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 	"github.com/Dobefu/topdown-adventure-game/internal/scene"
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/setanarut/kamera/v2"
 )
 
 type game struct {
 	interfaces.Game
 
 	scene interfaces.Scene
+
+	screenWidth  int
+	screenHeight int
 }
 
 func NewGame() (g *game) {
@@ -29,8 +34,9 @@ func (g *game) GetScene() (scene interfaces.Scene) {
 
 func (g *game) SetScene(scene interfaces.Scene) {
 	g.scene = scene
-
+	fmt.Println(g.screenHeight)
 	g.scene.SetGame(g)
+	g.scene.SetCamera(kamera.NewCamera(0, 0, float64(g.screenWidth), float64(g.screenHeight)))
 
 	g.scene.Init()
 	g.scene.InitUI()
@@ -41,6 +47,13 @@ func (g *game) Update() (err error) {
 
 	if g.scene == nil {
 		return nil
+	}
+
+	camera := g.scene.GetCamera()
+	cameraTarget := g.scene.GetCameraTarget()
+
+	if camera != nil && cameraTarget != nil {
+		camera.LookAt(cameraTarget.GetPosition().X, cameraTarget.GetPosition().Y)
 	}
 
 	g.scene.GetUI().Update()
@@ -63,9 +76,15 @@ func (g *game) Update() (err error) {
 }
 
 func (g *game) Draw(screen *ebiten.Image) {
+	g.screenWidth = screen.Bounds().Size().X
+	g.screenHeight = screen.Bounds().Size().Y
+
 	if g.scene == nil {
 		return
 	}
+
+	camera := g.scene.GetCamera()
+	camera.SetSize(float64(g.screenWidth), float64(g.screenHeight))
 
 	sceneMap, sceneMapRenderer := g.scene.GetSceneMapData()
 
@@ -83,7 +102,8 @@ func (g *game) Draw(screen *ebiten.Image) {
 		}
 
 		screen.Fill(color.Black)
-		screen.DrawImage(ebiten.NewImageFromImage(sceneMapRenderer.Result), nil)
+
+		camera.Draw(ebiten.NewImageFromImage(sceneMapRenderer.Result), &ebiten.DrawImageOptions{}, screen)
 		sceneMapRenderer.Clear()
 	} else {
 		screen.Clear()

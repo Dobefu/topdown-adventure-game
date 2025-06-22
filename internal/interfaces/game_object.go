@@ -8,8 +8,10 @@ import (
 type GameObject interface {
 	Update() (err error)
 	Draw(screen *ebiten.Image)
-	GetPosition() (position *vectors.Vector3)
 	SetPosition(position vectors.Vector3)
+	GetPosition() (position *vectors.Vector3)
 	SetIsActive(isActive bool)
 	GetIsActive() (isActive bool)
+	SetScene(scene Scene)
+	GetScene() *Scene
 }

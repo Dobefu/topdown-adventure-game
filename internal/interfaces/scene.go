@@ -4,6 +4,7 @@ import (
 	"github.com/ebitenui/ebitenui"
 	"github.com/lafriks/go-tiled"
 	"github.com/lafriks/go-tiled/render"
+	"github.com/setanarut/kamera/v2"
 )
 
 type Scene interface {
@@ -14,5 +15,9 @@ type Scene interface {
 	GetGameObjects() []GameObject
 	GetSceneMapData() (sceneMap *tiled.Map, sceneMapRenderer *render.Renderer)
 	GetUI() *ebitenui.UI
+	SetCamera(camera *kamera.Camera)
+	GetCamera() *kamera.Camera
+	SetCameraTarget(camera GameObject)
+	GetCameraTarget() GameObject
 	AddGameObject(gameObject GameObject)
 }

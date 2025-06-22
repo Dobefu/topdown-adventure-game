@@ -11,14 +11,12 @@ type OverworldScene struct {
 
 func (s *OverworldScene) Init() {
 	s.Scene.Init()
-	s.Scene.InitSceneMap("maps/overworld.tmx")
+	s.InitSceneMap("maps/overworld.tmx")
 
-	s.AddGameObject(
-		player.NewPlayer(vectors.Vector3{
-			X: 10,
-			Y: 10,
-			Z: 0,
-		}))
+	player := player.NewPlayer(vectors.Vector3{X: 0, Y: 0, Z: 0})
+
+	s.AddGameObject(player)
+	s.SetCameraTarget(player)
 }
 
 func (s *OverworldScene) InitUI() {

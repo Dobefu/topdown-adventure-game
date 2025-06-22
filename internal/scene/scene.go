@@ -8,6 +8,7 @@ import (
 	"github.com/ebitenui/ebitenui/widget"
 	"github.com/lafriks/go-tiled"
 	"github.com/lafriks/go-tiled/render"
+	"github.com/setanarut/kamera/v2"
 )
 
 type Scene struct {
@@ -15,6 +16,8 @@ type Scene struct {
 
 	Game interfaces.Game
 
+	camera           *kamera.Camera
+	cameraTarget     *interfaces.GameObject
 	gameObjects      []interfaces.GameObject
 	sceneMap         *tiled.Map
 	sceneMapRenderer *render.Renderer
@@ -66,6 +69,27 @@ func (s *Scene) GetUI() *ebitenui.UI {
 	return s.ui
 }
 
+func (s *Scene) SetCamera(camera *kamera.Camera) {
+	s.camera = camera
+}
+
+func (s *Scene) GetCamera() *kamera.Camera {
+	return s.camera
+}
+
+func (s *Scene) SetCameraTarget(target interfaces.GameObject) {
+	s.cameraTarget = &target
+}
+
+func (s *Scene) GetCameraTarget() interfaces.GameObject {
+	if s.cameraTarget == nil {
+		return nil
+	}
+
+	return *s.cameraTarget
+}
+
 func (s *Scene) AddGameObject(gameObject interfaces.GameObject) {
 	s.gameObjects = append(s.gameObjects, gameObject)
+	gameObject.SetScene(s)
 }

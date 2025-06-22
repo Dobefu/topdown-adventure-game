@@ -14,11 +14,16 @@ import (
 type Player struct {
 	game_object.GameObject
 
-	input *ebitengine_input.Handler
+	input      *ebitengine_input.Handler
+	img        *ebiten.Image
+	imgOptions *ebiten.DrawImageOptions
 }
 
 func NewPlayer(position vectors.Vector3) (player *Player) {
 	player = &Player{}
+
+	player.img = ebiten.NewImage(32, 32)
+	player.imgOptions = &ebiten.DrawImageOptions{}
 
 	player.SetIsActive(true)
 	player.SetPosition(position)
@@ -31,14 +36,14 @@ func NewPlayer(position vectors.Vector3) (player *Player) {
 func (p *Player) Draw(screen *ebiten.Image) {
 	pos := p.GetPosition()
 
-	vector.DrawFilledCircle(
-		screen,
-		float32(pos.X),
-		float32(pos.Y),
-		10,
-		color.White,
-		true,
-	)
+	vector.DrawFilledCircle(p.img, 16, 16, 16, color.White, true)
+
+	p.imgOptions.GeoM.Reset()
+	p.imgOptions.GeoM.Translate(pos.X, pos.Y)
+
+	(*p.GetScene()).GetCamera().Draw(p.img, p.imgOptions, screen)
+
+	p.img.Clear()
 }
 
 func (p *Player) Update() (err error) {
