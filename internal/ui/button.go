@@ -1,21 +1,35 @@
 package ui
 
 import (
+	"bytes"
+	"image"
 	"image/color"
 	"log"
 
 	"github.com/Dobefu/topdown-adventure-game/internal/fonts"
-	"github.com/ebitenui/ebitenui/image"
+	imageUI "github.com/ebitenui/ebitenui/image"
 	"github.com/ebitenui/ebitenui/widget"
+	"github.com/hajimehoshi/ebiten/v2"
+
+	_ "embed"
 )
 
 var (
-	buttonImage *widget.ButtonImage
+	//go:embed img/button-idle.png
+	buttonIdleImgBytes []byte
+
+	//go:embed img/button-hover.png
+	buttonHoverImgBytes []byte
+
+	//go:embed img/button-pressed.png
+	buttonPressedImgBytes []byte
+
+	buttonImg *widget.ButtonImage
 )
 
 func init() {
 	var err error
-	buttonImage, err = loadButtonImage()
+	buttonImg, err = loadButtonImage()
 
 	if err != nil {
 		log.Fatal(err)
@@ -32,31 +46,33 @@ func NewButton(opts ...widget.ButtonOpt) *widget.Button {
 		}),
 		widget.ButtonOpts.TextFace(fonts.FontDefaultMd),
 		widget.ButtonOpts.TextColor(&widget.ButtonTextColor{
-			Idle: color.NRGBA{0xdf, 0xf4, 0xff, 0xff},
+			Idle: color.NRGBA{0xff, 0xff, 0xff, 0xff},
 		}),
-		widget.ButtonOpts.Image(buttonImage),
+		widget.ButtonOpts.Image(buttonImg),
 	}
 
 	return widget.NewButton(append(defaultOpts, opts...)...)
 }
 
 func loadButtonImage() (*widget.ButtonImage, error) {
-	idle := image.NewBorderedNineSliceColor(
-		color.NRGBA{R: 170, G: 170, B: 180, A: 255},
-		color.NRGBA{90, 90, 90, 255},
-		3,
-	)
+	imgIdle, _, err := image.Decode(bytes.NewReader(buttonIdleImgBytes))
+	if err != nil {
+		return nil, err
+	}
 
-	hover := image.NewBorderedNineSliceColor(
-		color.NRGBA{R: 130, G: 130, B: 150, A: 255},
-		color.NRGBA{70, 70, 70, 255},
-		3,
-	)
+	imgHover, _, err := image.Decode(bytes.NewReader(buttonHoverImgBytes))
+	if err != nil {
+		return nil, err
+	}
 
-	pressed := image.NewAdvancedNineSliceColor(
-		color.NRGBA{R: 130, G: 130, B: 150, A: 255},
-		image.NewBorder(3, 2, 2, 2, color.NRGBA{70, 70, 70, 255}),
-	)
+	imgPressed, _, err := image.Decode(bytes.NewReader(buttonPressedImgBytes))
+	if err != nil {
+		return nil, err
+	}
+
+	idle := imageUI.NewNineSliceSimple(ebiten.NewImageFromImage(imgIdle), 12, 40)
+	hover := imageUI.NewNineSliceSimple(ebiten.NewImageFromImage(imgHover), 12, 40)
+	pressed := imageUI.NewNineSliceSimple(ebiten.NewImageFromImage(imgPressed), 12, 40)
 
 	return &widget.ButtonImage{
 		Idle:    idle,
