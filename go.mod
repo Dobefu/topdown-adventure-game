@@ -5,7 +5,6 @@ go 1.24.3
 require (
 	github.com/Dobefu/vectors v1.0.0
 	github.com/hajimehoshi/ebiten/v2 v2.8.8
-	github.com/yohamta/donburi v1.15.7
 )
 
 require (
