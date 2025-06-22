@@ -9,6 +9,8 @@ import (
 type Scene struct {
 	interfaces.Scene
 
+	Game interfaces.Game
+
 	gameObjects []interfaces.GameObject
 	ui          *ebitenui.UI
 }
@@ -19,12 +21,22 @@ func (s *Scene) Init() {
 
 func (s *Scene) InitUI() {
 	s.ui = &ebitenui.UI{
-		Container: widget.NewContainer(),
+		Container: widget.NewContainer(
+			widget.ContainerOpts.Layout(widget.NewAnchorLayout()),
+		),
 	}
+}
+
+func (s *Scene) SetGame(game interfaces.Game) {
+	s.Game = game
 }
 
 func (s *Scene) GetGameObjects() []interfaces.GameObject {
 	return s.gameObjects
+}
+
+func (s *Scene) GetUI() *ebitenui.UI {
+	return s.ui
 }
 
 func (s *Scene) AddGameObject(gameObject interfaces.GameObject) {

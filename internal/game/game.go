@@ -6,36 +6,38 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
-type Game interface {
-	ebiten.Game
-
-	GetScene() (scene interfaces.Scene)
-	SetScene(scene interfaces.Scene)
-}
-
 type game struct {
-	Game
+	interfaces.Game
 
 	scene interfaces.Scene
 }
 
 func NewGame() (g *game) {
 	g = &game{}
-	g.SetScene(&scene.Level1Scene{})
+	g.SetScene(&scene.MainMenuScene{})
 
 	return g
+}
+
+func (g *game) GetScene() (scene interfaces.Scene) {
+	return g.scene
 }
 
 func (g *game) SetScene(scene interfaces.Scene) {
 	g.scene = scene
 
+	g.scene.SetGame(g)
+
 	g.scene.Init()
+	g.scene.InitUI()
 }
 
 func (g *game) Update() (err error) {
 	if g.scene == nil {
 		return nil
 	}
+
+	g.scene.GetUI().Update()
 
 	gameObjects := g.scene.GetGameObjects()
 
@@ -58,6 +60,8 @@ func (g *game) Draw(screen *ebiten.Image) {
 	if g.scene == nil {
 		return
 	}
+
+	g.scene.GetUI().Draw(screen)
 
 	gameObjects := g.scene.GetGameObjects()
 
