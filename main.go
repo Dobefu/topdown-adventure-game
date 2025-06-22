@@ -15,7 +15,9 @@ func main() {
 	ebiten.SetWindowSizeLimits(320, 320, int(^uint16(0)), int(^uint16(0)))
 	ebiten.SetScreenClearedEveryFrame(false)
 
-	gameOptions := ebiten.RunGameOptions{}
+	gameOptions := ebiten.RunGameOptions{
+		DisableHiDPI: true,
+	}
 
 	err := ebiten.RunGameWithOptions(game.NewGame(), &gameOptions)
 
