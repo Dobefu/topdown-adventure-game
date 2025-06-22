@@ -1,6 +1,8 @@
 package game
 
 import (
+	"log"
+
 	"github.com/Dobefu/topdown-adventure-game/internal/input"
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 	"github.com/Dobefu/topdown-adventure-game/internal/scene"
@@ -62,6 +64,28 @@ func (g *game) Update() (err error) {
 func (g *game) Draw(screen *ebiten.Image) {
 	if g.scene == nil {
 		return
+	}
+
+	sceneMap, sceneMapRenderer := g.scene.GetSceneMapData()
+
+	if sceneMap != nil {
+		err := sceneMapRenderer.RenderLayer(0)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		err = sceneMapRenderer.RenderLayer(1)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		screen.Fill(sceneMap.BackgroundColor)
+		screen.DrawImage(ebiten.NewImageFromImage(sceneMapRenderer.Result), nil)
+		sceneMapRenderer.Clear()
+	} else {
+		screen.Clear()
 	}
 
 	g.scene.GetUI().Draw(screen)

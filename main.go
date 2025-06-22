@@ -13,6 +13,7 @@ func main() {
 
 	// Set a minimum size limit.
 	ebiten.SetWindowSizeLimits(320, 320, int(^uint16(0)), int(^uint16(0)))
+	ebiten.SetScreenClearedEveryFrame(false)
 
 	gameOptions := ebiten.RunGameOptions{}
 
