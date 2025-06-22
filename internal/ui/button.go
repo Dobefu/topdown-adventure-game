@@ -25,10 +25,10 @@ func init() {
 func NewButton(opts ...widget.ButtonOpt) *widget.Button {
 	defaultOpts := []widget.ButtonOpt{
 		widget.ButtonOpts.TextPadding(widget.Insets{
-			Top:    12,
-			Left:   12,
-			Right:  12,
-			Bottom: 12,
+			Top:    16,
+			Left:   24,
+			Right:  24,
+			Bottom: 16,
 		}),
 		widget.ButtonOpts.TextFace(fonts.FontDefaultMd),
 		widget.ButtonOpts.TextColor(&widget.ButtonTextColor{
