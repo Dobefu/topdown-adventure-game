@@ -8,6 +8,7 @@ require (
 	github.com/hajimehoshi/ebiten/v2 v2.8.8
 	github.com/lafriks/go-tiled v0.13.0
 	github.com/quasilyte/ebitengine-input v0.9.1
+	github.com/setanarut/kamera/v2 v2.96.2
 )
 
 require (
@@ -18,6 +19,7 @@ require (
 	github.com/go-text/typesetting v0.3.0 // indirect
 	github.com/jezek/xgb v1.1.1 // indirect
 	github.com/quasilyte/gmath v0.0.0-20221217210116-fba37a2e15c7 // indirect
+	github.com/setanarut/fastnoise v1.1.1 // indirect
 	golang.org/x/exp v0.0.0-20250305212735-054e65f0b394 // indirect
 	golang.org/x/image v0.25.0 // indirect
 	golang.org/x/sync v0.15.0 // indirect
