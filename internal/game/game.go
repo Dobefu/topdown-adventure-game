@@ -3,6 +3,7 @@ package game
 import (
 	"image/color"
 	"log"
+	"math"
 
 	"github.com/Dobefu/topdown-adventure-game/internal/input"
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
@@ -34,8 +35,13 @@ func (g *game) GetScene() (scene interfaces.Scene) {
 func (g *game) SetScene(scene interfaces.Scene) {
 	g.scene = scene
 
+	camera := kamera.NewCamera(0, 0, float64(g.screenWidth), float64(g.screenHeight))
 	g.scene.SetGame(g)
-	g.scene.SetCamera(kamera.NewCamera(0, 0, float64(g.screenWidth), float64(g.screenHeight)))
+	g.scene.SetCamera(camera)
+
+	widthScale := float64(g.screenWidth) / 640
+	heightScale := float64(g.screenHeight) / 360
+	camera.ZoomFactor = math.Min(widthScale, heightScale)
 
 	g.scene.Init()
 	g.scene.InitUI()
@@ -84,6 +90,10 @@ func (g *game) Draw(screen *ebiten.Image) {
 
 	camera := g.scene.GetCamera()
 	camera.SetSize(float64(g.screenWidth), float64(g.screenHeight))
+
+	widthScale := float64(g.screenWidth) / 640
+	heightScale := float64(g.screenHeight) / 360
+	camera.ZoomFactor = math.Min(widthScale, heightScale)
 
 	sceneMap, sceneMapRenderer := g.scene.GetSceneMapData()
 
