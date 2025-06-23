@@ -19,19 +19,19 @@ func (p *Player) handleAnimations() {
 
 	normalizedVelocity := p.velocity.Normalize()
 
-	if normalizedVelocity.Y < 0 && normalizedVelocity.X > normalizedVelocity.Y {
+	if normalizedVelocity.Y < 0 && normalizedVelocity.X >= normalizedVelocity.Y {
 		p.animationState = animation.AnimationStateWalkingUp
 	}
 
-	if normalizedVelocity.Y > 0 && normalizedVelocity.X < normalizedVelocity.Y {
+	if normalizedVelocity.Y > 0 && normalizedVelocity.X <= normalizedVelocity.Y {
 		p.animationState = animation.AnimationStateWalkingDown
 	}
 
-	if normalizedVelocity.X < 0 && normalizedVelocity.X < normalizedVelocity.Y {
+	if normalizedVelocity.X < 0 && normalizedVelocity.X <= normalizedVelocity.Y {
 		p.animationState = animation.AnimationStateWalkingLeft
 	}
 
-	if normalizedVelocity.X > 0 && normalizedVelocity.X > normalizedVelocity.Y {
+	if normalizedVelocity.X > 0 && normalizedVelocity.X >= normalizedVelocity.Y {
 		p.animationState = animation.AnimationStateWalkingRight
 	}
 
