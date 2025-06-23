@@ -12,6 +12,11 @@ import (
 	"github.com/setanarut/kamera/v2"
 )
 
+const (
+	VIRTUAL_WIDTH  = 640
+	VIRTUAL_HEIGHT = 360
+)
+
 type game struct {
 	interfaces.Game
 
@@ -39,8 +44,8 @@ func (g *game) SetScene(scene interfaces.Scene) {
 	g.scene.SetGame(g)
 	g.scene.SetCamera(camera)
 
-	widthScale := float64(g.screenWidth) / 640
-	heightScale := float64(g.screenHeight) / 360
+	widthScale := float64(g.screenWidth) / VIRTUAL_WIDTH
+	heightScale := float64(g.screenHeight) / VIRTUAL_WIDTH
 	camera.ZoomFactor = math.Min(widthScale, heightScale)
 
 	g.scene.Init()
@@ -91,8 +96,8 @@ func (g *game) Draw(screen *ebiten.Image) {
 	camera := g.scene.GetCamera()
 	camera.SetSize(float64(g.screenWidth), float64(g.screenHeight))
 
-	widthScale := float64(g.screenWidth) / 640
-	heightScale := float64(g.screenHeight) / 360
+	widthScale := float64(g.screenWidth) / VIRTUAL_WIDTH
+	heightScale := float64(g.screenHeight) / VIRTUAL_HEIGHT
 	camera.ZoomFactor = math.Min(widthScale, heightScale)
 
 	sceneMap, sceneMapRenderer := g.scene.GetSceneMapData()
