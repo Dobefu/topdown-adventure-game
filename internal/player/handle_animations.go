@@ -17,6 +17,24 @@ func (p *Player) handleAnimations() {
 		}
 	}
 
+	normalizedVelocity := p.velocity.Normalize()
+
+	if normalizedVelocity.Y < 0 && normalizedVelocity.X > normalizedVelocity.Y {
+		p.animationState = animation.AnimationStateWalkingUp
+	}
+
+	if normalizedVelocity.Y > 0 && normalizedVelocity.X < normalizedVelocity.Y {
+		p.animationState = animation.AnimationStateWalkingDown
+	}
+
+	if normalizedVelocity.X < 0 && normalizedVelocity.X < normalizedVelocity.Y {
+		p.animationState = animation.AnimationStateWalkingLeft
+	}
+
+	if normalizedVelocity.X > 0 && normalizedVelocity.X > normalizedVelocity.Y {
+		p.animationState = animation.AnimationStateWalkingRight
+	}
+
 	// TODO: Implement a vector method to check this.
 	if p.velocity.X == 0 && p.velocity.Y == 0 {
 		p.animationState = animation.AnimationState(int(p.animationState) % 4)
