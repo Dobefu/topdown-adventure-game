@@ -6,9 +6,9 @@ import (
 
 func (p *Player) handleAnimations() {
 	frameCount += 1
-
 	prevAnimationState := p.animationState
 
+	// Change the animation frame every 5 game ticks.
 	if (frameCount % 5) == 0 {
 		p.frameIndex += 1
 
