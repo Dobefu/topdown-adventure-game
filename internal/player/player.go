@@ -88,58 +88,8 @@ func (p *Player) Draw(screen *ebiten.Image) {
 }
 
 func (p *Player) Update() (err error) {
-	frameCount += 1
-
-	if frameCount%5 == 0 {
-		p.frameIndex += 1
-
-		if p.frameIndex >= numFrames {
-			p.frameIndex = 0
-		}
-	}
-
-	isMoving := false
-	prevAnimationState := p.animationState
-
-	if p.input.ActionIsPressed(input.ActionMoveLeft) {
-		p.animationState = animation.AnimationStateWalkingLeft
-		isMoving = true
-
-		p.velocity.X = -2
-	}
-
-	if p.input.ActionIsPressed(input.ActionMoveRight) {
-		p.animationState = animation.AnimationStateWalkingRight
-		isMoving = true
-
-		p.velocity.X = 2
-	}
-
-	if p.input.ActionIsPressed(input.ActionMoveUp) {
-		p.animationState = animation.AnimationStateWalkingUp
-		isMoving = true
-
-		p.velocity.Y = -2
-	}
-
-	if p.input.ActionIsPressed(input.ActionMoveDown) {
-		p.animationState = animation.AnimationStateWalkingDown
-		isMoving = true
-
-		p.velocity.Y = 2
-	}
-
-	pos := p.GetPosition()
-	pos.Add(p.velocity)
-	p.velocity.Clear()
-
-	if !isMoving {
-		p.animationState = animation.AnimationState(int(p.animationState) % 4)
-	}
-
-	if p.animationState != prevAnimationState {
-		p.frameIndex = 0
-	}
+	p.handleMovement()
+	p.handleAnimations()
 
 	return nil
 }
