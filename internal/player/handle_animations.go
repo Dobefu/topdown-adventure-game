@@ -35,8 +35,7 @@ func (p *Player) handleAnimations() {
 		p.animationState = animation.AnimationStateWalkingRight
 	}
 
-	// TODO: Implement a vector method to check this.
-	if p.velocity.X == 0 && p.velocity.Y == 0 {
+	if p.velocity.IsZero() {
 		p.animationState = animation.AnimationState(int(p.animationState) % 4)
 	}
 
