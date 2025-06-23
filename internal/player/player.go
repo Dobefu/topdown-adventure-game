@@ -41,6 +41,8 @@ func init() {
 type Player struct {
 	game_object.GameObject
 
+	velocity vectors.Vector3
+
 	input      *ebitengine_input.Handler
 	imgOptions *ebiten.DrawImageOptions
 
@@ -96,7 +98,6 @@ func (p *Player) Update() (err error) {
 		}
 	}
 
-	pos := p.GetPosition()
 	isMoving := false
 	prevAnimationState := p.animationState
 
@@ -104,29 +105,33 @@ func (p *Player) Update() (err error) {
 		p.animationState = animation.AnimationStateWalkingLeft
 		isMoving = true
 
-		pos.X -= 2
+		p.velocity.X = -2
 	}
 
 	if p.input.ActionIsPressed(input.ActionMoveRight) {
 		p.animationState = animation.AnimationStateWalkingRight
 		isMoving = true
 
-		pos.X += 2
+		p.velocity.X = 2
 	}
 
 	if p.input.ActionIsPressed(input.ActionMoveUp) {
 		p.animationState = animation.AnimationStateWalkingUp
 		isMoving = true
 
-		pos.Y -= 2
+		p.velocity.Y = -2
 	}
 
 	if p.input.ActionIsPressed(input.ActionMoveDown) {
 		p.animationState = animation.AnimationStateWalkingDown
 		isMoving = true
 
-		pos.Y += 2
+		p.velocity.Y = 2
 	}
+
+	pos := p.GetPosition()
+	pos.Add(p.velocity)
+	p.velocity.Clear()
 
 	if !isMoving {
 		p.animationState = animation.AnimationState(int(p.animationState) % 4)
