@@ -3,20 +3,20 @@ package animation
 type AnimationState int
 
 const (
-	AnimationStateIdleUp = iota
-	AnimationStateIdleUpRight
-	AnimationStateIdleRight
+	AnimationStateIdleRight = iota
 	AnimationStateIdleDownRight
 	AnimationStateIdleDown
 	AnimationStateIdleDownLeft
 	AnimationStateIdleLeft
 	AnimationStateIdleUpLeft
-	AnimationStateWalkingUp
-	AnimationStateWalkingUpRight
+	AnimationStateIdleUp
+	AnimationStateIdleUpRight
 	AnimationStateWalkingRight
 	AnimationStateWalkingDownRight
 	AnimationStateWalkingDown
 	AnimationStateWalkingDownLeft
 	AnimationStateWalkingLeft
 	AnimationStateWalkingUpLeft
+	AnimationStateWalkingUp
+	AnimationStateWalkingUpRight
 )

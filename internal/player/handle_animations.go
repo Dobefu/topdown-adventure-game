@@ -17,29 +17,15 @@ func (p *Player) handleAnimations() {
 		}
 	}
 
-	normalizedVelocity := p.velocity.Normalize()
-
-	if normalizedVelocity.Y < 0 && normalizedVelocity.X >= normalizedVelocity.Y {
-		p.animationState = animation.AnimationStateWalkingUp
-	}
-
-	if normalizedVelocity.Y > 0 && normalizedVelocity.X <= normalizedVelocity.Y {
-		p.animationState = animation.AnimationStateWalkingDown
-	}
-
-	if normalizedVelocity.X < 0 && normalizedVelocity.X <= normalizedVelocity.Y {
-		p.animationState = animation.AnimationStateWalkingLeft
-	}
-
-	if normalizedVelocity.X > 0 && normalizedVelocity.X >= normalizedVelocity.Y {
-		p.animationState = animation.AnimationStateWalkingRight
-	}
-
 	// Reset to the idle state of the current direction when not moving.
 	if p.velocity.IsZero() {
 		p.animationState = animation.AnimationState(int(p.animationState) % 8)
+	} else {
+		angle := p.velocity.AngleDegrees()
+		p.animationState = animation.AnimationState(int((angle+22.5)/45)%8 + 8)
 	}
 
+	// After changing the animation state, reset the animation index.
 	if p.animationState != prevAnimationState {
 		p.frameIndex = 0
 	}
