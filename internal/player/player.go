@@ -21,9 +21,8 @@ var (
 )
 
 const (
-	frameWidth  = 32
-	frameHeight = 32
-	numFrames   = 4
+	FRAME_WIDTH  = 32
+	FRAME_HEIGHT = 32
 )
 
 func init() {
@@ -73,10 +72,10 @@ func (p *Player) Draw(screen *ebiten.Image) {
 		ebiten.NewImageFromImage(
 			playerImg.SubImage(
 				image.Rect(
-					p.frameIndex*frameWidth,
-					int(p.animationState)*frameHeight,
-					p.frameIndex*frameWidth+frameWidth,
-					int(p.animationState)*frameHeight+frameHeight,
+					p.frameIndex*FRAME_WIDTH,
+					int(p.animationState)*FRAME_HEIGHT,
+					p.frameIndex*FRAME_WIDTH+FRAME_WIDTH,
+					int(p.animationState)*FRAME_HEIGHT+FRAME_HEIGHT,
 				),
 			),
 		),

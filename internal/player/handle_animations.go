@@ -8,6 +8,10 @@ var (
 	frameCount int
 )
 
+const (
+	NUM_FRAMES = 4
+)
+
 func (p *Player) handleAnimations() {
 	frameCount += 1
 	prevAnimationState := p.animationState
@@ -16,7 +20,7 @@ func (p *Player) handleAnimations() {
 	if (frameCount % 5) == 0 {
 		p.frameIndex += 1
 
-		if p.frameIndex >= numFrames {
+		if p.frameIndex >= NUM_FRAMES {
 			p.frameIndex = 0
 		}
 	}
