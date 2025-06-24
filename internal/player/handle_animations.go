@@ -35,8 +35,9 @@ func (p *Player) handleAnimations() {
 		p.animationState = animation.AnimationStateWalkingRight
 	}
 
+	// Reset to the idle state of the current direction when not moving.
 	if p.velocity.IsZero() {
-		p.animationState = animation.AnimationState(int(p.animationState) % 4)
+		p.animationState = animation.AnimationState(int(p.animationState) % 8)
 	}
 
 	if p.animationState != prevAnimationState {
