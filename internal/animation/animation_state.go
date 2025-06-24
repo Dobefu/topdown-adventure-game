@@ -4,11 +4,19 @@ type AnimationState int
 
 const (
 	AnimationStateIdleUp = iota
-	AnimationStateIdleDown
-	AnimationStateIdleLeft
+	AnimationStateIdleUpRight
 	AnimationStateIdleRight
+	AnimationStateIdleDownRight
+	AnimationStateIdleDown
+	AnimationStateIdleDownLeft
+	AnimationStateIdleLeft
+	AnimationStateIdleUpLeft
 	AnimationStateWalkingUp
-	AnimationStateWalkingDown
-	AnimationStateWalkingLeft
+	AnimationStateWalkingUpRight
 	AnimationStateWalkingRight
+	AnimationStateWalkingDownRight
+	AnimationStateWalkingDown
+	AnimationStateWalkingDownLeft
+	AnimationStateWalkingLeft
+	AnimationStateWalkingUpLeft
 )
