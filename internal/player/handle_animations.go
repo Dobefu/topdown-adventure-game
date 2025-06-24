@@ -9,7 +9,7 @@ var (
 )
 
 const (
-	NUM_FRAMES = 4
+	NUM_FRAMES = 16
 )
 
 func (p *Player) handleAnimations() {
