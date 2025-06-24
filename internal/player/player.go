@@ -18,8 +18,6 @@ var (
 	//go:embed img/player.png
 	playerImgBytes []byte
 	playerImg      *ebiten.Image
-
-	frameCount int
 )
 
 const (

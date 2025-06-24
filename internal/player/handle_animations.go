@@ -4,6 +4,10 @@ import (
 	"github.com/Dobefu/topdown-adventure-game/internal/animation"
 )
 
+var (
+	frameCount int
+)
+
 func (p *Player) handleAnimations() {
 	frameCount += 1
 	prevAnimationState := p.animationState
