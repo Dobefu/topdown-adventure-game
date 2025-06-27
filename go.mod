@@ -3,7 +3,7 @@ module github.com/Dobefu/topdown-adventure-game
 go 1.24.3
 
 require (
-	github.com/Dobefu/vectors v1.3.0
+	github.com/Dobefu/vectors v1.4.0
 	github.com/ebitenui/ebitenui v0.6.2
 	github.com/hajimehoshi/ebiten/v2 v2.8.8
 	github.com/lafriks/go-tiled v0.13.0
