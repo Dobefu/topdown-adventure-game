@@ -14,6 +14,7 @@ const (
 	ActionMoveRight
 	ActionMoveUp
 	ActionMoveDown
+	ActionMoveAnalog
 )
 
 func init() {
@@ -23,9 +24,10 @@ func init() {
 	})
 
 	Keymap = input.Keymap{
-		ActionMoveLeft:  {input.KeyGamepadLeft, input.KeyGamepadLStickLeft, input.KeyLeft, input.KeyA, input.KeyH},
-		ActionMoveRight: {input.KeyGamepadRight, input.KeyGamepadLStickRight, input.KeyRight, input.KeyD, input.KeyL},
-		ActionMoveUp:    {input.KeyGamepadUp, input.KeyGamepadLStickUp, input.KeyUp, input.KeyW, input.KeyK},
-		ActionMoveDown:  {input.KeyGamepadDown, input.KeyGamepadLStickDown, input.KeyDown, input.KeyS, input.KeyJ},
+		ActionMoveLeft:   {input.KeyGamepadLeft, input.KeyLeft, input.KeyA, input.KeyH},
+		ActionMoveRight:  {input.KeyGamepadRight, input.KeyRight, input.KeyD, input.KeyL},
+		ActionMoveUp:     {input.KeyGamepadUp, input.KeyUp, input.KeyW, input.KeyK},
+		ActionMoveDown:   {input.KeyGamepadDown, input.KeyDown, input.KeyS, input.KeyJ},
+		ActionMoveAnalog: {input.KeyGamepadLStickMotion},
 	}
 }
