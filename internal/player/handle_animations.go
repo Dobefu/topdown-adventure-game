@@ -25,11 +25,16 @@ func (p *Player) handleAnimations() {
 		}
 	}
 
-	// Reset to the idle state of the current direction when not moving.
+	angle := p.velocity.AngleDegrees()
+
 	if p.velocity.IsZero() {
+		// Idle state.
 		p.animationState = animation.AnimationState(int(p.animationState) % 8)
+	} else if p.velocity.Magnitude() >= 2 {
+		// Running state.
+		p.animationState = animation.AnimationState(int((angle+22.5)/45)%8 + 16)
 	} else {
-		angle := p.velocity.AngleDegrees()
+		// Walking state.
 		p.animationState = animation.AnimationState(int((angle+22.5)/45)%8 + 8)
 	}
 
