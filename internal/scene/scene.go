@@ -93,3 +93,29 @@ func (s *Scene) AddGameObject(gameObject interfaces.GameObject) {
 	s.gameObjects = append(s.gameObjects, gameObject)
 	gameObject.SetScene(s)
 }
+
+func (s *Scene) GetCollisionTile(x, y int) int {
+	if s.sceneMap == nil || len(s.sceneMap.Layers) < 2 {
+		return 0
+	}
+
+	collisionLayer := s.sceneMap.Layers[1]
+
+	// If the position is out of bounds, assume there's a solid tile.
+	if x < 0 || y < 0 || x >= s.sceneMap.Width || y >= s.sceneMap.Height {
+		return int(s.sceneMap.Tilesets[1].FirstGID)
+	}
+
+	tile := collisionLayer.Tiles[y*s.sceneMap.Width+x]
+
+	if tile == nil {
+		return 0
+	}
+
+	// If the tile has a tileset, return the GID of the tile.
+	if tile.Tileset != nil {
+		return int(tile.ID + tile.Tileset.FirstGID)
+	}
+
+	return int(tile.ID)
+}
