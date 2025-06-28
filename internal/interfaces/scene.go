@@ -19,6 +19,6 @@ type Scene interface {
 	GetCamera() *kamera.Camera
 	SetCameraTarget(camera GameObject)
 	GetCameraTarget() GameObject
-	GetCollisionTile(x, y int) int
+	GetCollisionTile(x float64, y float64) int
 	AddGameObject(gameObject GameObject)
 }

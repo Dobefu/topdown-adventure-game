@@ -2,6 +2,7 @@ package scene
 
 import (
 	"log"
+	"math"
 
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 	"github.com/ebitenui/ebitenui"
@@ -94,19 +95,25 @@ func (s *Scene) AddGameObject(gameObject interfaces.GameObject) {
 	gameObject.SetScene(s)
 }
 
-func (s *Scene) GetCollisionTile(x, y int) int {
+func (s *Scene) GetCollisionTile(x float64, y float64) int {
 	if s.sceneMap == nil || len(s.sceneMap.Layers) < 2 {
 		return 0
 	}
 
+	posX := int(math.Ceil(x))
+	posY := int(math.Ceil(y))
 	collisionLayer := s.sceneMap.Layers[1]
 
 	// If the position is out of bounds, assume there's a solid tile.
-	if x < 0 || y < 0 || x >= s.sceneMap.Width || y >= s.sceneMap.Height {
+	if x < 0 ||
+		y < 0 ||
+		posX >= s.sceneMap.Width*s.sceneMap.TileWidth ||
+		posY >= s.sceneMap.Height*s.sceneMap.TileHeight {
+
 		return int(s.sceneMap.Tilesets[1].FirstGID)
 	}
 
-	tile := collisionLayer.Tiles[y*s.sceneMap.Width+x]
+	tile := collisionLayer.Tiles[(posY/s.sceneMap.TileHeight)*s.sceneMap.Width+(posX/s.sceneMap.TileWidth)]
 
 	if tile == nil {
 		return 0

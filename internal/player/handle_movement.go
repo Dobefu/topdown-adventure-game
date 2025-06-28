@@ -56,6 +56,5 @@ func (p *Player) handleMovement() {
 	p.velocity.Add(p.rawInputVelocity)
 	p.velocity.ClampMagnitude(MAX_SPEED)
 
-	pos := p.GetPosition()
-	pos.Add(p.velocity)
+	p.velocity = p.Move(p.velocity)
 }
