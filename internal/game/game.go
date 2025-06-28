@@ -135,6 +135,17 @@ func (g *game) Draw(screen *ebiten.Image) {
 
 		gameObject.Draw(screen)
 	}
+
+	if sceneMap != nil {
+		err := sceneMapRenderer.RenderLayer(1)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		camera.Draw(ebiten.NewImageFromImage(sceneMapRenderer.Result), &ebiten.DrawImageOptions{}, screen)
+		sceneMapRenderer.Clear()
+	}
 }
 
 func (g *game) DrawFinalScreen(screen ebiten.FinalScreen, offscreen *ebiten.Image, geoM ebiten.GeoM) {

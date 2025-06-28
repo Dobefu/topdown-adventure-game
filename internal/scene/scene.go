@@ -102,7 +102,7 @@ func (s *Scene) GetCollisionTile(x float64, y float64) int {
 
 	posX := int(math.Ceil(x))
 	posY := int(math.Ceil(y))
-	collisionLayer := s.sceneMap.Layers[1]
+	collisionLayer := s.sceneMap.Layers[2]
 
 	// If the position is out of bounds, assume there's a solid tile.
 	if x < 0 ||
