@@ -15,6 +15,8 @@ import (
 const (
 	VIRTUAL_WIDTH  = 640
 	VIRTUAL_HEIGHT = 360
+
+	CAMERA_SMOOTHING = .2
 )
 
 type game struct {
@@ -43,6 +45,11 @@ func (g *game) SetScene(scene interfaces.Scene) {
 	camera := kamera.NewCamera(0, 0, float64(g.screenWidth), float64(g.screenHeight))
 	g.scene.SetGame(g)
 	g.scene.SetCamera(camera)
+
+	camera.SmoothType = kamera.Lerp
+	camera.SmoothOptions = kamera.DefaultSmoothOptions()
+	camera.SmoothOptions.LerpSpeedX = CAMERA_SMOOTHING
+	camera.SmoothOptions.LerpSpeedY = CAMERA_SMOOTHING
 
 	widthScale := float64(g.screenWidth) / VIRTUAL_WIDTH
 	heightScale := float64(g.screenHeight) / VIRTUAL_WIDTH
