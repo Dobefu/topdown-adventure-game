@@ -30,7 +30,7 @@ func (p *Player) handleAnimations() {
 	if p.velocity.IsZero() {
 		// Idle state.
 		p.animationState = animation.AnimationState(int(p.animationState) % 8)
-	} else if p.velocity.Magnitude() >= 2 {
+	} else if p.velocity.Magnitude() >= 1.75 {
 		// Running state.
 		p.animationState = animation.AnimationState(int((angle+22.5)/45)%8 + 16)
 	} else {

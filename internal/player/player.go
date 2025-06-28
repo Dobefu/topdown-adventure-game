@@ -57,7 +57,7 @@ func NewPlayer(position vectors.Vector3) (player *Player) {
 	player.SetPosition(position)
 
 	player.input = input.Input.NewHandler(0, input.Keymap)
-	player.input.GamepadDeadzone = .2
+	player.input.GamepadDeadzone = .1
 
 	player.animationState = animation.AnimationStateIdleDown
 
