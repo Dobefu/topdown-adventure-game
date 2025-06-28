@@ -21,8 +21,9 @@ var (
 )
 
 const (
-	FRAME_WIDTH  = 32
-	FRAME_HEIGHT = 32
+	FRAME_WIDTH      = 32
+	FRAME_HEIGHT     = 32
+	GAMEPAD_DEADZONE = .1
 )
 
 func init() {
@@ -57,7 +58,7 @@ func NewPlayer(position vectors.Vector3) (player *Player) {
 	player.SetPosition(position)
 
 	player.input = input.Input.NewHandler(0, input.Keymap)
-	player.input.GamepadDeadzone = .1
+	player.input.GamepadDeadzone = GAMEPAD_DEADZONE
 
 	player.animationState = animation.AnimationStateIdleDown
 

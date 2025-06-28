@@ -5,13 +5,20 @@ import (
 	"github.com/Dobefu/vectors"
 )
 
+const (
+	VELOCITY_DAMPING float64 = .9
+	STOP_THRESHOLD   float64 = .15
+	ACCELERATION     float64 = .6
+	MAX_SPEED        float64 = 4
+)
+
 func (p *Player) handleMovement() {
 	// Dampen the X and Y velocity.
-	p.velocity.Mul(vectors.Vector3{X: .9, Y: .9, Z: 1})
+	p.velocity.Mul(vectors.Vector3{X: VELOCITY_DAMPING, Y: VELOCITY_DAMPING, Z: 1})
 
 	// If the velocity magnitude is very low, set it to zero.
 	// This allows the idle animations to work.
-	if p.velocity.Magnitude() < .15 {
+	if p.velocity.Magnitude() < STOP_THRESHOLD {
 		p.velocity.Mul(vectors.Vector3{X: 0, Y: 0, Z: 1})
 	}
 
@@ -43,11 +50,11 @@ func (p *Player) handleMovement() {
 
 	if p.rawInputVelocity.Magnitude() > 0 {
 		p.rawInputVelocity.Normalize()
-		p.rawInputVelocity.Mul(vectors.Vector3{X: .6, Y: .6, Z: 1})
+		p.rawInputVelocity.Mul(vectors.Vector3{X: ACCELERATION, Y: ACCELERATION, Z: 1})
 	}
 
 	p.velocity.Add(p.rawInputVelocity)
-	p.velocity.ClampMagnitude(4)
+	p.velocity.ClampMagnitude(MAX_SPEED)
 
 	pos := p.GetPosition()
 	pos.Add(p.velocity)
