@@ -38,7 +38,8 @@ func init() {
 type Player struct {
 	game_object.GameObject
 
-	velocity vectors.Vector3
+	velocity         vectors.Vector3
+	rawInputVelocity vectors.Vector3
 
 	input      *ebitengine_input.Handler
 	imgOptions *ebiten.DrawImageOptions
@@ -56,6 +57,7 @@ func NewPlayer(position vectors.Vector3) (player *Player) {
 	player.SetPosition(position)
 
 	player.input = input.Input.NewHandler(0, input.Keymap)
+	player.input.GamepadDeadzone = .2
 
 	player.animationState = animation.AnimationStateIdleDown
 
