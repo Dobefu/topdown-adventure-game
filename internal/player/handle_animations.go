@@ -38,8 +38,13 @@ func (p *Player) handleAnimations() {
 		p.animationState = animation.AnimationState(int((angle+22.5)/45)%8 + 8)
 	}
 
-	// After changing the animation state, reset the animation index.
-	if p.animationState != prevAnimationState {
+	prevCategory := int(prevAnimationState) / 8
+	currentCategory := int(p.animationState) / 8
+
+	// Only reset the animation index when the animation category changes.
+	// This prevents the animation from resetting when just the direction changes
+	// within the same category.
+	if prevCategory != currentCategory {
 		p.frameIndex = 0
 	}
 }
