@@ -152,10 +152,25 @@ func (g *game) Draw(screen *ebiten.Image) {
 	sceneMap, sceneMapRenderer := g.scene.GetSceneMapData()
 
 	if sceneMap != nil {
+		screen.Fill(color.Black)
+
 		err := sceneMapRenderer.RenderLayer(0)
 
 		if err != nil {
 			log.Fatal(err)
+		}
+
+		camera.Draw(ebiten.NewImageFromImage(sceneMapRenderer.Result), &ebiten.DrawImageOptions{}, screen)
+		sceneMapRenderer.Clear()
+
+		gameObjects := g.scene.GetGameObjects()
+
+		for _, gameObject := range gameObjects {
+			if !gameObject.GetIsActive() {
+				continue
+			}
+
+			gameObject.DrawShadow(screen)
 		}
 
 		err = sceneMapRenderer.RenderLayer(1)
@@ -168,15 +183,11 @@ func (g *game) Draw(screen *ebiten.Image) {
 			_ = sceneMapRenderer.RenderLayer(3)
 		}
 
-		screen.Fill(color.Black)
-
 		camera.Draw(ebiten.NewImageFromImage(sceneMapRenderer.Result), &ebiten.DrawImageOptions{}, screen)
 		sceneMapRenderer.Clear()
 	} else {
 		screen.Clear()
 	}
-
-	g.scene.GetUI().Draw(screen)
 
 	gameObjects := g.scene.GetGameObjects()
 
@@ -198,6 +209,8 @@ func (g *game) Draw(screen *ebiten.Image) {
 		camera.Draw(ebiten.NewImageFromImage(sceneMapRenderer.Result), &ebiten.DrawImageOptions{}, screen)
 		sceneMapRenderer.Clear()
 	}
+
+	g.scene.GetUI().Draw(screen)
 }
 
 func (g *game) DrawFinalScreen(screen ebiten.FinalScreen, offscreen *ebiten.Image, geoM ebiten.GeoM) {

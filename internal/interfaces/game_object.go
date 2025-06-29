@@ -8,6 +8,7 @@ import (
 type GameObject interface {
 	Update() (err error)
 	Draw(screen *ebiten.Image)
+	DrawShadow(screen *ebiten.Image)
 	SetPosition(position vectors.Vector3)
 	GetPosition() (position *vectors.Vector3)
 	SetIsActive(isActive bool)

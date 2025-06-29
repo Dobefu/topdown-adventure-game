@@ -19,6 +19,10 @@ var (
 	playerImgBytes []byte
 	playerImg      *ebiten.Image
 	playerSubImgs  []*ebiten.Image
+
+	//go:embed img/shadow.png
+	playerShadowImgBytes []byte
+	playerShadowImg      *ebiten.Image
 )
 
 const (
@@ -56,6 +60,14 @@ func init() {
 			)
 		}
 	}
+
+	img, _, err = image.Decode(bytes.NewReader(playerShadowImgBytes))
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	playerShadowImg = ebiten.NewImageFromImage(img)
 }
 
 type Player struct {
@@ -90,14 +102,30 @@ func NewPlayer(position vectors.Vector3) (player *Player) {
 func (p *Player) Draw(screen *ebiten.Image) {
 	pos := p.GetPosition()
 
+	scene := (*p.GetScene())
+	camera := scene.GetCamera()
+
 	p.imgOptions.GeoM.Reset()
 	p.imgOptions.GeoM.Translate(pos.X, pos.Y)
+
+	camera.Draw(
+		playerSubImgs[int(p.animationState)*NUM_FRAMES+p.frameIndex],
+		p.imgOptions,
+		screen,
+	)
+}
+
+func (p *Player) DrawShadow(screen *ebiten.Image) {
+	pos := p.GetPosition()
 
 	scene := (*p.GetScene())
 	camera := scene.GetCamera()
 
+	p.imgOptions.GeoM.Reset()
+	p.imgOptions.GeoM.Translate(pos.X, pos.Y+FRAME_HEIGHT*.75)
+
 	camera.Draw(
-		playerSubImgs[int(p.animationState)*NUM_FRAMES+p.frameIndex],
+		playerShadowImg,
 		p.imgOptions,
 		screen,
 	)

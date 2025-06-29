@@ -18,6 +18,10 @@ func (g *GameObject) Draw(screen *ebiten.Image) {
 	// noop
 }
 
+func (g *GameObject) DrawShadow(screen *ebiten.Image) {
+	// noop
+}
+
 func (g *GameObject) Update() (err error) {
 	return nil
 }
