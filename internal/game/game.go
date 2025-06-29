@@ -131,6 +131,10 @@ func (g *game) Draw(screen *ebiten.Image) {
 			log.Fatal(err)
 		}
 
+		if g.isDebugActive {
+			_ = sceneMapRenderer.RenderLayer(2)
+		}
+
 		screen.Fill(color.Black)
 
 		camera.Draw(ebiten.NewImageFromImage(sceneMapRenderer.Result), &ebiten.DrawImageOptions{}, screen)
