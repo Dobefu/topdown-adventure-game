@@ -148,8 +148,14 @@ func (g *game) Draw(screen *ebiten.Image) {
 			log.Fatal(err)
 		}
 
+		err = sceneMapRenderer.RenderLayer(1)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
 		if g.isDebugActive {
-			_ = sceneMapRenderer.RenderLayer(2)
+			_ = sceneMapRenderer.RenderLayer(3)
 		}
 
 		screen.Fill(color.Black)
@@ -173,7 +179,7 @@ func (g *game) Draw(screen *ebiten.Image) {
 	}
 
 	if sceneMap != nil {
-		err := sceneMapRenderer.RenderLayer(1)
+		err := sceneMapRenderer.RenderLayer(2)
 
 		if err != nil {
 			log.Fatal(err)
