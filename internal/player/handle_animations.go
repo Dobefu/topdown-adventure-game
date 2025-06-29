@@ -31,13 +31,19 @@ func (p *Player) handleAnimations() {
 
 	if p.velocity.IsZero() {
 		// Idle state.
-		p.animationState = animation.AnimationState(int(p.animationState) % 8)
-	} else if p.velocity.Magnitude() >= RUNNING_THRESHOLD {
-		// Running state.
-		p.animationState = animation.AnimationState(int((angle+22.5)/45)%8 + 16)
-	} else {
+		p.animationState = animation.AnimationState(
+			int(p.animationState)%8 + int(animation.AnimationStateOffsetIdle),
+		)
+	} else if p.velocity.Magnitude() < RUNNING_THRESHOLD {
 		// Walking state.
-		p.animationState = animation.AnimationState(int((angle+22.5)/45)%8 + 8)
+		p.animationState = animation.AnimationState(
+			int((angle+22.5)/45)%8 + int(animation.AnimationStateOffsetWalk),
+		)
+	} else {
+		// Running state.
+		p.animationState = animation.AnimationState(
+			int((angle+22.5)/45)%8 + int(animation.AnimationStateOffsetRun),
+		)
 	}
 
 	prevCategory := int(prevAnimationState) / 8
