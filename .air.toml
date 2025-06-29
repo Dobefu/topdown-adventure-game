@@ -5,7 +5,7 @@ tmp_dir = "tmp"
 [build]
   args_bin = []
   bin = ""
-  cmd = "env GOOS=js GOARCH=wasm go build -o wasm/game.wasm"
+  cmd = "env GOOS=js GOARCH=wasm go build -tags debug -o wasm/game.wasm"
   delay = 100
   exclude_dir = ["assets", "tmp", "vendor", "testdata"]
   exclude_file = []

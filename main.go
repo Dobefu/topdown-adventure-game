@@ -7,7 +7,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
-func main() {
+func Main(isDebugEnabled bool) {
 	ebiten.SetWindowTitle("Top-down Adventure Game")
 	ebiten.SetWindowResizingMode(ebiten.WindowResizingModeDisabled)
 	ebiten.SetWindowSize(1280, 720)
@@ -18,7 +18,7 @@ func main() {
 		DisableHiDPI: true,
 	}
 
-	err := ebiten.RunGameWithOptions(game.NewGame(), &gameOptions)
+	err := ebiten.RunGameWithOptions(game.NewGame(isDebugEnabled), &gameOptions)
 
 	if err != nil {
 		log.Fatal(err)

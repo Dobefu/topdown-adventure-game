@@ -22,14 +22,20 @@ const (
 type game struct {
 	interfaces.Game
 
+	isDebugEnabled bool
+	isDebugActive  bool
+
 	scene interfaces.Scene
 
 	screenWidth  int
 	screenHeight int
 }
 
-func NewGame() (g *game) {
-	g = &game{}
+func NewGame(isDebugEnabled bool) (g *game) {
+	g = &game{
+		isDebugEnabled: isDebugEnabled,
+	}
+
 	g.SetScene(&scene.MainMenuScene{})
 
 	return g
