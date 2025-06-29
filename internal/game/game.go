@@ -9,6 +9,7 @@ import (
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 	"github.com/Dobefu/topdown-adventure-game/internal/scene"
 	"github.com/hajimehoshi/ebiten/v2"
+	ebitengine_input "github.com/quasilyte/ebitengine-input"
 	"github.com/setanarut/kamera/v2"
 )
 
@@ -25,6 +26,8 @@ type game struct {
 	isDebugEnabled bool
 	isDebugActive  bool
 
+	input *ebitengine_input.Handler
+
 	scene interfaces.Scene
 
 	screenWidth  int
@@ -35,6 +38,8 @@ func NewGame(isDebugEnabled bool) (g *game) {
 	g = &game{
 		isDebugEnabled: isDebugEnabled,
 	}
+
+	g.input = input.Input.NewHandler(255, input.Keymap)
 
 	g.SetScene(&scene.MainMenuScene{})
 
@@ -67,6 +72,10 @@ func (g *game) SetScene(scene interfaces.Scene) {
 
 func (g *game) Update() (err error) {
 	input.Input.Update()
+
+	if g.input.ActionIsJustPressed(input.ActionToggleDebug) {
+		g.isDebugActive = !g.isDebugActive
+	}
 
 	if g.scene == nil {
 		return nil

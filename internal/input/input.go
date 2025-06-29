@@ -15,6 +15,8 @@ const (
 	ActionMoveUp
 	ActionMoveDown
 	ActionMoveAnalog
+
+	ActionToggleDebug
 )
 
 func init() {
@@ -29,5 +31,7 @@ func init() {
 		ActionMoveUp:     {input.KeyGamepadUp, input.KeyUp, input.KeyW, input.KeyK},
 		ActionMoveDown:   {input.KeyGamepadDown, input.KeyDown, input.KeyS, input.KeyJ},
 		ActionMoveAnalog: {input.KeyGamepadLStickMotion},
+
+		ActionToggleDebug: {input.KeyF5},
 	}
 }
