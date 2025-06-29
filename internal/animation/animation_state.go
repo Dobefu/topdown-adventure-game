@@ -3,6 +3,13 @@ package animation
 type AnimationState int
 
 const (
+	AnimationStateOffsetIdle = iota * 8
+	AnimationStateOffsetWalk
+	AnimationStateOffsetRun
+	AnimationStateOffsetShoot
+)
+
+const (
 	AnimationStateIdleRight = iota
 	AnimationStateIdleDownRight
 	AnimationStateIdleDown
