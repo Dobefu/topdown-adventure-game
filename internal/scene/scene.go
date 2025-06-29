@@ -100,7 +100,7 @@ func (s *Scene) GetCollisionTile(
 	velocity vectors.Vector3,
 	position vectors.Vector2,
 ) (tileId int, distance vectors.Vector2) {
-	if s.sceneMap == nil || len(s.sceneMap.Layers) < 2 {
+	if s.sceneMap == nil || len(s.sceneMap.Layers) < 4 {
 		return 0, vectors.Vector2{}
 	}
 
@@ -140,5 +140,26 @@ func (s *Scene) GetCollisionTile(
 		return int(tile.ID + tile.Tileset.FirstGID), vectors.Vector2{}
 	}
 
-	return int(tile.ID), vectors.Vector2{}
+	tileX := posX / s.sceneMap.TileWidth
+	tileY := posY / s.sceneMap.TileHeight
+
+	var remainingDistance vectors.Vector2
+
+	if velocity.X > 0 {
+		tileRightEdge := float64((tileX + 1) * s.sceneMap.TileWidth)
+		remainingDistance.X = tileRightEdge - position.X
+	} else if velocity.X < 0 {
+		tileLeftEdge := float64(tileX * s.sceneMap.TileWidth)
+		remainingDistance.X = position.X - tileLeftEdge
+	}
+
+	if velocity.Y > 0 {
+		tileBottomEdge := float64((tileY + 1) * s.sceneMap.TileHeight)
+		remainingDistance.Y = tileBottomEdge - position.Y
+	} else if velocity.Y < 0 {
+		tileTopEdge := float64(tileY * s.sceneMap.TileHeight)
+		remainingDistance.Y = position.Y - tileTopEdge
+	}
+
+	return int(tile.ID), remainingDistance
 }
