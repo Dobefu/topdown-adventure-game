@@ -1,6 +1,7 @@
 package interfaces
 
 import (
+	"github.com/Dobefu/vectors"
 	"github.com/ebitenui/ebitenui"
 	"github.com/lafriks/go-tiled"
 	"github.com/lafriks/go-tiled/render"
@@ -19,6 +20,6 @@ type Scene interface {
 	GetCamera() *kamera.Camera
 	SetCameraTarget(camera GameObject)
 	GetCameraTarget() GameObject
-	GetCollisionTile(x float64, y float64) int
+	GetCollisionTile(velocity vectors.Vector3, x float64, y float64) int
 	AddGameObject(gameObject GameObject)
 }

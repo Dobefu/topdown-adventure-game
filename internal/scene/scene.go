@@ -5,6 +5,7 @@ import (
 	"math"
 
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
+	"github.com/Dobefu/vectors"
 	"github.com/ebitenui/ebitenui"
 	"github.com/ebitenui/ebitenui/widget"
 	"github.com/lafriks/go-tiled"
@@ -95,13 +96,25 @@ func (s *Scene) AddGameObject(gameObject interfaces.GameObject) {
 	gameObject.SetScene(s)
 }
 
-func (s *Scene) GetCollisionTile(x float64, y float64) int {
+func (s *Scene) GetCollisionTile(velocity vectors.Vector3, x float64, y float64) int {
 	if s.sceneMap == nil || len(s.sceneMap.Layers) < 2 {
 		return 0
 	}
 
-	posX := int(math.Ceil(x))
-	posY := int(math.Ceil(y))
+	var posX, posY int
+
+	if velocity.X > 0 {
+		posX = int(math.Ceil(x))
+	} else {
+		posX = int(math.Floor(x))
+	}
+
+	if velocity.Y > 0 {
+		posY = int(math.Ceil(y))
+	} else {
+		posY = int(math.Floor(y))
+	}
+
 	collisionLayer := s.sceneMap.Layers[2]
 
 	// If the position is out of bounds, assume there's a solid tile.
