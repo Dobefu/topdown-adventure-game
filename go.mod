@@ -18,6 +18,7 @@ require (
 	github.com/ebitengine/purego v0.8.4 // indirect
 	github.com/go-text/typesetting v0.3.0 // indirect
 	github.com/jezek/xgb v1.1.1 // indirect
+	github.com/quasilyte/gdata/v2 v2.0.0 // indirect
 	github.com/quasilyte/gmath v0.0.0-20250621152721-92bf45e3b54d // indirect
 	github.com/setanarut/fastnoise v1.1.1 // indirect
 	golang.org/x/exp v0.0.0-20250620022241-b7579e27df2b // indirect
