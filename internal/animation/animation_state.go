@@ -27,4 +27,12 @@ const (
 	AnimationStateRunUpLeft
 	AnimationStateRunUp
 	AnimationStateRunUpRight
+	AnimationStateShootRight
+	AnimationStateShootDownRight
+	AnimationStateShootDown
+	AnimationStateShootDownLeft
+	AnimationStateShootLeft
+	AnimationStateShootUpLeft
+	AnimationStateShootUp
+	AnimationStateShootUpRight
 )
