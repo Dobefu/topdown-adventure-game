@@ -1,6 +1,7 @@
 package game
 
 import (
+	"fmt"
 	"image/color"
 	"log"
 	"math"
@@ -8,6 +9,7 @@ import (
 	"github.com/Dobefu/topdown-adventure-game/internal/input"
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 	"github.com/Dobefu/topdown-adventure-game/internal/scene"
+	"github.com/Dobefu/topdown-adventure-game/internal/storage"
 	"github.com/hajimehoshi/ebiten/v2"
 	ebitengine_input "github.com/quasilyte/ebitengine-input"
 	"github.com/setanarut/kamera/v2"
@@ -37,6 +39,16 @@ type game struct {
 func NewGame(isDebugEnabled bool) (g *game) {
 	g = &game{
 		isDebugEnabled: isDebugEnabled,
+	}
+
+	if isDebugEnabled {
+		val, err := storage.GetOption("isDebugActive")
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		g.isDebugActive = val == "true"
 	}
 
 	g.input = input.Input.NewHandler(255, input.Keymap)
@@ -75,6 +87,11 @@ func (g *game) Update() (err error) {
 
 	if g.input.ActionIsJustPressed(input.ActionToggleDebug) {
 		g.isDebugActive = !g.isDebugActive
+		err = storage.SetOption("isDebugActive", fmt.Sprintf("%v", g.isDebugActive))
+
+		if err != nil {
+			return err
+		}
 	}
 
 	if g.scene == nil {
