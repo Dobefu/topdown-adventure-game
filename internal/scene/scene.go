@@ -96,46 +96,49 @@ func (s *Scene) AddGameObject(gameObject interfaces.GameObject) {
 	gameObject.SetScene(s)
 }
 
-func (s *Scene) GetCollisionTile(velocity vectors.Vector3, x float64, y float64) int {
+func (s *Scene) GetCollisionTile(
+	velocity vectors.Vector3,
+	position vectors.Vector2,
+) (tileId int, distance vectors.Vector2) {
 	if s.sceneMap == nil || len(s.sceneMap.Layers) < 2 {
-		return 0
+		return 0, vectors.Vector2{}
 	}
 
 	var posX, posY int
 
 	if velocity.X > 0 {
-		posX = int(math.Ceil(x))
+		posX = int(math.Ceil(position.X))
 	} else {
-		posX = int(math.Floor(x))
+		posX = int(math.Floor(position.X))
 	}
 
 	if velocity.Y > 0 {
-		posY = int(math.Ceil(y))
+		posY = int(math.Ceil(position.Y))
 	} else {
-		posY = int(math.Floor(y))
+		posY = int(math.Floor(position.Y))
 	}
 
 	collisionLayer := s.sceneMap.Layers[3]
 
 	// If the position is out of bounds, assume there's a solid tile.
-	if x < 0 ||
-		y < 0 ||
+	if position.X < 0 ||
+		position.Y < 0 ||
 		posX >= s.sceneMap.Width*s.sceneMap.TileWidth ||
 		posY >= s.sceneMap.Height*s.sceneMap.TileHeight {
 
-		return int(s.sceneMap.Tilesets[1].FirstGID)
+		return int(s.sceneMap.Tilesets[1].FirstGID), vectors.Vector2{}
 	}
 
 	tile := collisionLayer.Tiles[(posY/s.sceneMap.TileHeight)*s.sceneMap.Width+(posX/s.sceneMap.TileWidth)]
 
 	if tile == nil {
-		return 0
+		return 0, vectors.Vector2{}
 	}
 
 	// If the tile has a tileset, return the GID of the tile.
 	if tile.Tileset != nil {
-		return int(tile.ID + tile.Tileset.FirstGID)
+		return int(tile.ID + tile.Tileset.FirstGID), vectors.Vector2{}
 	}
 
-	return int(tile.ID)
+	return int(tile.ID), vectors.Vector2{}
 }

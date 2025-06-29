@@ -36,13 +36,15 @@ func (g *GameObject) canMoveTo(velocity vectors.Vector3) bool {
 	pos := g.GetPosition()
 	scene := *g.GetScene()
 
-	targetX := pos.X + velocity.X
-	targetY := pos.Y + velocity.Y
+	target := vectors.Vector2{
+		X: pos.X + velocity.X,
+		Y: pos.Y + velocity.Y,
+	}
 
-	topLeft := scene.GetCollisionTile(velocity, targetX, targetY)
-	topRight := scene.GetCollisionTile(velocity, targetX+31, targetY)
-	bottomLeft := scene.GetCollisionTile(velocity, targetX, targetY+31)
-	bottomRight := scene.GetCollisionTile(velocity, targetX+31, targetY+31)
+	topLeft, _ := scene.GetCollisionTile(velocity, vectors.Vector2{X: target.X, Y: target.Y})
+	topRight, _ := scene.GetCollisionTile(velocity, vectors.Vector2{X: target.X + 31, Y: target.Y})
+	bottomLeft, _ := scene.GetCollisionTile(velocity, vectors.Vector2{X: target.X, Y: target.Y + 31})
+	bottomRight, _ := scene.GetCollisionTile(velocity, vectors.Vector2{X: target.X + 31, Y: target.Y + 31})
 
 	return topLeft == 0 && topRight == 0 && bottomLeft == 0 && bottomRight == 0
 }
