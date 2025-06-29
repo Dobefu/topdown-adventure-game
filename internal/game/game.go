@@ -19,7 +19,7 @@ const (
 	VIRTUAL_WIDTH  = 640
 	VIRTUAL_HEIGHT = 360
 
-	CAMERA_SMOOTHING = .2
+	CAMERA_SMOOTHING = .1
 )
 
 type game struct {
@@ -65,14 +65,21 @@ func (g *game) GetScene() (scene interfaces.Scene) {
 func (g *game) SetScene(scene interfaces.Scene) {
 	g.scene = scene
 
-	camera := kamera.NewCamera(0, 0, float64(g.screenWidth), float64(g.screenHeight))
+	camera := kamera.NewCamera(
+		-float64(g.screenWidth)/2,
+		-float64(g.screenHeight)/2,
+		float64(g.screenWidth),
+		float64(g.screenHeight),
+	)
+
 	g.scene.SetGame(g)
 	g.scene.SetCamera(camera)
 
-	camera.SmoothType = kamera.Lerp
+	camera.ShakeEnabled = true
+	camera.SmoothType = kamera.SmoothDamp
 	camera.SmoothOptions = kamera.DefaultSmoothOptions()
-	camera.SmoothOptions.LerpSpeedX = CAMERA_SMOOTHING
-	camera.SmoothOptions.LerpSpeedY = CAMERA_SMOOTHING
+	camera.SmoothOptions.SmoothDampTimeX = CAMERA_SMOOTHING
+	camera.SmoothOptions.SmoothDampTimeY = CAMERA_SMOOTHING
 
 	widthScale := float64(g.screenWidth) / VIRTUAL_WIDTH
 	heightScale := float64(g.screenHeight) / VIRTUAL_WIDTH
@@ -102,7 +109,10 @@ func (g *game) Update() (err error) {
 	cameraTarget := g.scene.GetCameraTarget()
 
 	if camera != nil && cameraTarget != nil {
-		camera.LookAt(cameraTarget.GetPosition().X, cameraTarget.GetPosition().Y)
+		camera.LookAt(
+			cameraTarget.GetPosition().X-camera.Width/2,
+			cameraTarget.GetPosition().Y-camera.Height/2,
+		)
 	}
 
 	g.scene.GetUI().Update()
