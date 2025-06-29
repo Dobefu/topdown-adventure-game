@@ -18,6 +18,7 @@ var (
 	//go:embed img/player.png
 	playerImgBytes []byte
 	playerImg      *ebiten.Image
+	playerSubImgs  []*ebiten.Image
 )
 
 const (
@@ -34,6 +35,27 @@ func init() {
 	}
 
 	playerImg = ebiten.NewImageFromImage(img)
+	playerSubImgs = make(
+		[]*ebiten.Image,
+		playerImg.Bounds().Dy()/FRAME_HEIGHT*NUM_FRAMES,
+	)
+
+	for state := range playerImg.Bounds().Dy() / FRAME_HEIGHT {
+		for frame := range NUM_FRAMES {
+			key := state*NUM_FRAMES + frame
+
+			playerSubImgs[key] = ebiten.NewImageFromImage(
+				playerImg.SubImage(
+					image.Rect(
+						frame*FRAME_WIDTH,
+						state*FRAME_HEIGHT,
+						frame*FRAME_WIDTH+FRAME_WIDTH,
+						state*FRAME_HEIGHT+FRAME_HEIGHT,
+					),
+				),
+			)
+		}
+	}
 }
 
 type Player struct {
@@ -71,17 +93,11 @@ func (p *Player) Draw(screen *ebiten.Image) {
 	p.imgOptions.GeoM.Reset()
 	p.imgOptions.GeoM.Translate(pos.X, pos.Y)
 
-	(*p.GetScene()).GetCamera().Draw(
-		ebiten.NewImageFromImage(
-			playerImg.SubImage(
-				image.Rect(
-					p.frameIndex*FRAME_WIDTH,
-					int(p.animationState)*FRAME_HEIGHT,
-					p.frameIndex*FRAME_WIDTH+FRAME_WIDTH,
-					int(p.animationState)*FRAME_HEIGHT+FRAME_HEIGHT,
-				),
-			),
-		),
+	scene := (*p.GetScene())
+	camera := scene.GetCamera()
+
+	camera.Draw(
+		playerSubImgs[int(p.animationState)*NUM_FRAMES+p.frameIndex],
 		p.imgOptions,
 		screen,
 	)
