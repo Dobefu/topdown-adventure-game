@@ -32,3 +32,12 @@ func init() {
 		log.Fatal(err)
 	}
 }
+
+func GetOption(option string) (value string, err error) {
+	val, err := dataManager.LoadObjectProp("options", option)
+	return string(val), err
+}
+
+func SetOption(option string, value string) (err error) {
+	return dataManager.SaveObjectProp("options", option, []byte(value))
+}
