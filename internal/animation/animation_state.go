@@ -11,12 +11,20 @@ const (
 	AnimationStateIdleUpLeft
 	AnimationStateIdleUp
 	AnimationStateIdleUpRight
-	AnimationStateWalkingRight
-	AnimationStateWalkingDownRight
-	AnimationStateWalkingDown
-	AnimationStateWalkingDownLeft
-	AnimationStateWalkingLeft
-	AnimationStateWalkingUpLeft
-	AnimationStateWalkingUp
-	AnimationStateWalkingUpRight
+	AnimationStateWalkRight
+	AnimationStateWalkDownRight
+	AnimationStateWalkDown
+	AnimationStateWalkDownLeft
+	AnimationStateWalkLeft
+	AnimationStateWalkUpLeft
+	AnimationStateWalkUp
+	AnimationStateWalkUpRight
+	AnimationStateRunRight
+	AnimationStateRunDownRight
+	AnimationStateRunDown
+	AnimationStateRunDownLeft
+	AnimationStateRunLeft
+	AnimationStateRunUpLeft
+	AnimationStateRunUp
+	AnimationStateRunUpRight
 )
