@@ -96,12 +96,9 @@ func (s *Scene) AddGameObject(gameObject interfaces.GameObject) {
 	gameObject.SetScene(s)
 }
 
-func (s *Scene) GetCollisionTile(
-	velocity vectors.Vector3,
-	position vectors.Vector2,
-) (tileId int, distance vectors.Vector2) {
+func (s *Scene) GetCollisionTile(velocity vectors.Vector3, position vectors.Vector2) int {
 	if s.sceneMap == nil || len(s.sceneMap.Layers) < 4 {
-		return 0, vectors.Vector2{}
+		return 0
 	}
 
 	var posX, posY int
@@ -126,40 +123,18 @@ func (s *Scene) GetCollisionTile(
 		posX >= s.sceneMap.Width*s.sceneMap.TileWidth ||
 		posY >= s.sceneMap.Height*s.sceneMap.TileHeight {
 
-		return int(s.sceneMap.Tilesets[1].FirstGID), vectors.Vector2{}
+		return int(s.sceneMap.Tilesets[1].FirstGID)
 	}
 
 	tile := collisionLayer.Tiles[(posY/s.sceneMap.TileHeight)*s.sceneMap.Width+(posX/s.sceneMap.TileWidth)]
 
 	if tile == nil {
-		return 0, vectors.Vector2{}
+		return 0
 	}
 
-	// If the tile has a tileset, return the GID of the tile.
 	if tile.Tileset != nil {
-		return int(tile.ID + tile.Tileset.FirstGID), vectors.Vector2{}
+		return int(tile.ID + tile.Tileset.FirstGID)
 	}
 
-	tileX := posX / s.sceneMap.TileWidth
-	tileY := posY / s.sceneMap.TileHeight
-
-	var remainingDistance vectors.Vector2
-
-	if velocity.X > 0 {
-		tileRightEdge := float64((tileX + 1) * s.sceneMap.TileWidth)
-		remainingDistance.X = tileRightEdge - position.X
-	} else if velocity.X < 0 {
-		tileLeftEdge := float64(tileX * s.sceneMap.TileWidth)
-		remainingDistance.X = position.X - tileLeftEdge
-	}
-
-	if velocity.Y > 0 {
-		tileBottomEdge := float64((tileY + 1) * s.sceneMap.TileHeight)
-		remainingDistance.Y = tileBottomEdge - position.Y
-	} else if velocity.Y < 0 {
-		tileTopEdge := float64(tileY * s.sceneMap.TileHeight)
-		remainingDistance.Y = position.Y - tileTopEdge
-	}
-
-	return int(tile.ID), remainingDistance
+	return int(tile.ID)
 }
