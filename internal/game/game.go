@@ -109,9 +109,11 @@ func (g *game) Update() (err error) {
 	cameraTarget := g.scene.GetCameraTarget()
 
 	if camera != nil && cameraTarget != nil {
+		cameraTargetPosition := cameraTarget.GetCameraPosition()
+
 		camera.LookAt(
-			cameraTarget.GetPosition().X-camera.Width/2,
-			cameraTarget.GetPosition().Y-camera.Height/2,
+			cameraTargetPosition.X-camera.Width/2,
+			cameraTargetPosition.Y-camera.Height/2,
 		)
 	}
 

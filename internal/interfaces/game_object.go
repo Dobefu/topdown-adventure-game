@@ -11,6 +11,7 @@ type GameObject interface {
 	DrawShadow(screen *ebiten.Image)
 	SetPosition(position vectors.Vector3)
 	GetPosition() (position *vectors.Vector3)
+	GetCameraPosition() (position *vectors.Vector3)
 	SetIsActive(isActive bool)
 	GetIsActive() (isActive bool)
 	SetScene(scene Scene)
