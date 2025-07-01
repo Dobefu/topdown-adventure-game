@@ -2,6 +2,7 @@ package player
 
 import (
 	"github.com/Dobefu/topdown-adventure-game/internal/animation"
+	"github.com/Dobefu/topdown-adventure-game/internal/input"
 )
 
 var (
@@ -29,7 +30,20 @@ func (p *Player) handleAnimations() {
 
 	angle := p.velocity.AngleDegrees()
 
-	if p.velocity.IsZero() {
+	if _, ok := p.input.PressedActionInfo(input.ActionAimAnalog); ok ||
+		p.input.ActionIsPressed(input.ActionAimMouse) {
+
+		cameraPos := *p.GetCameraPosition()
+		pos := *p.GetPosition()
+
+		cameraPos.Sub(pos)
+		angle := cameraPos.Normalize().AngleDegrees()
+
+		// Aiming state.
+		p.animationState = animation.AnimationState(
+			int((angle+22.5)/45)%8 + int(animation.AnimationStateOffsetAim),
+		)
+	} else if p.velocity.IsZero() {
 		// Idle state.
 		p.animationState = animation.AnimationState(
 			int(p.animationState)%8 + int(animation.AnimationStateOffsetIdle),
