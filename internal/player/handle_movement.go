@@ -54,7 +54,14 @@ func (p *Player) handleMovement() {
 	}
 
 	p.velocity.Add(p.rawInputVelocity)
-	p.velocity.ClampMagnitude(MAX_SPEED)
+
+	if _, ok := p.input.PressedActionInfo(input.ActionAimAnalog); ok ||
+		p.input.ActionIsPressed(input.ActionAimMouse) {
+
+		p.velocity.ClampMagnitude(RUNNING_THRESHOLD)
+	} else {
+		p.velocity.ClampMagnitude(MAX_SPEED)
+	}
 
 	p.velocity = p.Move(p.velocity)
 }
