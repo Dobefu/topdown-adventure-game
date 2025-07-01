@@ -3,6 +3,7 @@ package player
 import (
 	"github.com/Dobefu/topdown-adventure-game/internal/animation"
 	"github.com/Dobefu/topdown-adventure-game/internal/input"
+	"github.com/Dobefu/vectors"
 )
 
 var (
@@ -35,9 +36,14 @@ func (p *Player) handleAnimations() {
 
 		cameraPos := *p.GetCameraPosition()
 		pos := *p.GetPosition()
+		pos.Add(vectors.Vector3{
+			X: FRAME_WIDTH / 2,
+			Y: FRAME_HEIGHT / 2,
+			Z: 0,
+		})
 
 		cameraPos.Sub(pos)
-		angle := cameraPos.Normalize().AngleDegrees()
+		angle := cameraPos.AngleDegrees()
 
 		// Aiming state.
 		p.animationState = animation.AnimationState(
