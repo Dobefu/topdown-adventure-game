@@ -14,6 +14,10 @@ type GameObject struct {
 	isActive bool
 }
 
+func (g *GameObject) Init() {
+	// noop
+}
+
 func (g *GameObject) Draw(screen *ebiten.Image) {
 	// noop
 }

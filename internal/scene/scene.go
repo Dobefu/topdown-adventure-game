@@ -94,6 +94,7 @@ func (s *Scene) GetCameraTarget() interfaces.GameObject {
 func (s *Scene) AddGameObject(gameObject interfaces.GameObject) {
 	s.gameObjects = append(s.gameObjects, gameObject)
 	gameObject.SetScene(s)
+	gameObject.Init()
 }
 
 func (s *Scene) GetCollisionTile(velocity vectors.Vector3, position vectors.Vector2) int {

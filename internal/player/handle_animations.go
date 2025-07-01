@@ -11,8 +11,6 @@ var (
 )
 
 const (
-	NUM_FRAMES = 16
-
 	RUNNING_THRESHOLD = 1.75
 )
 

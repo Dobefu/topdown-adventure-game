@@ -7,8 +7,10 @@ import (
 	"log"
 
 	"github.com/Dobefu/topdown-adventure-game/internal/animation"
+	"github.com/Dobefu/topdown-adventure-game/internal/bullet"
 	"github.com/Dobefu/topdown-adventure-game/internal/game_object"
 	"github.com/Dobefu/topdown-adventure-game/internal/input"
+	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 	"github.com/Dobefu/vectors"
 	"github.com/hajimehoshi/ebiten/v2"
 	ebitengine_input "github.com/quasilyte/ebitengine-input"
@@ -28,6 +30,7 @@ var (
 const (
 	FRAME_WIDTH      = 32
 	FRAME_HEIGHT     = 32
+	NUM_FRAMES       = 16
 	GAMEPAD_DEADZONE = .1
 )
 
@@ -71,7 +74,10 @@ func init() {
 }
 
 type Player struct {
+	interfaces.Player
 	game_object.GameObject
+
+	bulletPool []*bullet.Bullet
 
 	velocity         vectors.Vector3
 	rawInputVelocity vectors.Vector3
@@ -97,6 +103,17 @@ func NewPlayer(position vectors.Vector3) (player *Player) {
 	player.animationState = animation.AnimationStateIdleDown
 
 	return player
+}
+
+func (p *Player) Init() {
+	scene := *p.GetScene()
+
+	for range 10 {
+		b := bullet.NewBullet()
+
+		p.bulletPool = append(p.bulletPool, b)
+		scene.AddGameObject(b)
+	}
 }
 
 func (p *Player) Draw(screen *ebiten.Image) {
@@ -134,6 +151,10 @@ func (p *Player) DrawShadow(screen *ebiten.Image) {
 func (p *Player) Update() (err error) {
 	p.handleMovement()
 	p.handleAnimations()
+
+	if p.input.ActionIsJustPressed(input.ActionShoot) {
+		p.Shoot()
+	}
 
 	return nil
 }

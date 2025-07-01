@@ -6,6 +6,7 @@ import (
 )
 
 type GameObject interface {
+	Init()
 	Update() (err error)
 	Draw(screen *ebiten.Image)
 	DrawShadow(screen *ebiten.Image)
