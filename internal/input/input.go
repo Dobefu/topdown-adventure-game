@@ -18,6 +18,7 @@ const (
 
 	ActionAimMouse
 	ActionAimAnalog
+	ActionShoot
 
 	ActionToggleDebug
 )
@@ -37,6 +38,7 @@ func init() {
 
 		ActionAimMouse:  {input.KeyMouseRight},
 		ActionAimAnalog: {input.KeyGamepadRStickMotion},
+		ActionShoot:     {input.KeyMouseLeft, input.KeyGamepadR2},
 
 		ActionToggleDebug: {input.KeyF5},
 	}
