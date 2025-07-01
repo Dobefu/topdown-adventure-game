@@ -6,6 +6,7 @@ const (
 	AnimationStateOffsetIdle = iota * 8
 	AnimationStateOffsetWalk
 	AnimationStateOffsetRun
+	AnimationStateOffsetAim
 	AnimationStateOffsetShoot
 )
 
@@ -34,6 +35,14 @@ const (
 	AnimationStateRunUpLeft
 	AnimationStateRunUp
 	AnimationStateRunUpRight
+	AnimationStateAimRight
+	AnimationStateAimDownRight
+	AnimationStateAimDown
+	AnimationStateAimDownLeft
+	AnimationStateAimLeft
+	AnimationStateAimUpLeft
+	AnimationStateAimUp
+	AnimationStateAimUpRight
 	AnimationStateShootRight
 	AnimationStateShootDownRight
 	AnimationStateShootDown
