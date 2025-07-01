@@ -65,6 +65,7 @@ type Bullet struct {
 	velocity vectors.Vector3
 
 	imgOptions     *ebiten.DrawImageOptions
+	frameCount     int
 	frameIndex     int
 	animationState animation.AnimationState
 }
@@ -131,6 +132,23 @@ func (b *Bullet) Draw(screen *ebiten.Image) {
 }
 
 func (b *Bullet) Update() (err error) {
+	b.frameCount += 1
+
+	// Change the animation frame every 4 game ticks.
+	if (b.frameCount % 4) == 0 {
+		b.frameIndex += 1
+
+		if b.frameIndex >= NUM_FRAMES {
+			b.frameIndex = 0
+		}
+	}
+
+	angle := b.velocity.AngleDegrees()
+
+	b.animationState = animation.AnimationState(
+		int((angle+22.5)/45) % 8,
+	)
+
 	b.Move(b.velocity)
 
 	return nil

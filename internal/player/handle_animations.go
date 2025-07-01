@@ -6,20 +6,16 @@ import (
 	"github.com/Dobefu/vectors"
 )
 
-var (
-	frameCount int
-)
-
 const (
 	RUNNING_THRESHOLD = 1.75
 )
 
 func (p *Player) handleAnimations() {
-	frameCount += 1
+	p.frameCount += 1
 	prevAnimationState := p.animationState
 
 	// Change the animation frame every 4 game ticks.
-	if (frameCount % 4) == 0 {
+	if (p.frameCount % 4) == 0 {
 		p.frameIndex += 1
 
 		if p.frameIndex >= NUM_FRAMES {

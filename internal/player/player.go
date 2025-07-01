@@ -85,6 +85,7 @@ type Player struct {
 	input      *ebitengine_input.Handler
 	imgOptions *ebiten.DrawImageOptions
 
+	frameCount     int
 	frameIndex     int
 	animationState animation.AnimationState
 }
