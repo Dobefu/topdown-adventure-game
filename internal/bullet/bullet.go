@@ -102,6 +102,18 @@ func (b *Bullet) SetVelocity(velocity vectors.Vector3) {
 	b.velocity = velocity
 }
 
+func (b *Bullet) Move(
+	velocity vectors.Vector3,
+) (newVelocity vectors.Vector3, hasCollided bool) {
+	newVelocity, hasCollided = b.GameObject.Move(velocity)
+
+	if hasCollided {
+		b.SetIsActive(false)
+	}
+
+	return newVelocity, hasCollided
+}
+
 func (b *Bullet) Draw(screen *ebiten.Image) {
 	pos := b.GetPosition()
 
@@ -119,8 +131,7 @@ func (b *Bullet) Draw(screen *ebiten.Image) {
 }
 
 func (b *Bullet) Update() (err error) {
-	pos := b.GetPosition()
-	pos.Add(b.velocity)
+	b.Move(b.velocity)
 
 	return nil
 }

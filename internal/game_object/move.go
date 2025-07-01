@@ -6,14 +6,16 @@ import (
 	"github.com/Dobefu/vectors"
 )
 
-func (g *GameObject) Move(velocity vectors.Vector3) (newVelocity vectors.Vector3) {
+func (g *GameObject) Move(
+	velocity vectors.Vector3,
+) (newVelocity vectors.Vector3, hasCollided bool) {
 	pos := g.GetPosition()
 
 	if g.canMoveTo(velocity) {
 		pos.Add(velocity)
 		g.SetPosition(*pos)
 
-		return velocity
+		return velocity, false
 	}
 
 	if g.canMoveTo(vectors.Vector3{X: velocity.X, Y: 0, Z: 0}) {
@@ -42,7 +44,7 @@ func (g *GameObject) Move(velocity vectors.Vector3) (newVelocity vectors.Vector3
 
 	g.SetPosition(*pos)
 
-	return velocity
+	return velocity, true
 }
 
 func (g *GameObject) findMaxMovement(velocity vectors.Vector3) float64 {
