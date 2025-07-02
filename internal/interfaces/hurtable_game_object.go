@@ -1,6 +1,6 @@
 package interfaces
 
-type Hurtable interface {
+type HurtableGameObject interface {
 	GetHealth() (health int)
 	SetHealth(health int)
 	Damage(amount int)

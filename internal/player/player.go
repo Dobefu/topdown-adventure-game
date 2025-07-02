@@ -77,6 +77,7 @@ func init() {
 type Player struct {
 	interfaces.Player
 	game_object.GameObject
+	game_object.HurtableGameObject
 
 	bulletPool []*bullet.Bullet
 
