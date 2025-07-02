@@ -19,8 +19,8 @@ func (p *Player) Shoot() {
 		cameraPos.Sub(pos)
 		velocity := cameraPos.Normalize()
 		velocity.Mul(vectors.Vector3{
-			X: 5,
-			Y: 5,
+			X: 10,
+			Y: 10,
 			Z: 1,
 		})
 
