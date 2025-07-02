@@ -82,6 +82,10 @@ func NewBullet() (bullet *Bullet) {
 	return bullet
 }
 
+func (b *Bullet) GetCollisionRect() (x1, y1, x2, y2 float64) {
+	return 12, 12, 19, 19
+}
+
 func (b *Bullet) Fire(
 	from vectors.Vector3,
 	angle float64,
@@ -106,7 +110,8 @@ func (b *Bullet) SetVelocity(velocity vectors.Vector3) {
 func (b *Bullet) Move(
 	velocity vectors.Vector3,
 ) (newVelocity vectors.Vector3, hasCollided bool) {
-	newVelocity, hasCollided = b.GameObject.Move(velocity)
+	x1, y1, x2, y2 := b.GetCollisionRect()
+	newVelocity, hasCollided = b.MoveWithCollisionRect(velocity, x1, y1, x2, y2)
 
 	if hasCollided {
 		b.SetIsActive(false)

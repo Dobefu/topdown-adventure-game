@@ -117,6 +117,18 @@ func (p *Player) Init() {
 	}
 }
 
+func (p *Player) GetCollisionRect() (x1, y1, x2, y2 float64) {
+	return 4, 23, 27, 31
+}
+
+func (p *Player) Move(
+	velocity vectors.Vector3,
+) (newVelocity vectors.Vector3, hasCollided bool) {
+	x1, y1, x2, y2 := p.GetCollisionRect()
+
+	return p.MoveWithCollisionRect(velocity, x1, y1, x2, y2)
+}
+
 func (p *Player) Draw(screen *ebiten.Image) {
 	pos := p.GetPosition()
 
@@ -140,7 +152,10 @@ func (p *Player) DrawShadow(screen *ebiten.Image) {
 	camera := scene.GetCamera()
 
 	p.imgOptions.GeoM.Reset()
-	p.imgOptions.GeoM.Translate(pos.X, pos.Y+FRAME_HEIGHT*.75)
+	p.imgOptions.GeoM.Translate(
+		math.Round(pos.X),
+		math.Round(pos.Y+FRAME_HEIGHT*.75),
+	)
 
 	camera.Draw(
 		playerShadowImg,

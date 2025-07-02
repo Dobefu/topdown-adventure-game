@@ -13,6 +13,7 @@ type GameObject interface {
 	SetPosition(position vectors.Vector3)
 	GetPosition() (position *vectors.Vector3)
 	GetCameraPosition() (position *vectors.Vector3)
+	GetCollisionRect() (x1, y1, x2, y2 float64)
 	SetIsActive(isActive bool)
 	GetIsActive() (isActive bool)
 	SetScene(scene Scene)
