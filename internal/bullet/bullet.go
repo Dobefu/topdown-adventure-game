@@ -127,7 +127,7 @@ func (b *Bullet) Draw(screen *ebiten.Image) {
 	camera := scene.GetCamera()
 
 	b.imgOptions.GeoM.Reset()
-	b.imgOptions.GeoM.Translate(pos.X, pos.Y)
+	b.imgOptions.GeoM.Translate(math.Round(pos.X), math.Round(pos.Y))
 
 	camera.Draw(
 		bulletSubImgs[int(b.animationState)*NUM_FRAMES+b.frameIndex],

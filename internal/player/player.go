@@ -5,6 +5,7 @@ import (
 	_ "embed"
 	"image"
 	"log"
+	"math"
 
 	"github.com/Dobefu/topdown-adventure-game/internal/animation"
 	"github.com/Dobefu/topdown-adventure-game/internal/bullet"
@@ -136,7 +137,7 @@ func (p *Player) Draw(screen *ebiten.Image) {
 	camera := scene.GetCamera()
 
 	p.imgOptions.GeoM.Reset()
-	p.imgOptions.GeoM.Translate(pos.X, pos.Y)
+	p.imgOptions.GeoM.Translate(math.Round(pos.X), math.Round(pos.Y))
 
 	camera.Draw(
 		playerSubImgs[int(p.animationState)*NUM_FRAMES+p.frameIndex],
