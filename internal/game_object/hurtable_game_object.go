@@ -5,15 +5,20 @@ import "github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 type HurtableGameObject struct {
 	interfaces.HurtableGameObject
 
-	health int
+	health    int
+	maxHealth int
 }
 
 func (h *HurtableGameObject) GetHealth() (health int) {
-	return health
+	return h.health
 }
 
 func (h *HurtableGameObject) SetHealth(health int) {
 	h.health = health
+}
+
+func (h *HurtableGameObject) GetMaxHealth() (maxHealth int) {
+	return h.maxHealth
 }
 
 func (h *HurtableGameObject) Damage(amount int) {
