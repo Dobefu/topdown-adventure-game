@@ -6,4 +6,5 @@ type HurtableGameObject interface {
 	GetMaxHealth() (maxHealth int)
 	Damage(amount int)
 	Heal(amount int)
+	Die()
 }
