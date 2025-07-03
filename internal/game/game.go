@@ -216,7 +216,10 @@ func (g *game) Draw(screen *ebiten.Image) {
 }
 
 func (g *game) DrawFinalScreen(screen ebiten.FinalScreen, offscreen *ebiten.Image, geoM ebiten.GeoM) {
-	screen.DrawImage(offscreen, nil)
+	op := &ebiten.DrawImageOptions{}
+	op.GeoM = geoM
+
+	screen.DrawImage(offscreen, op)
 }
 
 func (g *game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {

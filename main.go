@@ -14,9 +14,7 @@ func Main(isDebugEnabled bool) {
 
 	ebiten.SetScreenClearedEveryFrame(false)
 
-	gameOptions := ebiten.RunGameOptions{
-		DisableHiDPI: true,
-	}
+	gameOptions := ebiten.RunGameOptions{}
 
 	err := ebiten.RunGameWithOptions(game.NewGame(isDebugEnabled), &gameOptions)
 
