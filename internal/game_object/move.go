@@ -139,9 +139,25 @@ func (g *GameObject) canMoveTo(
 	}
 
 	topLeft := scene.GetCollisionTile(velocity, vectors.Vector2{X: target.X + x1, Y: target.Y + y1})
+	if topLeft != 0 {
+		return false
+	}
+
 	topRight := scene.GetCollisionTile(velocity, vectors.Vector2{X: target.X + x2, Y: target.Y + y1})
+	if topRight != 0 {
+		return false
+	}
+
 	bottomLeft := scene.GetCollisionTile(velocity, vectors.Vector2{X: target.X + x1, Y: target.Y + y2})
+	if bottomLeft != 0 {
+		return false
+	}
+
 	bottomRight := scene.GetCollisionTile(velocity, vectors.Vector2{X: target.X + x2, Y: target.Y + y2})
 
-	return topLeft == 0 && topRight == 0 && bottomLeft == 0 && bottomRight == 0
+	if bottomRight != 0 {
+		return false
+	}
+
+	return true
 }
