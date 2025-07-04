@@ -4,6 +4,7 @@ import (
 	"bytes"
 	_ "embed"
 	"image"
+	"image/color"
 	"log"
 	"math"
 
@@ -14,6 +15,7 @@ import (
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 	"github.com/Dobefu/vectors"
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/vector"
 	ebitengine_input "github.com/quasilyte/ebitengine-input"
 )
 
@@ -86,8 +88,9 @@ type Player struct {
 	velocity         vectors.Vector3
 	rawInputVelocity vectors.Vector3
 
-	input      *ebitengine_input.Handler
-	imgOptions *ebiten.DrawImageOptions
+	input         *ebitengine_input.Handler
+	aimOverlayImg *ebiten.Image
+	imgOptions    *ebiten.DrawImageOptions
 
 	frameCount     int
 	frameIndex     int
@@ -97,6 +100,7 @@ type Player struct {
 func NewPlayer(position vectors.Vector3) (player *Player) {
 	player = &Player{}
 
+	player.aimOverlayImg = ebiten.NewImage(MAX_CURSOR_DISTANCE*2, MAX_CURSOR_DISTANCE*2)
 	player.imgOptions = &ebiten.DrawImageOptions{}
 
 	player.SetIsActive(true)
@@ -105,7 +109,7 @@ func NewPlayer(position vectors.Vector3) (player *Player) {
 	player.input = input.Input.NewHandler(0, input.Keymap)
 	player.input.GamepadDeadzone = GAMEPAD_DEADZONE
 
-	player.shootCooldownMax = 30
+	player.shootCooldownMax = 20
 
 	player.animationState = animation.AnimationStateIdleDown
 
@@ -140,6 +144,47 @@ func (p *Player) Draw(screen *ebiten.Image) {
 
 	scene := (*p.GetScene())
 	camera := scene.GetCamera()
+
+	cameraPos := *p.GetCameraPosition()
+	currentPos := *p.GetPosition()
+	currentPos.Add(vectors.Vector3{
+		X: FRAME_WIDTH / 2,
+		Y: FRAME_HEIGHT / 2,
+		Z: 0,
+	})
+
+	cameraPos.Sub(currentPos)
+	cameraPos.ClampMagnitude(MAX_CAMERA_OFFSET)
+
+	p.aimOverlayImg.Clear()
+	p.aimOverlayImg.Clear()
+	vector.StrokeCircle(
+		p.aimOverlayImg,
+		MAX_CURSOR_DISTANCE,
+		MAX_CURSOR_DISTANCE,
+		MAX_CURSOR_DISTANCE,
+		1,
+		color.Alpha{A: uint8(cameraPos.Magnitude() / MAX_CAMERA_OFFSET * 127)},
+		false,
+	)
+
+	vector.StrokeLine(
+		p.aimOverlayImg,
+		MAX_CURSOR_DISTANCE,
+		MAX_CURSOR_DISTANCE,
+		MAX_CURSOR_DISTANCE+float32(cameraPos.X*2),
+		MAX_CURSOR_DISTANCE+float32(cameraPos.Y*2),
+		1,
+		color.Alpha{A: uint8(cameraPos.Magnitude() / MAX_CAMERA_OFFSET * 255)},
+		false,
+	)
+
+	p.imgOptions.GeoM.Reset()
+	p.imgOptions.GeoM.Translate(
+		math.Round(pos.X+(FRAME_WIDTH/2)-MAX_CURSOR_DISTANCE),
+		math.Round(pos.Y+(FRAME_HEIGHT/2)-MAX_CURSOR_DISTANCE),
+	)
+	camera.Draw(p.aimOverlayImg, p.imgOptions, screen)
 
 	p.imgOptions.GeoM.Reset()
 	p.imgOptions.GeoM.Translate(math.Round(pos.X), math.Round(pos.Y))
