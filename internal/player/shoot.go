@@ -30,6 +30,7 @@ func (p *Player) Shoot() {
 		// Skip firing if the bullet would remain still, just in case.
 		if !velocity.IsZero() {
 			b.SetIsActive(true)
+			p.shootCooldown = p.shootCooldownMax
 		}
 		break
 	}

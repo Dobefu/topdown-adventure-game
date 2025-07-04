@@ -79,7 +79,9 @@ type Player struct {
 	game_object.GameObject
 	game_object.HurtableGameObject
 
-	bulletPool []*bullet.Bullet
+	bulletPool       []*bullet.Bullet
+	shootCooldown    int
+	shootCooldownMax int
 
 	velocity         vectors.Vector3
 	rawInputVelocity vectors.Vector3
@@ -102,6 +104,8 @@ func NewPlayer(position vectors.Vector3) (player *Player) {
 
 	player.input = input.Input.NewHandler(0, input.Keymap)
 	player.input.GamepadDeadzone = GAMEPAD_DEADZONE
+
+	player.shootCooldownMax = 30
 
 	player.animationState = animation.AnimationStateIdleDown
 
@@ -170,7 +174,11 @@ func (p *Player) Update() (err error) {
 	p.handleMovement()
 	p.handleAnimations()
 
-	if p.input.ActionIsJustPressed(input.ActionShoot) {
+	if p.shootCooldown > 0 {
+		p.shootCooldown -= 1
+	}
+
+	if p.input.ActionIsPressed(input.ActionShoot) && p.shootCooldown <= 0 {
 		p.Shoot()
 	}
 
