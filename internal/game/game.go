@@ -34,6 +34,8 @@ type game struct {
 
 	screenWidth  int
 	screenHeight int
+
+	cachedLayerImages []*ebiten.Image
 }
 
 func NewGame(isDebugEnabled bool) (g *game) {
@@ -162,7 +164,13 @@ func (g *game) Draw(screen *ebiten.Image) {
 			log.Fatal(err)
 		}
 
-		camera.Draw(ebiten.NewImageFromImage(sceneMapRenderer.Result), &ebiten.DrawImageOptions{}, screen)
+		if len(g.cachedLayerImages) < 1 {
+			g.cachedLayerImages = append(g.cachedLayerImages, ebiten.NewImageFromImage(sceneMapRenderer.Result))
+		} else {
+			g.cachedLayerImages[0].WritePixels(sceneMapRenderer.Result.Pix)
+		}
+
+		camera.Draw(g.cachedLayerImages[0], &ebiten.DrawImageOptions{}, screen)
 		sceneMapRenderer.Clear()
 
 		gameObjects := g.scene.GetGameObjects()
@@ -185,10 +193,14 @@ func (g *game) Draw(screen *ebiten.Image) {
 			_ = sceneMapRenderer.RenderLayer(3)
 		}
 
-		camera.Draw(ebiten.NewImageFromImage(sceneMapRenderer.Result), &ebiten.DrawImageOptions{}, screen)
+		if len(g.cachedLayerImages) < 2 {
+			g.cachedLayerImages = append(g.cachedLayerImages, ebiten.NewImageFromImage(sceneMapRenderer.Result))
+		} else {
+			g.cachedLayerImages[1].WritePixels(sceneMapRenderer.Result.Pix)
+		}
+
+		camera.Draw(g.cachedLayerImages[1], &ebiten.DrawImageOptions{}, screen)
 		sceneMapRenderer.Clear()
-	} else {
-		screen.Clear()
 	}
 
 	gameObjects := g.scene.GetGameObjects()
@@ -208,7 +220,13 @@ func (g *game) Draw(screen *ebiten.Image) {
 			log.Fatal(err)
 		}
 
-		camera.Draw(ebiten.NewImageFromImage(sceneMapRenderer.Result), &ebiten.DrawImageOptions{}, screen)
+		if len(g.cachedLayerImages) < 3 {
+			g.cachedLayerImages = append(g.cachedLayerImages, ebiten.NewImageFromImage(sceneMapRenderer.Result))
+		} else {
+			g.cachedLayerImages[2].WritePixels(sceneMapRenderer.Result.Pix)
+		}
+
+		camera.Draw(g.cachedLayerImages[2], &ebiten.DrawImageOptions{}, screen)
 		sceneMapRenderer.Clear()
 	}
 
