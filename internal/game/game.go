@@ -89,6 +89,20 @@ func (g *game) SetScene(scene interfaces.Scene) {
 
 	g.scene.Init()
 	g.scene.InitUI()
+
+	sceneMap, _ := g.scene.GetSceneMapData()
+
+	if sceneMap != nil {
+		for range 3 {
+			g.cachedLayerImages = append(
+				g.cachedLayerImages,
+				ebiten.NewImage(
+					sceneMap.Width*sceneMap.TileWidth,
+					sceneMap.Height*sceneMap.TileHeight,
+				),
+			)
+		}
+	}
 }
 
 func (g *game) Update() (err error) {
@@ -164,12 +178,7 @@ func (g *game) Draw(screen *ebiten.Image) {
 			log.Fatal(err)
 		}
 
-		if len(g.cachedLayerImages) < 1 {
-			g.cachedLayerImages = append(g.cachedLayerImages, ebiten.NewImageFromImage(sceneMapRenderer.Result))
-		} else {
-			g.cachedLayerImages[0].WritePixels(sceneMapRenderer.Result.Pix)
-		}
-
+		g.cachedLayerImages[0].WritePixels(sceneMapRenderer.Result.Pix)
 		camera.Draw(g.cachedLayerImages[0], &ebiten.DrawImageOptions{}, screen)
 		sceneMapRenderer.Clear()
 
@@ -193,12 +202,7 @@ func (g *game) Draw(screen *ebiten.Image) {
 			_ = sceneMapRenderer.RenderLayer(3)
 		}
 
-		if len(g.cachedLayerImages) < 2 {
-			g.cachedLayerImages = append(g.cachedLayerImages, ebiten.NewImageFromImage(sceneMapRenderer.Result))
-		} else {
-			g.cachedLayerImages[1].WritePixels(sceneMapRenderer.Result.Pix)
-		}
-
+		g.cachedLayerImages[1].WritePixels(sceneMapRenderer.Result.Pix)
 		camera.Draw(g.cachedLayerImages[1], &ebiten.DrawImageOptions{}, screen)
 		sceneMapRenderer.Clear()
 
@@ -228,12 +232,7 @@ func (g *game) Draw(screen *ebiten.Image) {
 			log.Fatal(err)
 		}
 
-		if len(g.cachedLayerImages) < 3 {
-			g.cachedLayerImages = append(g.cachedLayerImages, ebiten.NewImageFromImage(sceneMapRenderer.Result))
-		} else {
-			g.cachedLayerImages[2].WritePixels(sceneMapRenderer.Result.Pix)
-		}
-
+		g.cachedLayerImages[2].WritePixels(sceneMapRenderer.Result.Pix)
 		camera.Draw(g.cachedLayerImages[2], &ebiten.DrawImageOptions{}, screen)
 		sceneMapRenderer.Clear()
 	}
