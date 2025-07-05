@@ -9,7 +9,7 @@ type GameObject interface {
 	Init()
 	Update() (err error)
 	Draw(screen *ebiten.Image)
-	DrawShadow(screen *ebiten.Image)
+	DrawBelow(screen *ebiten.Image)
 	SetPosition(position vectors.Vector3)
 	GetPosition() (position *vectors.Vector3)
 	GetCameraPosition() (position *vectors.Vector3)

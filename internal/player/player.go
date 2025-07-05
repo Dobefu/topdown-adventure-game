@@ -195,7 +195,7 @@ func (p *Player) Draw(screen *ebiten.Image) {
 	)
 }
 
-func (p *Player) DrawShadow(screen *ebiten.Image) {
+func (p *Player) DrawBelow(screen *ebiten.Image) {
 	pos := p.GetPosition()
 
 	scene := (*p.GetScene())

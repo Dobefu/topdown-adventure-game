@@ -180,7 +180,7 @@ func (g *game) Draw(screen *ebiten.Image) {
 				continue
 			}
 
-			gameObject.DrawShadow(screen)
+			gameObject.DrawBelow(screen)
 		}
 
 		err = sceneMapRenderer.RenderLayer(1)

@@ -22,7 +22,7 @@ func (g *GameObject) Draw(screen *ebiten.Image) {
 	// noop
 }
 
-func (g *GameObject) DrawShadow(screen *ebiten.Image) {
+func (g *GameObject) DrawBelow(screen *ebiten.Image) {
 	// noop
 }
 
