@@ -14,6 +14,7 @@ type Scene interface {
 	InitSceneMap(path string)
 	SetGame(game Game)
 	GetGameObjects() []GameObject
+	GetActiveGameObjects() []GameObject
 	GetSceneMapData() (sceneMap *tiled.Map, sceneMapRenderer *render.Renderer)
 	GetUI() *ebitenui.UI
 	SetCamera(camera *kamera.Camera)

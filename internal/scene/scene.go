@@ -63,6 +63,18 @@ func (s *Scene) GetGameObjects() []interfaces.GameObject {
 	return s.gameObjects
 }
 
+func (s *Scene) GetActiveGameObjects() (gameObjects []interfaces.GameObject) {
+	for _, gameObject := range s.gameObjects {
+		if !gameObject.GetIsActive() {
+			return
+		}
+
+		gameObjects = append(gameObjects, gameObject)
+	}
+
+	return gameObjects
+}
+
 func (s *Scene) GetSceneMapData() (sceneMap *tiled.Map, sceneMapRenderer *render.Renderer) {
 	return s.sceneMap, s.sceneMapRenderer
 }

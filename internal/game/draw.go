@@ -25,7 +25,7 @@ func (g *game) Draw(screen *ebiten.Image) {
 	heightScale := float64(g.screenHeight) / VIRTUAL_HEIGHT
 	camera.ZoomFactor = math.Min(widthScale, heightScale)
 
-	gameObjects := g.scene.GetGameObjects()
+	activeGameObjects := g.scene.GetActiveGameObjects()
 	sceneMap, sceneMapRenderer := g.scene.GetSceneMapData()
 
 	if sceneMap != nil {
@@ -41,7 +41,7 @@ func (g *game) Draw(screen *ebiten.Image) {
 		camera.Draw(g.cachedLayerImages[0], &ebiten.DrawImageOptions{}, screen)
 		sceneMapRenderer.Clear()
 
-		g.drawGameObjectsBelow(screen, gameObjects)
+		g.drawGameObjectsBelow(screen, activeGameObjects)
 
 		err = sceneMapRenderer.RenderLayer(1)
 
@@ -57,14 +57,14 @@ func (g *game) Draw(screen *ebiten.Image) {
 		camera.Draw(g.cachedLayerImages[1], &ebiten.DrawImageOptions{}, screen)
 		sceneMapRenderer.Clear()
 
-		g.drawGameObjectsUI(g.cachedUIImg, gameObjects)
+		g.drawGameObjectsUI(g.cachedUIImg, activeGameObjects)
 
 		UIImgOptions := &ebiten.DrawImageOptions{}
 		UIImgOptions.GeoM.Scale(widthScale, heightScale)
 		screen.DrawImage(g.cachedUIImg, UIImgOptions)
 	}
 
-	g.drawGameObjects(screen, gameObjects)
+	g.drawGameObjects(screen, activeGameObjects)
 
 	if sceneMap != nil {
 		err := sceneMapRenderer.RenderLayer(2)
@@ -83,39 +83,27 @@ func (g *game) Draw(screen *ebiten.Image) {
 
 func (g *game) drawGameObjectsBelow(
 	screen *ebiten.Image,
-	gameObjects []interfaces.GameObject,
+	activeGameObjects []interfaces.GameObject,
 ) {
-	for _, gameObject := range gameObjects {
-		if !gameObject.GetIsActive() {
-			continue
-		}
-
+	for _, gameObject := range activeGameObjects {
 		gameObject.DrawBelow(screen)
 	}
 }
 
 func (g *game) drawGameObjects(
 	screen *ebiten.Image,
-	gameObjects []interfaces.GameObject,
+	activeGameObjects []interfaces.GameObject,
 ) {
-	for _, gameObject := range gameObjects {
-		if !gameObject.GetIsActive() {
-			continue
-		}
-
+	for _, gameObject := range activeGameObjects {
 		gameObject.Draw(screen)
 	}
 }
 
 func (g *game) drawGameObjectsUI(
 	screen *ebiten.Image,
-	gameObjects []interfaces.GameObject,
+	activeGameObjects []interfaces.GameObject,
 ) {
-	for _, gameObject := range gameObjects {
-		if !gameObject.GetIsActive() {
-			continue
-		}
-
+	for _, gameObject := range activeGameObjects {
 		gameObject.DrawUI(screen)
 	}
 }
