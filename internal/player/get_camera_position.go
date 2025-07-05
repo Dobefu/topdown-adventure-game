@@ -38,10 +38,12 @@ func (p *Player) GetCameraPosition() (position *vectors.Vector3) {
 		distanceX := float64(cursorX) - centerX
 		distanceY := float64(cursorY) - centerY
 
-		screenDistance := math.Sqrt(distanceX*distanceX + distanceY*distanceY)
+		screenDistanceSquared := distanceX*distanceX + distanceY*distanceY
 
-		if screenDistance > 0 {
+		if screenDistanceSquared > 0 {
+			screenDistance := math.Sqrt(screenDistanceSquared)
 			scale := math.Min(screenDistance/MAX_CURSOR_DISTANCE, 1.0)
+
 			cursorOffset = vectors.Vector3{
 				X: (distanceX / screenDistance) * scale * MAX_CAMERA_OFFSET,
 				Y: (distanceY / screenDistance) * scale * MAX_CAMERA_OFFSET,
