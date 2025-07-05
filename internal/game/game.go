@@ -137,13 +137,9 @@ func (g *game) Update() (err error) {
 
 	g.scene.GetUI().Update()
 
-	gameObjects := g.scene.GetGameObjects()
+	activeGameObjects := g.scene.GetActiveGameObjects()
 
-	for _, gameObject := range gameObjects {
-		if !gameObject.GetIsActive() {
-			continue
-		}
-
+	for _, gameObject := range activeGameObjects {
 		err = gameObject.Update()
 
 		if err != nil {

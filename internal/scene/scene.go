@@ -66,7 +66,7 @@ func (s *Scene) GetGameObjects() []interfaces.GameObject {
 func (s *Scene) GetActiveGameObjects() (gameObjects []interfaces.GameObject) {
 	for _, gameObject := range s.gameObjects {
 		if !gameObject.GetIsActive() {
-			return
+			continue
 		}
 
 		gameObjects = append(gameObjects, gameObject)
