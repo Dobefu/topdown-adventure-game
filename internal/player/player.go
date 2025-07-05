@@ -221,7 +221,7 @@ func (p *Player) DrawBelow(screen *ebiten.Image) {
 }
 
 func (p *Player) DrawUI(screen *ebiten.Image) {
-	ui.DrawHealthBar(screen, vectors.Vector2{X: 0, Y: 0}, p.GetHealth())
+	ui.DrawHealthBar(screen, vectors.Vector2{X: 5, Y: 5}, p.GetHealth())
 }
 
 func (p *Player) Update() (err error) {
