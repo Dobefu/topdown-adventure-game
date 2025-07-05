@@ -93,21 +93,7 @@ func (g *GameObject) findMaxMovement(
 	for maxDistance-minDistance > threshold {
 		center := (minDistance + maxDistance) / 2
 
-		var testVelocity vectors.Vector3
-
-		if velocity.X != 0 {
-			if target > 0 {
-				testVelocity = vectors.Vector3{X: center, Y: 0, Z: 0}
-			} else {
-				testVelocity = vectors.Vector3{X: -center, Y: 0, Z: 0}
-			}
-		} else {
-			if target > 0 {
-				testVelocity = vectors.Vector3{X: 0, Y: center, Z: 0}
-			} else {
-				testVelocity = vectors.Vector3{X: 0, Y: -center, Z: 0}
-			}
-		}
+		testVelocity := getTestVelocityFromVelocity(velocity, target, center)
 
 		if g.canMoveTo(testVelocity, x1, y1, x2, y2) {
 			minDistance = center
@@ -160,4 +146,26 @@ func (g *GameObject) canMoveTo(
 	}
 
 	return true
+}
+
+func getTestVelocityFromVelocity(
+	velocity vectors.Vector3,
+	target float64,
+	center float64,
+) (testVelocity vectors.Vector3) {
+	if velocity.X != 0 {
+		if target > 0 {
+			testVelocity = vectors.Vector3{X: center, Y: 0, Z: 0}
+		} else {
+			testVelocity = vectors.Vector3{X: -center, Y: 0, Z: 0}
+		}
+	} else {
+		if target > 0 {
+			testVelocity = vectors.Vector3{X: 0, Y: center, Z: 0}
+		} else {
+			testVelocity = vectors.Vector3{X: 0, Y: -center, Z: 0}
+		}
+	}
+
+	return testVelocity
 }
