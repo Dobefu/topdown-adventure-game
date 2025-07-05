@@ -201,6 +201,14 @@ func (g *game) Draw(screen *ebiten.Image) {
 
 		camera.Draw(g.cachedLayerImages[1], &ebiten.DrawImageOptions{}, screen)
 		sceneMapRenderer.Clear()
+
+		for _, gameObject := range gameObjects {
+			if !gameObject.GetIsActive() {
+				continue
+			}
+
+			gameObject.DrawUI(screen)
+		}
 	}
 
 	gameObjects := g.scene.GetGameObjects()

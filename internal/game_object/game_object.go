@@ -26,6 +26,10 @@ func (g *GameObject) DrawBelow(screen *ebiten.Image) {
 	// noop
 }
 
+func (g *GameObject) DrawUI(screen *ebiten.Image) {
+	// noop
+}
+
 func (g *GameObject) Update() (err error) {
 	return nil
 }
