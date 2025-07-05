@@ -3,7 +3,7 @@ module github.com/Dobefu/topdown-adventure-game
 go 1.24.3
 
 require (
-	github.com/Dobefu/vectors v1.5.0
+	github.com/Dobefu/vectors v1.6.0
 	github.com/ebitenui/ebitenui v0.6.2
 	github.com/hajimehoshi/ebiten/v2 v2.8.8
 	github.com/lafriks/go-tiled v0.13.0
@@ -19,7 +19,7 @@ require (
 	github.com/ebitengine/purego v0.8.4 // indirect
 	github.com/go-text/typesetting v0.3.0 // indirect
 	github.com/jezek/xgb v1.1.1 // indirect
-	github.com/quasilyte/gmath v0.0.0-20250621152721-92bf45e3b54d // indirect
+	github.com/quasilyte/gmath v0.0.0-20250702115655-3b36e8f32632 // indirect
 	github.com/setanarut/fastnoise v1.1.1 // indirect
 	golang.org/x/exp v0.0.0-20250620022241-b7579e27df2b // indirect
 	golang.org/x/image v0.28.0 // indirect

@@ -1,5 +1,5 @@
-github.com/Dobefu/vectors v1.5.0 h1:m1Y31XKeul6+VQsnheh1DiAufCGTUNPO6eDgOJoeQIk=
-github.com/Dobefu/vectors v1.5.0/go.mod h1:2eFq6JFKkhlNEIcyKb/nQ4Mp1+CVyvJvnlK6GPQOh1Q=
+github.com/Dobefu/vectors v1.6.0 h1:828N5vGRrsrRDvLFQOs2/efO6SstXUQuslu8nVbK5fQ=
+github.com/Dobefu/vectors v1.6.0/go.mod h1:2eFq6JFKkhlNEIcyKb/nQ4Mp1+CVyvJvnlK6GPQOh1Q=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/disintegration/imaging v1.6.2 h1:w1LecBlG2Lnp8B3jk5zSuNqd7b4DXhcjwek1ei82L+c=
@@ -36,6 +36,8 @@ github.com/quasilyte/gdata/v2 v2.0.0 h1:nmv0mTd8pwMweD4KibuO4jjFir3X/uSAkK8w2M3X
 github.com/quasilyte/gdata/v2 v2.0.0/go.mod h1:wwu8RC/HIZ0VIvseBxObGlSuE+jnfe5SHmindAmMv+M=
 github.com/quasilyte/gmath v0.0.0-20250621152721-92bf45e3b54d h1:JaTXCvV9lbjLcsXbiyFPUW4+cMZz9Lrli058T26vnPo=
 github.com/quasilyte/gmath v0.0.0-20250621152721-92bf45e3b54d/go.mod h1:EbI+KMbALSVE2s0YFOQpR4uj66zBh9ter5P4CBMSuvA=
+github.com/quasilyte/gmath v0.0.0-20250702115655-3b36e8f32632 h1:IADKc+aMlY8sgBSsc/br6Dt/GYYA5bx7B2u5w2u1tvA=
+github.com/quasilyte/gmath v0.0.0-20250702115655-3b36e8f32632/go.mod h1:EbI+KMbALSVE2s0YFOQpR4uj66zBh9ter5P4CBMSuvA=
 github.com/setanarut/fastnoise v1.1.1 h1:cD9gUjY9GMxVab+B7AY09j2GAHMdiKzchDE5z6dQ7eE=
 github.com/setanarut/fastnoise v1.1.1/go.mod h1:74vG3/RcPPcNi2M0riHJXQp9/+eTSh0rnQ/0WTEY6SU=
 github.com/setanarut/kamera/v2 v2.96.2 h1:eT5eQx6kcw/rfE90OMttmDY6dgfnh0n5XNLAZ+X6kZc=

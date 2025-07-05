@@ -17,18 +17,18 @@ func (p *Player) Shoot() {
 		})
 
 		cameraPos.Sub(pos)
-		velocity := cameraPos.Normalize()
-		velocity.Mul(vectors.Vector3{
+		cameraPos.Normalize()
+		cameraPos.Mul(vectors.Vector3{
 			X: 10,
 			Y: 10,
 			Z: 1,
 		})
 
 		b.SetPosition(*p.GetPosition())
-		b.SetVelocity(velocity)
+		b.SetVelocity(cameraPos)
 
 		// Skip firing if the bullet would remain still, just in case.
-		if !velocity.IsZero() {
+		if !cameraPos.IsZero() {
 			b.SetIsActive(true)
 			p.shootCooldown = p.shootCooldownMax
 		}
