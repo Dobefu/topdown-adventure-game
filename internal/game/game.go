@@ -36,6 +36,7 @@ type game struct {
 	screenHeight int
 
 	cachedLayerImages []*ebiten.Image
+	cachedUIImg       *ebiten.Image
 }
 
 func NewGame(isDebugEnabled bool) (g *game) {
@@ -56,6 +57,8 @@ func NewGame(isDebugEnabled bool) (g *game) {
 	g.input = input.Input.NewHandler(255, input.Keymap)
 
 	g.SetScene(&scene.MainMenuScene{})
+
+	g.cachedUIImg = ebiten.NewImage(VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
 
 	return g
 }
@@ -211,8 +214,12 @@ func (g *game) Draw(screen *ebiten.Image) {
 				continue
 			}
 
-			gameObject.DrawUI(screen)
+			gameObject.DrawUI(g.cachedUIImg)
 		}
+
+		UIImgOptions := &ebiten.DrawImageOptions{}
+		UIImgOptions.GeoM.Scale(widthScale, heightScale)
+		screen.DrawImage(g.cachedUIImg, UIImgOptions)
 	}
 
 	gameObjects := g.scene.GetGameObjects()
