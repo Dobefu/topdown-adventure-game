@@ -26,6 +26,10 @@ func (h *HurtableGameObject) GetMaxHealth() (maxHealth int) {
 	return h.maxHealth
 }
 
+func (h *HurtableGameObject) SetMaxHealth(maxHealth int) {
+	h.maxHealth = maxHealth
+}
+
 func (h *HurtableGameObject) Damage(amount int) {
 	h.health -= amount
 
