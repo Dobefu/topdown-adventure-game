@@ -13,6 +13,7 @@ import (
 	"github.com/Dobefu/topdown-adventure-game/internal/game_object"
 	"github.com/Dobefu/topdown-adventure-game/internal/input"
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
+	"github.com/Dobefu/topdown-adventure-game/internal/ui"
 	"github.com/Dobefu/vectors"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/vector"
@@ -35,6 +36,8 @@ const (
 	FRAME_HEIGHT     = 32
 	NUM_FRAMES       = 16
 	GAMEPAD_DEADZONE = .1
+
+	MAX_HEALTH = 20
 )
 
 func init() {
@@ -102,6 +105,9 @@ func NewPlayer(position vectors.Vector3) (player *Player) {
 
 	player.aimOverlayImg = ebiten.NewImage(MAX_CURSOR_DISTANCE*2, MAX_CURSOR_DISTANCE*2)
 	player.imgOptions = &ebiten.DrawImageOptions{}
+
+	player.SetMaxHealth(MAX_HEALTH)
+	player.SetHealth(MAX_HEALTH)
 
 	player.SetIsActive(true)
 	player.SetPosition(position)
@@ -212,6 +218,10 @@ func (p *Player) DrawBelow(screen *ebiten.Image) {
 		p.imgOptions,
 		screen,
 	)
+}
+
+func (p *Player) DrawUI(screen *ebiten.Image) {
+	ui.DrawHealthBar(screen, vectors.Vector2{X: 0, Y: 0}, p.GetHealth())
 }
 
 func (p *Player) Update() (err error) {
