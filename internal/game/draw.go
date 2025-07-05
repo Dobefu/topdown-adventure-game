@@ -5,6 +5,7 @@ import (
 	"log"
 	"math"
 
+	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
@@ -24,6 +25,7 @@ func (g *game) Draw(screen *ebiten.Image) {
 	heightScale := float64(g.screenHeight) / VIRTUAL_HEIGHT
 	camera.ZoomFactor = math.Min(widthScale, heightScale)
 
+	gameObjects := g.scene.GetGameObjects()
 	sceneMap, sceneMapRenderer := g.scene.GetSceneMapData()
 
 	if sceneMap != nil {
@@ -39,15 +41,7 @@ func (g *game) Draw(screen *ebiten.Image) {
 		camera.Draw(g.cachedLayerImages[0], &ebiten.DrawImageOptions{}, screen)
 		sceneMapRenderer.Clear()
 
-		gameObjects := g.scene.GetGameObjects()
-
-		for _, gameObject := range gameObjects {
-			if !gameObject.GetIsActive() {
-				continue
-			}
-
-			gameObject.DrawBelow(screen)
-		}
+		g.drawGameObjectsBelow(screen, gameObjects)
 
 		err = sceneMapRenderer.RenderLayer(1)
 
@@ -63,28 +57,14 @@ func (g *game) Draw(screen *ebiten.Image) {
 		camera.Draw(g.cachedLayerImages[1], &ebiten.DrawImageOptions{}, screen)
 		sceneMapRenderer.Clear()
 
-		for _, gameObject := range gameObjects {
-			if !gameObject.GetIsActive() {
-				continue
-			}
-
-			gameObject.DrawUI(g.cachedUIImg)
-		}
+		g.drawGameObjectsUI(g.cachedUIImg, gameObjects)
 
 		UIImgOptions := &ebiten.DrawImageOptions{}
 		UIImgOptions.GeoM.Scale(widthScale, heightScale)
 		screen.DrawImage(g.cachedUIImg, UIImgOptions)
 	}
 
-	gameObjects := g.scene.GetGameObjects()
-
-	for _, gameObject := range gameObjects {
-		if !gameObject.GetIsActive() {
-			continue
-		}
-
-		gameObject.Draw(screen)
-	}
+	g.drawGameObjects(screen, gameObjects)
 
 	if sceneMap != nil {
 		err := sceneMapRenderer.RenderLayer(2)
@@ -99,4 +79,43 @@ func (g *game) Draw(screen *ebiten.Image) {
 	}
 
 	g.scene.GetUI().Draw(screen)
+}
+
+func (g *game) drawGameObjectsBelow(
+	screen *ebiten.Image,
+	gameObjects []interfaces.GameObject,
+) {
+	for _, gameObject := range gameObjects {
+		if !gameObject.GetIsActive() {
+			continue
+		}
+
+		gameObject.DrawBelow(screen)
+	}
+}
+
+func (g *game) drawGameObjects(
+	screen *ebiten.Image,
+	gameObjects []interfaces.GameObject,
+) {
+	for _, gameObject := range gameObjects {
+		if !gameObject.GetIsActive() {
+			continue
+		}
+
+		gameObject.Draw(screen)
+	}
+}
+
+func (g *game) drawGameObjectsUI(
+	screen *ebiten.Image,
+	gameObjects []interfaces.GameObject,
+) {
+	for _, gameObject := range gameObjects {
+		if !gameObject.GetIsActive() {
+			continue
+		}
+
+		gameObject.DrawUI(screen)
+	}
 }
