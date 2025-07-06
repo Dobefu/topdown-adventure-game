@@ -76,6 +76,7 @@ func init() {
 
 type Enemy struct {
 	game_object.GameObject
+	game_object.HostileGameObject
 	game_object.HurtableGameObject
 
 	velocity         vectors.Vector3
