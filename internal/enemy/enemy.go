@@ -1,0 +1,178 @@
+package enemy
+
+import (
+	"bytes"
+	_ "embed"
+	"image"
+	"log"
+	"math"
+
+	"github.com/Dobefu/topdown-adventure-game/internal/animation"
+	"github.com/Dobefu/topdown-adventure-game/internal/bullet"
+	"github.com/Dobefu/topdown-adventure-game/internal/game_object"
+	"github.com/Dobefu/topdown-adventure-game/internal/ui"
+	"github.com/Dobefu/vectors"
+	"github.com/hajimehoshi/ebiten/v2"
+)
+
+var (
+	//go:embed img/enemy.png
+	enemyImgBytes []byte
+	enemyImg      *ebiten.Image
+	enemySubImgs  []*ebiten.Image
+
+	//go:embed img/shadow.png
+	enemyShadowImgBytes []byte
+	enemyShadowImg      *ebiten.Image
+)
+
+const (
+	FRAME_WIDTH      = 32
+	FRAME_HEIGHT     = 32
+	NUM_FRAMES       = 16
+	GAMEPAD_DEADZONE = .1
+
+	MAX_HEALTH = 20
+)
+
+func init() {
+	img, _, err := image.Decode(bytes.NewReader(enemyImgBytes))
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	enemyImg = ebiten.NewImageFromImage(img)
+	enemySubImgs = make(
+		[]*ebiten.Image,
+		enemyImg.Bounds().Dy()/FRAME_HEIGHT*NUM_FRAMES,
+	)
+
+	for state := range enemyImg.Bounds().Dy() / FRAME_HEIGHT {
+		for frame := range NUM_FRAMES {
+			key := state*NUM_FRAMES + frame
+
+			enemySubImgs[key] = ebiten.NewImageFromImage(
+				enemyImg.SubImage(
+					image.Rect(
+						frame*FRAME_WIDTH,
+						state*FRAME_HEIGHT,
+						frame*FRAME_WIDTH+FRAME_WIDTH,
+						state*FRAME_HEIGHT+FRAME_HEIGHT,
+					),
+				),
+			)
+		}
+	}
+
+	img, _, err = image.Decode(bytes.NewReader(enemyShadowImgBytes))
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	enemyShadowImg = ebiten.NewImageFromImage(img)
+}
+
+type Enemy struct {
+	game_object.GameObject
+	game_object.HurtableGameObject
+
+	velocity         vectors.Vector3
+	rawInputVelocity vectors.Vector3
+
+	imgOptions *ebiten.DrawImageOptions
+
+	frameCount     int
+	frameIndex     int
+	animationState animation.AnimationState
+}
+
+func NewEnemy(position vectors.Vector3) (enemy *Enemy) {
+	enemy = &Enemy{}
+
+	enemy.imgOptions = &ebiten.DrawImageOptions{}
+
+	enemy.SetMaxHealth(MAX_HEALTH)
+	enemy.SetHealth(MAX_HEALTH)
+
+	enemy.SetIsActive(true)
+	enemy.SetPosition(position)
+
+	enemy.animationState = animation.AnimationStateIdleDown
+
+	return enemy
+}
+
+func (e *Enemy) Init() {
+	scene := *e.GetScene()
+
+	for range 10 {
+		b := bullet.NewBullet()
+
+		scene.AddGameObject(b)
+	}
+}
+
+func (e *Enemy) GetCollisionRect() (x1, y1, x2, y2 float64) {
+	return 4, 23, 27, 31
+}
+
+func (e *Enemy) Move(
+	velocity vectors.Vector3,
+) (newVelocity vectors.Vector3, hasCollided bool) {
+	x1, y1, x2, y2 := e.GetCollisionRect()
+
+	return e.MoveWithCollisionRect(velocity, x1, y1, x2, y2)
+}
+
+func (e *Enemy) Draw(screen *ebiten.Image) {
+	pos := e.GetPosition()
+
+	scene := (*e.GetScene())
+	camera := scene.GetCamera()
+
+	e.imgOptions.GeoM.Reset()
+	e.imgOptions.GeoM.Translate(math.Round(pos.X), math.Round(pos.Y))
+
+	camera.Draw(
+		enemySubImgs[int(e.animationState)*NUM_FRAMES+e.frameIndex],
+		e.imgOptions,
+		screen,
+	)
+}
+
+func (e *Enemy) DrawBelow(screen *ebiten.Image) {
+	pos := e.GetPosition()
+
+	scene := (*e.GetScene())
+	camera := scene.GetCamera()
+
+	e.imgOptions.GeoM.Reset()
+	e.imgOptions.GeoM.Translate(
+		math.Round(pos.X),
+		math.Round(pos.Y+FRAME_HEIGHT*.75),
+	)
+
+	camera.Draw(
+		enemyShadowImg,
+		e.imgOptions,
+		screen,
+	)
+}
+
+func (e *Enemy) DrawUI(screen *ebiten.Image) {
+	ui.DrawHealthBar(
+		screen,
+		vectors.Vector2{X: 5, Y: 5},
+		e.GetHealth(),
+		e.GetMaxHealth(),
+	)
+}
+
+func (e *Enemy) Update() (err error) {
+	e.handleMovement()
+	e.handleAnimations()
+
+	return nil
+}
