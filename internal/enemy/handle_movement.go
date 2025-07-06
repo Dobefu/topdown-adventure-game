@@ -31,5 +31,5 @@ func (e *Enemy) handleMovement() {
 	e.velocity.Add(e.rawInputVelocity)
 	e.velocity.ClampMagnitude(MAX_SPEED)
 
-	e.velocity, _ = e.Move(e.velocity)
+	e.velocity, _ = e.MoveWithCollision(e.velocity)
 }

@@ -107,7 +107,7 @@ func (b *Bullet) SetVelocity(velocity vectors.Vector3) {
 	b.velocity = velocity
 }
 
-func (b *Bullet) Move(
+func (b *Bullet) MoveWithCollision(
 	velocity vectors.Vector3,
 ) (newVelocity vectors.Vector3, hasCollided bool) {
 	x1, y1, x2, y2 := b.GetCollisionRect()

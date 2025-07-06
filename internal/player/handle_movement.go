@@ -63,5 +63,5 @@ func (p *Player) handleMovement() {
 		p.velocity.ClampMagnitude(MAX_SPEED)
 	}
 
-	p.velocity, _ = p.Move(p.velocity)
+	p.velocity, _ = p.MoveWithCollision(p.velocity)
 }

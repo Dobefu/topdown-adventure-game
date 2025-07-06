@@ -33,7 +33,3 @@ func (g *GameObject) DrawUI(screen *ebiten.Image) {
 func (g *GameObject) Update() (err error) {
 	return nil
 }
-
-func (g *GameObject) GetCollisionRect() (x1, y1, x2, y2 float64) {
-	return 0, 0, 31, 31
-}

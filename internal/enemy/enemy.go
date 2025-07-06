@@ -119,7 +119,7 @@ func (e *Enemy) GetCollisionRect() (x1, y1, x2, y2 float64) {
 	return 4, 23, 27, 31
 }
 
-func (e *Enemy) Move(
+func (e *Enemy) MoveWithCollision(
 	velocity vectors.Vector3,
 ) (newVelocity vectors.Vector3, hasCollided bool) {
 	x1, y1, x2, y2 := e.GetCollisionRect()

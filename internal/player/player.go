@@ -82,6 +82,7 @@ func init() {
 type Player struct {
 	interfaces.Player
 	game_object.GameObject
+	game_object.CollidableGameObject
 	game_object.HurtableGameObject
 
 	bulletPool       []*bullet.Bullet
@@ -137,7 +138,7 @@ func (p *Player) GetCollisionRect() (x1, y1, x2, y2 float64) {
 	return 4, 23, 27, 31
 }
 
-func (p *Player) Move(
+func (p *Player) MoveWithCollision(
 	velocity vectors.Vector3,
 ) (newVelocity vectors.Vector3, hasCollided bool) {
 	x1, y1, x2, y2 := p.GetCollisionRect()

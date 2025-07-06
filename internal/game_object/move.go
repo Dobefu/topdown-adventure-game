@@ -8,10 +8,8 @@ import (
 
 func (g *GameObject) Move(
 	velocity vectors.Vector3,
-) (newVelocity vectors.Vector3, hasCollided bool) {
-	x1, y1, x2, y2 := g.GetCollisionRect()
-
-	return g.MoveWithCollisionRect(velocity, x1, y1, x2, y2)
+) {
+	(*g.GetPosition()).Add(velocity)
 }
 
 func (g *GameObject) MoveWithCollisionRect(
