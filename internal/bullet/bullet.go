@@ -154,7 +154,7 @@ func (b *Bullet) Update() (err error) {
 		int((angle+22.5)/45) % 8,
 	)
 
-	b.Move(b.velocity)
+	b.MoveWithCollision(b.velocity)
 
 	return nil
 }
