@@ -10,7 +10,7 @@ import (
 	"github.com/Dobefu/topdown-adventure-game/internal/animation"
 	"github.com/Dobefu/topdown-adventure-game/internal/bullet"
 	"github.com/Dobefu/topdown-adventure-game/internal/game_object"
-	"github.com/Dobefu/topdown-adventure-game/internal/ui"
+	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 	"github.com/Dobefu/vectors"
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -32,7 +32,7 @@ const (
 	NUM_FRAMES       = 16
 	GAMEPAD_DEADZONE = .1
 
-	MAX_HEALTH = 20
+	MAX_HEALTH = 10
 )
 
 func init() {
@@ -101,6 +101,12 @@ func NewEnemy(position vectors.Vector3) (enemy *Enemy) {
 
 	enemy.animationState = animation.AnimationStateIdleDown
 
+	enemy.SetOnCollision(func(self, other interfaces.GameObject) {
+		if hurtable, ok := other.(interfaces.HurtableGameObject); ok {
+			hurtable.Damage(1)
+		}
+	})
+
 	return enemy
 }
 
@@ -166,6 +172,9 @@ func (e *Enemy) DrawBelow(screen *ebiten.Image) {
 func (e *Enemy) Update() (err error) {
 	e.handleMovement()
 	e.handleAnimations()
+
+	scene := *e.GetScene()
+	e.CheckCollision(scene, *e.GetPosition())
 
 	return nil
 }

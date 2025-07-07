@@ -26,7 +26,7 @@ func (p *Player) Shoot() {
 
 		// Skip firing if the bullet would remain still, just in case.
 		if !cameraPos.IsZero() {
-			b.SetOwner(&p.GameObject)
+			b.SetOwner(p)
 			b.SetPosition(*p.GetPosition())
 			b.SetVelocity(cameraPos)
 

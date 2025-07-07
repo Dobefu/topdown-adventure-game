@@ -81,6 +81,19 @@ func NewBullet() (bullet *Bullet) {
 
 	bullet.SetIsActive(false)
 
+	bullet.SetOnCollision(func(self, other interfaces.GameObject) {
+		// Skip collision with the owner of the bullet.
+		if other.GetID() == bullet.owner.GetID() {
+			return
+		}
+
+		if hurtable, ok := other.(interfaces.HurtableGameObject); ok {
+			hurtable.Damage(1)
+		}
+
+		bullet.SetIsActive(false)
+	})
+
 	return bullet
 }
 
@@ -164,6 +177,8 @@ func (b *Bullet) Update() (err error) {
 		int((angle+22.5)/45) % 8,
 	)
 
+	scene := *b.GetScene()
+	b.CheckCollision(scene, *b.GetPosition())
 	b.MoveWithCollision(b.velocity)
 
 	return nil

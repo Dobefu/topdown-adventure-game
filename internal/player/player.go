@@ -118,6 +118,15 @@ func NewPlayer(position vectors.Vector3) (player *Player) {
 
 	player.animationState = animation.AnimationStateIdleDown
 
+	player.SetOnCollision(func(self, other interfaces.GameObject) {
+		// Skip the collision callback if the player hits a bullet they own.
+		if bullet, ok := other.(*bullet.Bullet); ok {
+			if bullet.GetOwner().GetID() == player.GetID() {
+				return
+			}
+		}
+	})
+
 	return player
 }
 
@@ -233,6 +242,9 @@ func (p *Player) DrawUI(screen *ebiten.Image) {
 func (p *Player) Update() (err error) {
 	p.handleMovement()
 	p.handleAnimations()
+
+	scene := *p.GetScene()
+	p.CheckCollision(scene, *p.GetPosition())
 
 	if p.shootCooldown > 0 {
 		p.shootCooldown -= 1
