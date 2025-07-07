@@ -107,6 +107,8 @@ func NewEnemy(position vectors.Vector3) (enemy *Enemy) {
 		}
 	})
 
+	enemy.SetDeathCallback(enemy.Die)
+
 	return enemy
 }
 
@@ -172,9 +174,11 @@ func (e *Enemy) DrawBelow(screen *ebiten.Image) {
 func (e *Enemy) Update() (err error) {
 	e.handleMovement()
 	e.handleAnimations()
-
-	scene := *e.GetScene()
-	e.CheckCollision(scene, *e.GetPosition())
+	e.CheckCollision(*e.GetScene(), *e.GetPosition())
 
 	return nil
+}
+
+func (e *Enemy) Die() {
+	e.SetIsActive(false)
 }

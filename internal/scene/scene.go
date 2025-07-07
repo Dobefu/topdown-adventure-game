@@ -3,6 +3,7 @@ package scene
 import (
 	"log"
 	"math"
+	"slices"
 
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 	"github.com/Dobefu/vectors"
@@ -103,12 +104,6 @@ func (s *Scene) GetCameraTarget() interfaces.GameObject {
 	return *s.cameraTarget
 }
 
-func (s *Scene) AddGameObject(gameObject interfaces.GameObject) {
-	s.gameObjects = append(s.gameObjects, gameObject)
-	gameObject.SetScene(s)
-	gameObject.Init()
-}
-
 func (s *Scene) GetCollisionTile(velocity vectors.Vector3, position vectors.Vector2) int {
 	if s.sceneMap == nil || len(s.sceneMap.Layers) < 4 {
 		return 0
@@ -150,4 +145,21 @@ func (s *Scene) GetCollisionTile(velocity vectors.Vector3, position vectors.Vect
 	}
 
 	return int(tile.ID)
+}
+
+func (s *Scene) AddGameObject(gameObject interfaces.GameObject) {
+	s.gameObjects = append(s.gameObjects, gameObject)
+	gameObject.SetScene(s)
+	gameObject.Init()
+}
+
+func (s *Scene) RemoveGameObject(gameObject interfaces.GameObject) {
+	for idx, obj := range s.gameObjects {
+		if obj.GetID() != gameObject.GetID() {
+			continue
+		}
+
+		s.gameObjects = slices.Delete(s.gameObjects, idx, idx+1)
+		return
+	}
 }

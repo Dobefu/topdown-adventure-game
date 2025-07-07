@@ -177,8 +177,7 @@ func (b *Bullet) Update() (err error) {
 		int((angle+22.5)/45) % 8,
 	)
 
-	scene := *b.GetScene()
-	b.CheckCollision(scene, *b.GetPosition())
+	b.CheckCollision(*b.GetScene(), *b.GetPosition())
 	b.MoveWithCollision(b.velocity)
 
 	return nil

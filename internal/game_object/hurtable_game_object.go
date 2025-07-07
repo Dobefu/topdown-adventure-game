@@ -2,6 +2,7 @@ package game_object
 
 import (
 	"log"
+	"math"
 
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 )
@@ -10,8 +11,9 @@ type HurtableGameObject struct {
 	interfaces.HurtableGameObject
 	CollidableGameObject
 
-	health    int
-	maxHealth int
+	health        int
+	maxHealth     int
+	deathCallback func()
 }
 
 func (h *HurtableGameObject) GetHealth() (health int) {
@@ -31,14 +33,16 @@ func (h *HurtableGameObject) SetMaxHealth(maxHealth int) {
 }
 
 func (h *HurtableGameObject) Damage(amount int) {
-	h.health -= amount
+	h.health = int(math.Max(0, float64(h.health-amount)))
 
 	if h.health <= 0 {
 		if h.maxHealth == 0 {
 			log.Println("maxHealth is zero. Did you forget to set it?")
 		}
 
-		h.Die()
+		if h.deathCallback != nil {
+			h.deathCallback()
+		}
 	}
 }
 
@@ -46,6 +50,10 @@ func (h *HurtableGameObject) Heal(amount int) {
 	h.health += amount
 }
 
-func (h *HurtableGameObject) Die() {
-	h.SetIsActive(false)
+func (h *HurtableGameObject) GetDeathCallback() (callback func()) {
+	return h.deathCallback
+}
+
+func (h *HurtableGameObject) SetDeathCallback(callback func()) {
+	h.deathCallback = callback
 }

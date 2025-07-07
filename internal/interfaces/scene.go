@@ -23,4 +23,5 @@ type Scene interface {
 	GetCameraTarget() GameObject
 	GetCollisionTile(velocity vectors.Vector3, position vectors.Vector2) int
 	AddGameObject(gameObject GameObject)
+	RemoveGameObject(gameObject GameObject)
 }

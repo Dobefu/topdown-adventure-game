@@ -7,5 +7,6 @@ type HurtableGameObject interface {
 	SetMaxHealth(maxHealth int)
 	Damage(amount int)
 	Heal(amount int)
-	Die()
+	GetDeathCallback() (callback func())
+	SetDeathCallback(callback func())
 }

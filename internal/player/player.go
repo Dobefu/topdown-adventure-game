@@ -127,6 +127,8 @@ func NewPlayer(position vectors.Vector3) (player *Player) {
 		}
 	})
 
+	player.SetDeathCallback(player.Die)
+
 	return player
 }
 
@@ -242,9 +244,7 @@ func (p *Player) DrawUI(screen *ebiten.Image) {
 func (p *Player) Update() (err error) {
 	p.handleMovement()
 	p.handleAnimations()
-
-	scene := *p.GetScene()
-	p.CheckCollision(scene, *p.GetPosition())
+	p.CheckCollision(*p.GetScene(), *p.GetPosition())
 
 	if p.shootCooldown > 0 {
 		p.shootCooldown -= 1
@@ -255,4 +255,14 @@ func (p *Player) Update() (err error) {
 	}
 
 	return nil
+}
+
+func (p *Player) Die() {
+	scene := *p.GetScene()
+	scene.RemoveGameObject(p)
+
+	player := NewPlayer(vectors.Vector3{})
+	scene.AddGameObject(player)
+
+	scene.SetCameraTarget(player)
 }
