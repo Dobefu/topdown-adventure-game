@@ -24,11 +24,12 @@ func (p *Player) Shoot() {
 			Z: 1,
 		})
 
-		b.SetPosition(*p.GetPosition())
-		b.SetVelocity(cameraPos)
-
 		// Skip firing if the bullet would remain still, just in case.
 		if !cameraPos.IsZero() {
+			b.SetOwner(&p.GameObject)
+			b.SetPosition(*p.GetPosition())
+			b.SetVelocity(cameraPos)
+
 			b.SetIsActive(true)
 			p.shootCooldown = p.shootCooldownMax
 		}

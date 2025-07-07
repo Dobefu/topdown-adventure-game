@@ -62,6 +62,8 @@ type Bullet struct {
 	interfaces.Bullet
 	game_object.CollidableGameObject
 
+	owner interfaces.GameObject
+
 	velocity vectors.Vector3
 
 	imgOptions     *ebiten.DrawImageOptions
@@ -80,6 +82,14 @@ func NewBullet() (bullet *Bullet) {
 	bullet.SetIsActive(false)
 
 	return bullet
+}
+
+func (b *Bullet) GetOwner() (owner interfaces.GameObject) {
+	return b.owner
+}
+
+func (b *Bullet) SetOwner(owner interfaces.GameObject) {
+	b.owner = owner
 }
 
 func (b *Bullet) GetCollisionRect() (x1, y1, x2, y2 float64) {
