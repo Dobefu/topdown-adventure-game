@@ -163,15 +163,6 @@ func (e *Enemy) DrawBelow(screen *ebiten.Image) {
 	)
 }
 
-func (e *Enemy) DrawUI(screen *ebiten.Image) {
-	ui.DrawHealthBar(
-		screen,
-		vectors.Vector2{X: 5, Y: 5},
-		e.GetHealth(),
-		e.GetMaxHealth(),
-	)
-}
-
 func (e *Enemy) Update() (err error) {
 	e.handleMovement()
 	e.handleAnimations()
