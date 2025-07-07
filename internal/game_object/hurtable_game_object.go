@@ -8,7 +8,6 @@ import (
 
 type HurtableGameObject struct {
 	interfaces.HurtableGameObject
-	GameObject
 	CollidableGameObject
 
 	health    int

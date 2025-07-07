@@ -75,7 +75,6 @@ func init() {
 }
 
 type Enemy struct {
-	game_object.GameObject
 	game_object.HostileGameObject
 	game_object.HurtableGameObject
 
@@ -106,6 +105,8 @@ func NewEnemy(position vectors.Vector3) (enemy *Enemy) {
 }
 
 func (e *Enemy) Init() {
+	e.GameObject.Init()
+
 	scene := *e.GetScene()
 
 	for range 10 {

@@ -81,8 +81,6 @@ func init() {
 
 type Player struct {
 	interfaces.Player
-	game_object.GameObject
-	game_object.CollidableGameObject
 	game_object.HurtableGameObject
 
 	bulletPool       []*bullet.Bullet
@@ -124,6 +122,8 @@ func NewPlayer(position vectors.Vector3) (player *Player) {
 }
 
 func (p *Player) Init() {
+	p.GameObject.Init()
+
 	scene := *p.GetScene()
 
 	for range 10 {

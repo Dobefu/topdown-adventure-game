@@ -60,7 +60,7 @@ func init() {
 
 type Bullet struct {
 	interfaces.Bullet
-	game_object.GameObject
+	game_object.CollidableGameObject
 
 	velocity vectors.Vector3
 
