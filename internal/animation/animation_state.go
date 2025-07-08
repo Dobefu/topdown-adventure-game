@@ -8,6 +8,7 @@ const (
 	AnimationStateOffsetRun
 	AnimationStateOffsetAim
 	AnimationStateOffsetShoot
+	AnimationStateOffsetHurt
 )
 
 const (
@@ -51,4 +52,12 @@ const (
 	AnimationStateShootUpLeft
 	AnimationStateShootUp
 	AnimationStateShootUpRight
+	AnimationStateHurtRight
+	AnimationStateHurtDownRight
+	AnimationStateHurtDown
+	AnimationStateHurtDownLeft
+	AnimationStateHurtLeft
+	AnimationStateHurtUpLeft
+	AnimationStateHurtUp
+	AnimationStateHurtUpRight
 )
