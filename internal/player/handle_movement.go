@@ -25,31 +25,7 @@ func (p *Player) handleMovement() {
 
 	p.rawInputVelocity.Clear()
 
-	if p.state == state.StateDefault {
-		if info, ok := p.input.PressedActionInfo(input.ActionMoveAnalog); ok {
-			p.rawInputVelocity.Add(vectors.Vector3{
-				X: info.Pos.X,
-				Y: info.Pos.Y,
-				Z: 0,
-			})
-		} else {
-			if p.input.ActionIsPressed(input.ActionMoveLeft) {
-				p.rawInputVelocity.X -= 1
-			}
-
-			if p.input.ActionIsPressed(input.ActionMoveRight) {
-				p.rawInputVelocity.X += 1
-			}
-
-			if p.input.ActionIsPressed(input.ActionMoveUp) {
-				p.rawInputVelocity.Y -= 1
-			}
-
-			if p.input.ActionIsPressed(input.ActionMoveDown) {
-				p.rawInputVelocity.Y += 1
-			}
-		}
-	}
+	p.handleInput()
 
 	if p.rawInputVelocity.Magnitude() > 0 {
 		p.rawInputVelocity.Normalize()
@@ -69,4 +45,34 @@ func (p *Player) handleMovement() {
 	}
 
 	p.velocity, _ = p.MoveWithCollision(p.velocity)
+}
+
+func (p *Player) handleInput() {
+	if p.state != state.StateDefault {
+		return
+	}
+
+	if info, ok := p.input.PressedActionInfo(input.ActionMoveAnalog); ok {
+		p.rawInputVelocity.Add(vectors.Vector3{
+			X: info.Pos.X,
+			Y: info.Pos.Y,
+			Z: 0,
+		})
+	} else {
+		if p.input.ActionIsPressed(input.ActionMoveLeft) {
+			p.rawInputVelocity.X -= 1
+		}
+
+		if p.input.ActionIsPressed(input.ActionMoveRight) {
+			p.rawInputVelocity.X += 1
+		}
+
+		if p.input.ActionIsPressed(input.ActionMoveUp) {
+			p.rawInputVelocity.Y -= 1
+		}
+
+		if p.input.ActionIsPressed(input.ActionMoveDown) {
+			p.rawInputVelocity.Y += 1
+		}
+	}
 }
