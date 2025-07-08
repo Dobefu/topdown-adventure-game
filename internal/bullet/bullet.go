@@ -88,7 +88,7 @@ func NewBullet() (bullet *Bullet) {
 		}
 
 		if hurtable, ok := other.(interfaces.HurtableGameObject); ok {
-			hurtable.Damage(1)
+			hurtable.Damage(1, self)
 		}
 
 		bullet.SetIsActive(false)

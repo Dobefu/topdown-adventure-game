@@ -103,7 +103,7 @@ func NewEnemy(position vectors.Vector3) (enemy *Enemy) {
 
 	enemy.SetOnCollision(func(self, other interfaces.GameObject) {
 		if hurtable, ok := other.(interfaces.HurtableGameObject); ok {
-			hurtable.Damage(1)
+			hurtable.Damage(1, self)
 		}
 	})
 

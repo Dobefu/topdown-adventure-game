@@ -32,7 +32,7 @@ func (h *HurtableGameObject) SetMaxHealth(maxHealth int) {
 	h.maxHealth = maxHealth
 }
 
-func (h *HurtableGameObject) Damage(amount int) {
+func (h *HurtableGameObject) Damage(amount int, source interfaces.GameObject) {
 	h.health = int(math.Max(0, float64(h.health-amount)))
 
 	if h.health <= 0 {

@@ -13,6 +13,7 @@ import (
 	"github.com/Dobefu/topdown-adventure-game/internal/game_object"
 	"github.com/Dobefu/topdown-adventure-game/internal/input"
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
+	"github.com/Dobefu/topdown-adventure-game/internal/state"
 	"github.com/Dobefu/topdown-adventure-game/internal/ui"
 	"github.com/Dobefu/vectors"
 	"github.com/hajimehoshi/ebiten/v2"
@@ -97,6 +98,7 @@ type Player struct {
 	frameCount     int
 	frameIndex     int
 	animationState animation.AnimationState
+	state          state.State
 }
 
 func NewPlayer(position vectors.Vector3) (player *Player) {
@@ -255,6 +257,22 @@ func (p *Player) Update() (err error) {
 	}
 
 	return nil
+}
+
+func (p *Player) Damage(amount int, source interfaces.GameObject) {
+	if p.state != state.StateDefault {
+		return
+	}
+
+	p.HurtableGameObject.Damage(amount, source)
+	p.state = state.StateHurt
+
+	srcPosition := (*source.GetPosition())
+	srcPosition.Sub(*p.GetPosition())
+	srcPosition.ClampMagnitude(1)
+	srcPosition.Bounce()
+	srcPosition.Mul(vectors.Vector3{X: 10, Y: 10, Z: 1})
+	p.velocity.Add(srcPosition)
 }
 
 func (p *Player) Die() {

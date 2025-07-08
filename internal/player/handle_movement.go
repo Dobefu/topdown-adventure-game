@@ -2,6 +2,7 @@ package player
 
 import (
 	"github.com/Dobefu/topdown-adventure-game/internal/input"
+	"github.com/Dobefu/topdown-adventure-game/internal/state"
 	"github.com/Dobefu/vectors"
 )
 
@@ -24,27 +25,29 @@ func (p *Player) handleMovement() {
 
 	p.rawInputVelocity.Clear()
 
-	if info, ok := p.input.PressedActionInfo(input.ActionMoveAnalog); ok {
-		p.rawInputVelocity.Add(vectors.Vector3{
-			X: info.Pos.X,
-			Y: info.Pos.Y,
-			Z: 0,
-		})
-	} else {
-		if p.input.ActionIsPressed(input.ActionMoveLeft) {
-			p.rawInputVelocity.X -= 1
-		}
+	if p.state == state.StateDefault {
+		if info, ok := p.input.PressedActionInfo(input.ActionMoveAnalog); ok {
+			p.rawInputVelocity.Add(vectors.Vector3{
+				X: info.Pos.X,
+				Y: info.Pos.Y,
+				Z: 0,
+			})
+		} else {
+			if p.input.ActionIsPressed(input.ActionMoveLeft) {
+				p.rawInputVelocity.X -= 1
+			}
 
-		if p.input.ActionIsPressed(input.ActionMoveRight) {
-			p.rawInputVelocity.X += 1
-		}
+			if p.input.ActionIsPressed(input.ActionMoveRight) {
+				p.rawInputVelocity.X += 1
+			}
 
-		if p.input.ActionIsPressed(input.ActionMoveUp) {
-			p.rawInputVelocity.Y -= 1
-		}
+			if p.input.ActionIsPressed(input.ActionMoveUp) {
+				p.rawInputVelocity.Y -= 1
+			}
 
-		if p.input.ActionIsPressed(input.ActionMoveDown) {
-			p.rawInputVelocity.Y += 1
+			if p.input.ActionIsPressed(input.ActionMoveDown) {
+				p.rawInputVelocity.Y += 1
+			}
 		}
 	}
 
@@ -55,12 +58,14 @@ func (p *Player) handleMovement() {
 
 	p.velocity.Add(p.rawInputVelocity)
 
-	if _, ok := p.input.PressedActionInfo(input.ActionAimAnalog); ok ||
-		p.input.ActionIsPressed(input.ActionAimMouse) {
+	if p.state != state.StateHurt {
+		if _, ok := p.input.PressedActionInfo(input.ActionAimAnalog); ok ||
+			p.input.ActionIsPressed(input.ActionAimMouse) {
 
-		p.velocity.ClampMagnitude(RUNNING_THRESHOLD)
-	} else {
-		p.velocity.ClampMagnitude(MAX_SPEED)
+			p.velocity.ClampMagnitude(RUNNING_THRESHOLD)
+		} else {
+			p.velocity.ClampMagnitude(MAX_SPEED)
+		}
 	}
 
 	p.velocity, _ = p.MoveWithCollision(p.velocity)
