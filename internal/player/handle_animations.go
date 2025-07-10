@@ -15,8 +15,8 @@ func (p *Player) handleAnimations() {
 	p.frameCount += 1
 	prevAnimationState := p.animationState
 
-	// Change the animation frame every 4 game ticks.
-	if (p.frameCount % 4) == 0 {
+	// Change the animation frame every 3 game ticks.
+	if (p.frameCount % 3) == 0 {
 		p.frameIndex += 1
 
 		if p.frameIndex >= NUM_FRAMES {

@@ -12,8 +12,8 @@ func (e *Enemy) handleAnimations() {
 	e.frameCount += 1
 	prevAnimationState := e.animationState
 
-	// Change the animation frame every 4 game ticks.
-	if (e.frameCount % 4) == 0 {
+	// Change the animation frame every 3 game ticks.
+	if (e.frameCount % 3) == 0 {
 		e.frameIndex += 1
 
 		if e.frameIndex >= NUM_FRAMES {

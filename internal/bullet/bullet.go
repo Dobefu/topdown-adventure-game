@@ -162,8 +162,8 @@ func (b *Bullet) Draw(screen *ebiten.Image) {
 func (b *Bullet) Update() (err error) {
 	b.frameCount += 1
 
-	// Change the animation frame every 4 game ticks.
-	if (b.frameCount % 4) == 0 {
+	// Change the animation frame every 3 game ticks.
+	if (b.frameCount % 3) == 0 {
 		b.frameIndex += 1
 
 		if b.frameIndex >= NUM_FRAMES {
