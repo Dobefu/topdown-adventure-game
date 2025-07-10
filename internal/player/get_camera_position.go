@@ -4,6 +4,7 @@ import (
 	"math"
 
 	"github.com/Dobefu/topdown-adventure-game/internal/input"
+	"github.com/Dobefu/topdown-adventure-game/internal/state"
 	"github.com/Dobefu/vectors"
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -18,6 +19,11 @@ func (p *Player) GetCameraPosition() (position *vectors.Vector3) {
 		X: playerPosition.X + (FRAME_WIDTH / 2),
 		Y: playerPosition.Y + (FRAME_HEIGHT / 2),
 		Z: 0,
+	}
+
+	// If not in a default state, return the player's center position.
+	if p.state != state.StateDefault {
+		return &playerCenter
 	}
 
 	var cursorOffset vectors.Vector3
