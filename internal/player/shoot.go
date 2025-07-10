@@ -9,7 +9,11 @@ func (p *Player) Shoot() {
 		}
 
 		cameraPos := *p.GetCameraPosition()
+		cameraPos.Z = 0
+
 		pos := *p.GetPosition()
+		pos.Z = 0
+
 		pos.Add(vectors.Vector3{
 			X: FRAME_WIDTH / 2,
 			Y: FRAME_HEIGHT / 2,
@@ -21,13 +25,16 @@ func (p *Player) Shoot() {
 		cameraPos.Mul(vectors.Vector3{
 			X: 10,
 			Y: 10,
-			Z: 1,
+			Z: 0,
 		})
 
 		// Skip firing if the bullet would remain still, just in case.
 		if !cameraPos.IsZero() {
+			pos = *p.GetPosition()
+			pos.Z = 0
+
 			b.SetOwner(p)
-			b.SetPosition(*p.GetPosition())
+			b.SetPosition(pos)
 			b.SetVelocity(cameraPos)
 
 			b.SetIsActive(true)

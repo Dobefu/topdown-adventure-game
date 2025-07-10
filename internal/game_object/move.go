@@ -23,6 +23,12 @@ func (g *GameObject) MoveWithCollisionRect(
 
 	if g.canMoveTo(velocity, x1, y1, x2, y2) {
 		pos.Add(velocity)
+
+		if pos.Z < 0 {
+			pos.Z = 0
+			velocity.Z = 0
+		}
+
 		g.SetPosition(*pos)
 
 		return velocity, false

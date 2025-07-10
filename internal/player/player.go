@@ -37,6 +37,7 @@ const (
 	FRAME_HEIGHT     = 32
 	NUM_FRAMES       = 16
 	GAMEPAD_DEADZONE = .1
+	KNOCKBACK        = 10
 
 	MAX_HEALTH = 20
 )
@@ -167,6 +168,8 @@ func (p *Player) Draw(screen *ebiten.Image) {
 
 	cameraPos := *p.GetCameraPosition()
 	currentPos := *p.GetPosition()
+	currentPos.Z = 0
+
 	currentPos.Add(vectors.Vector3{
 		X: FRAME_WIDTH / 2,
 		Y: FRAME_HEIGHT / 2,
@@ -206,7 +209,7 @@ func (p *Player) Draw(screen *ebiten.Image) {
 	camera.Draw(p.aimOverlayImg, p.imgOptions, screen)
 
 	p.imgOptions.GeoM.Reset()
-	p.imgOptions.GeoM.Translate(math.Round(pos.X), math.Round(pos.Y))
+	p.imgOptions.GeoM.Translate(math.Round(pos.X), math.Round(pos.Y-pos.Z))
 
 	camera.Draw(
 		playerSubImgs[int(p.animationState)*NUM_FRAMES+p.frameIndex],
@@ -267,12 +270,16 @@ func (p *Player) Damage(amount int, source interfaces.GameObject) {
 	p.HurtableGameObject.Damage(amount, source)
 	p.state = state.StateHurt
 
+	pos := *p.GetPosition()
+	pos.Z = 0
+
 	srcPosition := (*source.GetPosition())
-	srcPosition.Sub(*p.GetPosition())
+	srcPosition.Sub(pos)
 	srcPosition.ClampMagnitude(1)
 	srcPosition.Bounce()
-	srcPosition.Mul(vectors.Vector3{X: 10, Y: 10, Z: 1})
+	srcPosition.Mul(vectors.Vector3{X: KNOCKBACK, Y: KNOCKBACK, Z: 1})
 	p.velocity.Add(srcPosition)
+	p.velocity.Z += KNOCKBACK / 2
 }
 
 func (p *Player) Die() {

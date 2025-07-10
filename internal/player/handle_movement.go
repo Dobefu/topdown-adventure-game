@@ -14,8 +14,8 @@ const (
 )
 
 func (p *Player) handleMovement() {
-	// Dampen the X and Y velocity.
-	p.velocity.Mul(vectors.Vector3{X: VELOCITY_DAMPING, Y: VELOCITY_DAMPING, Z: 1})
+	// Dampen the velocity.
+	p.velocity.Mul(vectors.Vector3{X: VELOCITY_DAMPING, Y: VELOCITY_DAMPING, Z: VELOCITY_DAMPING})
 
 	// If the velocity magnitude is very low, set it to zero.
 	// This allows the idle animations to work.
@@ -33,6 +33,13 @@ func (p *Player) handleMovement() {
 	}
 
 	p.velocity.Add(p.rawInputVelocity)
+
+	pos := *p.GetPosition()
+
+	// Apply gravity.
+	if pos.Z > 0 {
+		p.velocity.Z -= ACCELERATION / 2
+	}
 
 	if p.state != state.StateHurt {
 		if _, ok := p.input.PressedActionInfo(input.ActionAimAnalog); ok ||
