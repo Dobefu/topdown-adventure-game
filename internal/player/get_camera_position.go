@@ -21,7 +21,6 @@ func (p *Player) GetCameraPosition() (position *vectors.Vector3) {
 		Z: 0,
 	}
 
-	// If not in a default state, return the player's center position.
 	if p.state != state.StateDefault {
 		return &playerCenter
 	}
@@ -46,15 +45,29 @@ func (p *Player) GetCameraPosition() (position *vectors.Vector3) {
 
 		screenDistanceSquared := distanceX*distanceX + distanceY*distanceY
 
-		if screenDistanceSquared > 0 {
-			screenDistance := math.Sqrt(screenDistanceSquared)
-			scale := math.Min(screenDistance/MAX_CURSOR_DISTANCE, 1.0)
+		if screenDistanceSquared <= 0 {
+			return &playerCenter
+		}
 
-			cursorOffset = vectors.Vector3{
-				X: (distanceX / screenDistance) * scale * MAX_CAMERA_OFFSET,
-				Y: (distanceY / screenDistance) * scale * MAX_CAMERA_OFFSET,
-				Z: 0,
-			}
+		cameraWorldX := camera.X + centerX
+		cameraWorldY := camera.Y + centerY
+		cameraZoom := camera.ZoomFactor
+
+		worldDistX := (cameraWorldX + distanceX/cameraZoom) - playerCenter.X
+		worldDistY := (cameraWorldY + distanceY/cameraZoom) - playerCenter.Y
+		worldDistanceSquared := worldDistX*worldDistX + worldDistY*worldDistY
+
+		if worldDistanceSquared <= 0 {
+			return &playerCenter
+		}
+
+		worldDistMagnitude := math.Sqrt(worldDistanceSquared)
+		scale := math.Min(worldDistMagnitude/MAX_CURSOR_DISTANCE, 1.0)
+
+		cursorOffset = vectors.Vector3{
+			X: (worldDistX / worldDistMagnitude) * scale * MAX_CAMERA_OFFSET,
+			Y: (worldDistY / worldDistMagnitude) * scale * MAX_CAMERA_OFFSET,
+			Z: 0,
 		}
 	}
 

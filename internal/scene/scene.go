@@ -17,7 +17,7 @@ import (
 type Scene struct {
 	interfaces.Scene
 
-	Game interfaces.Game
+	game interfaces.Game
 
 	camera           *kamera.Camera
 	cameraTarget     *interfaces.GameObject
@@ -57,7 +57,11 @@ func (s *Scene) InitSceneMap(path string) {
 }
 
 func (s *Scene) SetGame(game interfaces.Game) {
-	s.Game = game
+	s.game = game
+}
+
+func (s *Scene) GetGame() (game interfaces.Game) {
+	return s.game
 }
 
 func (s *Scene) GetGameObjects() []interfaces.GameObject {

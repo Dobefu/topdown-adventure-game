@@ -27,6 +27,8 @@ type game struct {
 	isDebugEnabled bool
 	isDebugActive  bool
 
+	scale float64
+
 	input *ebitengine_input.Handler
 
 	scene interfaces.Scene
@@ -60,6 +62,10 @@ func NewGame(isDebugEnabled bool) (g *game) {
 	g.cachedUIImg = ebiten.NewImage(VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
 
 	return g
+}
+
+func (g *game) GetScale() (scale float64) {
+	return g.scale
 }
 
 func (g *game) GetScene() (scene interfaces.Scene) {
@@ -110,6 +116,12 @@ func (g *game) SetScene(scene interfaces.Scene) {
 func (g *game) Update() (err error) {
 	input.Input.Update()
 
+	camera := g.scene.GetCamera()
+
+	widthScale := float64(g.screenWidth) / VIRTUAL_WIDTH
+	heightScale := float64(g.screenHeight) / VIRTUAL_WIDTH
+	g.scale = math.Min(widthScale, heightScale)
+
 	if g.input.ActionIsJustPressed(input.ActionToggleDebug) {
 		g.isDebugActive = !g.isDebugActive
 		err = storage.SetOption("isDebugActive", fmt.Sprintf("%v", g.isDebugActive))
@@ -123,7 +135,6 @@ func (g *game) Update() (err error) {
 		return nil
 	}
 
-	camera := g.scene.GetCamera()
 	cameraTarget := g.scene.GetCameraTarget()
 
 	if camera != nil && cameraTarget != nil {

@@ -13,6 +13,7 @@ type Scene interface {
 	InitUI()
 	InitSceneMap(path string)
 	SetGame(game Game)
+	GetGame() (game Game)
 	GetGameObjects() []GameObject
 	GetActiveGameObjects() []GameObject
 	GetSceneMapData() (sceneMap *tiled.Map, sceneMapRenderer *render.Renderer)
