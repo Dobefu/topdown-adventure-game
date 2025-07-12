@@ -45,19 +45,7 @@ func (s *MainMenuScene) InitUI() {
 		),
 	)
 
-	container := widget.NewContainer(
-		widget.ContainerOpts.WidgetOpts(
-			widget.WidgetOpts.LayoutData(widget.AnchorLayoutData{
-				HorizontalPosition: widget.AnchorLayoutPositionCenter,
-				VerticalPosition:   widget.AnchorLayoutPositionCenter,
-			}),
-		),
-		widget.ContainerOpts.Layout(
-			widget.NewRowLayout(
-				widget.RowLayoutOpts.Direction(widget.DirectionVertical),
-			),
-		),
-	)
+	container := ui.NewContainer()
 
 	container.AddChild(widget.NewText(
 		widget.TextOpts.Text("Title\n\n", fonts.FontDefaultXxl, color.White),
