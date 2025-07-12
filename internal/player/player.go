@@ -17,6 +17,7 @@ import (
 	"github.com/Dobefu/topdown-adventure-game/internal/ui"
 	"github.com/Dobefu/vectors"
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/audio"
 	"github.com/hajimehoshi/ebiten/v2/vector"
 	ebitengine_input "github.com/quasilyte/ebitengine-input"
 )
@@ -85,6 +86,8 @@ type Player struct {
 	interfaces.Player
 	game_object.HurtableGameObject
 
+	audioPlayer *audio.Player
+
 	bulletPool       []*bullet.Bullet
 	shootCooldown    int
 	shootCooldownMax int
@@ -146,6 +149,9 @@ func (p *Player) Init() {
 		p.bulletPool = append(p.bulletPool, b)
 		scene.AddGameObject(b)
 	}
+
+	audioContext := scene.GetGame().GetAudioContext()
+	p.audioPlayer = audioContext.NewPlayerFromBytes(playerShootSound)
 }
 
 func (p *Player) GetCollisionRect() (x1, y1, x2, y2 float64) {

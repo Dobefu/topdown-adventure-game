@@ -1,6 +1,34 @@
 package player
 
-import "github.com/Dobefu/vectors"
+import (
+	"bytes"
+	_ "embed"
+	"io"
+	"log"
+
+	"github.com/Dobefu/vectors"
+	"github.com/hajimehoshi/ebiten/v2/audio/wav"
+)
+
+var (
+	//go:embed sounds/shoot.wav
+	playerShootSoundBytes []byte
+	playerShootSound      []byte
+)
+
+func init() {
+	stream, err := wav.DecodeWithoutResampling(bytes.NewReader(playerShootSoundBytes))
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	playerShootSound, err = io.ReadAll(stream)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 
 func (p *Player) Shoot() {
 	for _, b := range p.bulletPool {
@@ -30,6 +58,8 @@ func (p *Player) Shoot() {
 
 		// Skip firing if the bullet would remain still, just in case.
 		if !cameraPos.IsZero() {
+			_ = p.audioPlayer.Rewind()
+			p.audioPlayer.Play()
 			pos = *p.GetPosition()
 			pos.Z = 0
 
@@ -40,6 +70,7 @@ func (p *Player) Shoot() {
 			b.SetIsActive(true)
 			p.shootCooldown = p.shootCooldownMax
 		}
+
 		break
 	}
 }
