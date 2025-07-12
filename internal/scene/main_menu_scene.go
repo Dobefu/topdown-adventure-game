@@ -1,9 +1,6 @@
 package scene
 
 import (
-	"image/color"
-
-	"github.com/Dobefu/topdown-adventure-game/internal/fonts"
 	"github.com/Dobefu/topdown-adventure-game/internal/ui"
 	"github.com/ebitenui/ebitenui/widget"
 )
@@ -35,15 +32,7 @@ func (s *MainMenuScene) InitUI() {
 
 	outerContainer := ui.NewContainer(64)
 
-	outerContainer.AddChild(widget.NewText(
-		widget.TextOpts.Text("Title", fonts.FontDefaultXxl, color.White),
-
-		widget.TextOpts.WidgetOpts(
-			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
-				Position: widget.RowLayoutPositionCenter,
-			}),
-		),
-	))
+	outerContainer.AddChild(ui.NewTitle("Title"))
 
 	innerContainer := ui.NewContainer(
 		16,

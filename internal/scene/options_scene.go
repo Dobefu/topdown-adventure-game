@@ -2,10 +2,8 @@ package scene
 
 import (
 	"fmt"
-	"image/color"
 	"log/slog"
 
-	"github.com/Dobefu/topdown-adventure-game/internal/fonts"
 	"github.com/Dobefu/topdown-adventure-game/internal/storage"
 	"github.com/Dobefu/topdown-adventure-game/internal/ui"
 	"github.com/ebitenui/ebitenui/widget"
@@ -52,15 +50,7 @@ func (s *OptionsScene) InitUI() {
 
 	outerContainer := ui.NewContainer(64)
 
-	outerContainer.AddChild(widget.NewText(
-		widget.TextOpts.Text("Options", fonts.FontDefaultXxl, color.White),
-
-		widget.TextOpts.WidgetOpts(
-			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
-				Position: widget.RowLayoutPositionCenter,
-			}),
-		),
-	))
+	outerContainer.AddChild(ui.NewTitle("Options"))
 
 	innerContainer := ui.NewContainer(
 		16,
