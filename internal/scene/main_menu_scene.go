@@ -28,6 +28,7 @@ func (s *MainMenuScene) InitUI() {
 		widget.ButtonOpts.WidgetOpts(
 			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
 				Position: widget.RowLayoutPositionCenter,
+				Stretch:  true,
 			}),
 		),
 	)
@@ -41,6 +42,7 @@ func (s *MainMenuScene) InitUI() {
 		widget.ButtonOpts.WidgetOpts(
 			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
 				Position: widget.RowLayoutPositionCenter,
+				Stretch:  true,
 			}),
 		),
 	)
@@ -57,8 +59,17 @@ func (s *MainMenuScene) InitUI() {
 		),
 	))
 
-	container.AddChild(btnStart)
-	container.AddChild(btnOptions)
+	btnContainer := ui.NewContainer(
+		widget.ContainerOpts.WidgetOpts(
+			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
+				Position: widget.RowLayoutPositionCenter,
+			}),
+		),
+	)
+	container.AddChild(btnContainer)
+
+	btnContainer.AddChild(btnStart)
+	btnContainer.AddChild(btnOptions)
 
 	btnStart.AddFocus(widget.FOCUS_SOUTH, btnOptions)
 	btnOptions.AddFocus(widget.FOCUS_NORTH, btnStart)

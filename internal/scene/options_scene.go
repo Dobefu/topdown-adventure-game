@@ -28,6 +28,7 @@ func (s *OptionsScene) InitUI() {
 		widget.ButtonOpts.WidgetOpts(
 			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
 				Position: widget.RowLayoutPositionCenter,
+				Stretch:  true,
 			}),
 		),
 	)
@@ -44,7 +45,16 @@ func (s *OptionsScene) InitUI() {
 		),
 	))
 
-	container.AddChild(btnBack)
+	btnContainer := ui.NewContainer(
+		widget.ContainerOpts.WidgetOpts(
+			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
+				Position: widget.RowLayoutPositionCenter,
+			}),
+		),
+	)
+	container.AddChild(btnContainer)
+
+	btnContainer.AddChild(btnBack)
 
 	s.ui.Container.AddChild(container)
 }
