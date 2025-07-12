@@ -33,10 +33,10 @@ func (s *MainMenuScene) InitUI() {
 		}),
 	)
 
-	outerContainer := ui.NewContainer()
+	outerContainer := ui.NewContainer(64)
 
 	outerContainer.AddChild(widget.NewText(
-		widget.TextOpts.Text("Title\n\n", fonts.FontDefaultXxl, color.White),
+		widget.TextOpts.Text("Title", fonts.FontDefaultXxl, color.White),
 
 		widget.TextOpts.WidgetOpts(
 			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
@@ -46,6 +46,7 @@ func (s *MainMenuScene) InitUI() {
 	))
 
 	innerContainer := ui.NewContainer(
+		16,
 		widget.ContainerOpts.WidgetOpts(
 			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
 				Position: widget.RowLayoutPositionCenter,

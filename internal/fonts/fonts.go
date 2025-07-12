@@ -9,6 +9,7 @@ import (
 )
 
 var (
+	FontDefaultSm  *text.GoTextFace
 	FontDefaultMd  *text.GoTextFace
 	FontDefaultLg  *text.GoTextFace
 	FontDefaultXl  *text.GoTextFace
@@ -22,6 +23,7 @@ func init() {
 		log.Fatal(err)
 	}
 
+	FontDefaultSm = &text.GoTextFace{Source: fontSrc, Size: 16}
 	FontDefaultMd = &text.GoTextFace{Source: fontSrc, Size: 24}
 	FontDefaultLg = &text.GoTextFace{Source: fontSrc, Size: 32}
 	FontDefaultXl = &text.GoTextFace{Source: fontSrc, Size: 48}

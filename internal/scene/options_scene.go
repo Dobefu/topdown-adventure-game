@@ -19,6 +19,8 @@ func (s *OptionsScene) Init() {
 func (s *OptionsScene) InitUI() {
 	s.Scene.InitUI()
 
+	sliderVolumeContainer, sliderVolume := ui.NewSlider()
+
 	btnBack := ui.NewButton(
 		widget.ButtonOpts.TextLabel("Back"),
 		widget.ButtonOpts.ClickedHandler(func(args *widget.ButtonClickedEventArgs) {
@@ -26,10 +28,10 @@ func (s *OptionsScene) InitUI() {
 		}),
 	)
 
-	outerContainer := ui.NewContainer()
+	outerContainer := ui.NewContainer(64)
 
 	outerContainer.AddChild(widget.NewText(
-		widget.TextOpts.Text("Options\n\n", fonts.FontDefaultXxl, color.White),
+		widget.TextOpts.Text("Options", fonts.FontDefaultXxl, color.White),
 
 		widget.TextOpts.WidgetOpts(
 			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
@@ -39,6 +41,7 @@ func (s *OptionsScene) InitUI() {
 	))
 
 	innerContainer := ui.NewContainer(
+		16,
 		widget.ContainerOpts.WidgetOpts(
 			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
 				Position: widget.RowLayoutPositionCenter,
@@ -47,7 +50,11 @@ func (s *OptionsScene) InitUI() {
 	)
 	outerContainer.AddChild(innerContainer)
 
+	innerContainer.AddChild(sliderVolumeContainer)
 	innerContainer.AddChild(btnBack)
+
+	sliderVolume.AddFocus(widget.FOCUS_SOUTH, btnBack)
+	btnBack.AddFocus(widget.FOCUS_NORTH, sliderVolume)
 
 	s.ui.Container.AddChild(outerContainer)
 }
