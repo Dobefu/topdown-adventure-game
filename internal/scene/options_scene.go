@@ -1,9 +1,13 @@
 package scene
 
 import (
+	"fmt"
 	"image/color"
+	"log/slog"
+	"strconv"
 
 	"github.com/Dobefu/topdown-adventure-game/internal/fonts"
+	"github.com/Dobefu/topdown-adventure-game/internal/storage"
 	"github.com/Dobefu/topdown-adventure-game/internal/ui"
 	"github.com/ebitenui/ebitenui/widget"
 )
@@ -19,7 +23,26 @@ func (s *OptionsScene) Init() {
 func (s *OptionsScene) InitUI() {
 	s.Scene.InitUI()
 
-	sliderVolumeContainer, sliderVolume := ui.NewSlider()
+	currentVolume, err := getCurrentVolume()
+
+	if err != nil {
+		slog.Error(err.Error())
+	}
+
+	sliderVolumeContainer, sliderVolume := ui.NewSlider(
+		currentVolume,
+		func(args *widget.SliderChangedEventArgs) {
+			if args.Dragging {
+				return
+			}
+
+			err := storage.SetOption("volume", fmt.Sprintf("%d", args.Current))
+
+			if err != nil {
+				slog.Error(err.Error())
+			}
+		},
+	)
 
 	btnBack := ui.NewButton(
 		widget.ButtonOpts.TextLabel("Back"),
@@ -57,4 +80,22 @@ func (s *OptionsScene) InitUI() {
 	btnBack.AddFocus(widget.FOCUS_NORTH, sliderVolume)
 
 	s.ui.Container.AddChild(outerContainer)
+}
+
+func getCurrentVolume() (currentVolume int, err error) {
+	volumeOption, err := storage.GetOption("volume")
+
+	if err != nil {
+		return 100, err
+	}
+
+	parsedVolumeOption, err := strconv.ParseInt(volumeOption, 10, 64)
+
+	if err != nil {
+		return 100, err
+	}
+
+	currentVolume = int(parsedVolumeOption)
+
+	return currentVolume, nil
 }

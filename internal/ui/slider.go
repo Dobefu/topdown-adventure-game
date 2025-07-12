@@ -23,13 +23,17 @@ func init() {
 	}
 }
 
-func NewSlider(opts ...widget.SliderOpt) (*widget.Container, *widget.Slider) {
+func NewSlider(
+	currentValue int,
+	changedHandler func(args *widget.SliderChangedEventArgs),
+	opts ...widget.SliderOpt,
+) (*widget.Container, *widget.Slider) {
 	var sliderText *widget.Label
 
 	defaultOpts := []widget.SliderOpt{
 		widget.SliderOpts.Direction(widget.DirectionHorizontal),
 		widget.SliderOpts.MinMax(0, 100),
-		widget.SliderOpts.InitialCurrent(100),
+		widget.SliderOpts.InitialCurrent(currentValue),
 		widget.SliderOpts.Images(
 			&widget.SliderTrackImage{
 				Idle:  image.NewNineSliceColor(color.NRGBA{128, 128, 128, 255}),
@@ -48,6 +52,8 @@ func NewSlider(opts ...widget.SliderOpt) (*widget.Container, *widget.Slider) {
 			}),
 		),
 		widget.SliderOpts.ChangedHandler(func(args *widget.SliderChangedEventArgs) {
+			changedHandler(args)
+
 			sliderText.Label = fmt.Sprintf("% 4d%%", args.Current)
 		}),
 	}
