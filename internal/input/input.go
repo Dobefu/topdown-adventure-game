@@ -5,8 +5,9 @@ import (
 )
 
 var (
-	Input  input.System
-	Keymap input.Keymap
+	Input        input.System
+	PlayerKeymap input.Keymap
+	UIKeymap     input.Keymap
 )
 
 const (
@@ -29,7 +30,7 @@ func init() {
 		DevicesEnabled: input.AnyDevice,
 	})
 
-	Keymap = input.Keymap{
+	PlayerKeymap = input.Keymap{
 		ActionMoveLeft:   {input.KeyGamepadLeft, input.KeyLeft, input.KeyA, input.KeyH},
 		ActionMoveRight:  {input.KeyGamepadRight, input.KeyRight, input.KeyD, input.KeyL},
 		ActionMoveUp:     {input.KeyGamepadUp, input.KeyUp, input.KeyW, input.KeyK},
@@ -39,6 +40,14 @@ func init() {
 		ActionAimMouse:  {input.KeyMouseRight},
 		ActionAimAnalog: {input.KeyGamepadRStickMotion},
 		ActionShoot:     {input.KeyMouseLeft, input.KeySpace, input.KeyGamepadR2},
+	}
+
+	UIKeymap = input.Keymap{
+		ActionMoveLeft:   {input.KeyGamepadLeft, input.KeyLeft, input.KeyA, input.KeyH},
+		ActionMoveRight:  {input.KeyGamepadRight, input.KeyRight, input.KeyD, input.KeyL},
+		ActionMoveUp:     {input.KeyGamepadUp, input.KeyUp, input.KeyW, input.KeyK},
+		ActionMoveDown:   {input.KeyGamepadDown, input.KeyDown, input.KeyS, input.KeyJ},
+		ActionMoveAnalog: {input.KeyGamepadLStickMotion},
 
 		ActionToggleDebug: {input.KeyF5},
 	}

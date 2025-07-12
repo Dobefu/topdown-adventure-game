@@ -114,7 +114,7 @@ func NewPlayer(position vectors.Vector3) (player *Player) {
 	player.SetIsActive(true)
 	player.SetPosition(position)
 
-	player.input = input.Input.NewHandler(0, input.Keymap)
+	player.input = input.Input.NewHandler(0, input.PlayerKeymap)
 	player.input.GamepadDeadzone = GAMEPAD_DEADZONE
 
 	player.shootCooldownMax = 20
