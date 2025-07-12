@@ -10,6 +10,7 @@ import (
 )
 
 func (g *game) Draw(screen *ebiten.Image) {
+	screen.Fill(color.Black)
 	screenSize := screen.Bounds().Size()
 	g.screenWidth = screenSize.X
 	g.screenHeight = screenSize.Y
@@ -29,8 +30,6 @@ func (g *game) Draw(screen *ebiten.Image) {
 	sceneMap, sceneMapRenderer := g.scene.GetSceneMapData()
 
 	if sceneMap != nil {
-		screen.Fill(color.Black)
-
 		err := sceneMapRenderer.RenderLayer(0)
 
 		if err != nil {

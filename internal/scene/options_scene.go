@@ -8,34 +8,21 @@ import (
 	"github.com/ebitenui/ebitenui/widget"
 )
 
-type MainMenuScene struct {
+type OptionsScene struct {
 	Scene
 }
 
-func (s *MainMenuScene) Init() {
+func (s *OptionsScene) Init() {
 	s.Scene.Init()
 }
 
-func (s *MainMenuScene) InitUI() {
+func (s *OptionsScene) InitUI() {
 	s.Scene.InitUI()
 
-	btnStart := ui.NewButton(
-		widget.ButtonOpts.TextLabel("Start"),
+	btnBack := ui.NewButton(
+		widget.ButtonOpts.TextLabel("Back"),
 		widget.ButtonOpts.ClickedHandler(func(args *widget.ButtonClickedEventArgs) {
-			s.GetGame().SetScene(&OverworldScene{})
-		}),
-
-		widget.ButtonOpts.WidgetOpts(
-			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
-				Position: widget.RowLayoutPositionCenter,
-			}),
-		),
-	)
-
-	btnOptions := ui.NewButton(
-		widget.ButtonOpts.TextLabel("Options"),
-		widget.ButtonOpts.ClickedHandler(func(args *widget.ButtonClickedEventArgs) {
-			s.GetGame().SetScene(&OptionsScene{})
+			s.GetGame().SetScene(&MainMenuScene{})
 		}),
 
 		widget.ButtonOpts.WidgetOpts(
@@ -60,7 +47,7 @@ func (s *MainMenuScene) InitUI() {
 	)
 
 	container.AddChild(widget.NewText(
-		widget.TextOpts.Text("Title\n\n", fonts.FontDefaultXxl, color.White),
+		widget.TextOpts.Text("Options\n\n", fonts.FontDefaultXxl, color.White),
 
 		widget.TextOpts.WidgetOpts(
 			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
@@ -69,11 +56,7 @@ func (s *MainMenuScene) InitUI() {
 		),
 	))
 
-	container.AddChild(btnStart)
-	container.AddChild(btnOptions)
-
-	btnStart.AddFocus(widget.FOCUS_SOUTH, btnOptions)
-	btnOptions.AddFocus(widget.FOCUS_NORTH, btnStart)
+	container.AddChild(btnBack)
 
 	s.ui.Container.AddChild(container)
 }

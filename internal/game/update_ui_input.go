@@ -8,23 +8,23 @@ import (
 func (g *game) UpdateUIInput() {
 	ui := g.scene.GetUI()
 
-	if g.input.ActionIsPressed(input.ActionMoveLeft) {
+	if g.input.ActionIsJustPressed(input.ActionMoveLeft) {
 		ui.ChangeFocus(widget.FOCUS_WEST)
 	}
 
-	if g.input.ActionIsPressed(input.ActionMoveRight) {
+	if g.input.ActionIsJustPressed(input.ActionMoveRight) {
 		ui.ChangeFocus(widget.FOCUS_EAST)
 	}
 
-	if g.input.ActionIsPressed(input.ActionMoveUp) {
+	if g.input.ActionIsJustPressed(input.ActionMoveUp) {
 		ui.ChangeFocus(widget.FOCUS_NORTH)
 	}
 
-	if g.input.ActionIsPressed(input.ActionMoveDown) {
+	if g.input.ActionIsJustPressed(input.ActionMoveDown) {
 		ui.ChangeFocus(widget.FOCUS_SOUTH)
 	}
 
-	if g.input.ActionIsPressed(input.ActionClick) {
+	if g.input.ActionIsJustPressed(input.ActionClick) {
 		focusedWidget := ui.GetFocusedWidget()
 
 		if focusedWidget != nil {
