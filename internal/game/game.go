@@ -10,6 +10,7 @@ import (
 	"github.com/Dobefu/topdown-adventure-game/internal/scene"
 	"github.com/Dobefu/topdown-adventure-game/internal/storage"
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/audio"
 	ebitengine_input "github.com/quasilyte/ebitengine-input"
 	"github.com/setanarut/kamera/v2"
 )
@@ -26,6 +27,8 @@ type game struct {
 
 	isDebugEnabled bool
 	isDebugActive  bool
+
+	audioContext *audio.Context
 
 	scale float64
 
@@ -54,6 +57,8 @@ func NewGame(isDebugEnabled bool) (g *game) {
 
 		g.isDebugActive = val == "true"
 	}
+
+	g.audioContext = audio.NewContext(48000)
 
 	g.input = input.Input.NewHandler(0, input.UIKeymap)
 
@@ -111,6 +116,10 @@ func (g *game) SetScene(scene interfaces.Scene) {
 			)
 		}
 	}
+}
+
+func (g *game) GetAudioContext() (audioContext *audio.Context) {
+	return g.audioContext
 }
 
 func (g *game) Update() (err error) {
