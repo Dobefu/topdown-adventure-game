@@ -24,13 +24,6 @@ func (s *MainMenuScene) InitUI() {
 		widget.ButtonOpts.ClickedHandler(func(args *widget.ButtonClickedEventArgs) {
 			s.GetGame().SetScene(&OverworldScene{})
 		}),
-
-		widget.ButtonOpts.WidgetOpts(
-			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
-				Position: widget.RowLayoutPositionCenter,
-				Stretch:  true,
-			}),
-		),
 	)
 
 	btnOptions := ui.NewButton(
@@ -38,18 +31,11 @@ func (s *MainMenuScene) InitUI() {
 		widget.ButtonOpts.ClickedHandler(func(args *widget.ButtonClickedEventArgs) {
 			s.GetGame().SetScene(&OptionsScene{})
 		}),
-
-		widget.ButtonOpts.WidgetOpts(
-			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
-				Position: widget.RowLayoutPositionCenter,
-				Stretch:  true,
-			}),
-		),
 	)
 
-	container := ui.NewContainer()
+	outerContainer := ui.NewContainer()
 
-	container.AddChild(widget.NewText(
+	outerContainer.AddChild(widget.NewText(
 		widget.TextOpts.Text("Title\n\n", fonts.FontDefaultXxl, color.White),
 
 		widget.TextOpts.WidgetOpts(
@@ -59,20 +45,20 @@ func (s *MainMenuScene) InitUI() {
 		),
 	))
 
-	btnContainer := ui.NewContainer(
+	innerContainer := ui.NewContainer(
 		widget.ContainerOpts.WidgetOpts(
 			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
 				Position: widget.RowLayoutPositionCenter,
 			}),
 		),
 	)
-	container.AddChild(btnContainer)
+	outerContainer.AddChild(innerContainer)
 
-	btnContainer.AddChild(btnStart)
-	btnContainer.AddChild(btnOptions)
+	innerContainer.AddChild(btnStart)
+	innerContainer.AddChild(btnOptions)
 
 	btnStart.AddFocus(widget.FOCUS_SOUTH, btnOptions)
 	btnOptions.AddFocus(widget.FOCUS_NORTH, btnStart)
 
-	s.ui.Container.AddChild(container)
+	s.ui.Container.AddChild(outerContainer)
 }

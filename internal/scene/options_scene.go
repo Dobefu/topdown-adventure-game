@@ -24,18 +24,11 @@ func (s *OptionsScene) InitUI() {
 		widget.ButtonOpts.ClickedHandler(func(args *widget.ButtonClickedEventArgs) {
 			s.GetGame().SetScene(&MainMenuScene{})
 		}),
-
-		widget.ButtonOpts.WidgetOpts(
-			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
-				Position: widget.RowLayoutPositionCenter,
-				Stretch:  true,
-			}),
-		),
 	)
 
-	container := ui.NewContainer()
+	outerContainer := ui.NewContainer()
 
-	container.AddChild(widget.NewText(
+	outerContainer.AddChild(widget.NewText(
 		widget.TextOpts.Text("Options\n\n", fonts.FontDefaultXxl, color.White),
 
 		widget.TextOpts.WidgetOpts(
@@ -45,16 +38,16 @@ func (s *OptionsScene) InitUI() {
 		),
 	))
 
-	btnContainer := ui.NewContainer(
+	innerContainer := ui.NewContainer(
 		widget.ContainerOpts.WidgetOpts(
 			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
 				Position: widget.RowLayoutPositionCenter,
 			}),
 		),
 	)
-	container.AddChild(btnContainer)
+	outerContainer.AddChild(innerContainer)
 
-	btnContainer.AddChild(btnBack)
+	innerContainer.AddChild(btnBack)
 
-	s.ui.Container.AddChild(container)
+	s.ui.Container.AddChild(outerContainer)
 }

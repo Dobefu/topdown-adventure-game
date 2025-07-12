@@ -49,6 +49,12 @@ func NewButton(opts ...widget.ButtonOpt) *widget.Button {
 			Idle: color.NRGBA{0xff, 0xff, 0xff, 0xff},
 		}),
 		widget.ButtonOpts.Image(buttonImg),
+		widget.ButtonOpts.WidgetOpts(
+			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
+				Position: widget.RowLayoutPositionCenter,
+				Stretch:  true,
+			}),
+		),
 	}
 
 	return widget.NewButton(append(defaultOpts, opts...)...)
