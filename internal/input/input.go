@@ -21,6 +21,8 @@ const (
 	ActionAimAnalog
 	ActionShoot
 
+	ActionClick
+
 	ActionToggleDebug
 )
 
@@ -43,11 +45,11 @@ func init() {
 	}
 
 	UIKeymap = input.Keymap{
-		ActionMoveLeft:   {input.KeyGamepadLeft, input.KeyLeft, input.KeyA, input.KeyH},
-		ActionMoveRight:  {input.KeyGamepadRight, input.KeyRight, input.KeyD, input.KeyL},
-		ActionMoveUp:     {input.KeyGamepadUp, input.KeyUp, input.KeyW, input.KeyK},
-		ActionMoveDown:   {input.KeyGamepadDown, input.KeyDown, input.KeyS, input.KeyJ},
-		ActionMoveAnalog: {input.KeyGamepadLStickMotion},
+		ActionMoveLeft:  {input.KeyGamepadLeft, input.KeyLeft, input.KeyA, input.KeyH},
+		ActionMoveRight: {input.KeyGamepadRight, input.KeyRight, input.KeyD, input.KeyL},
+		ActionMoveUp:    {input.KeyGamepadUp, input.KeyUp, input.KeyW, input.KeyK},
+		ActionMoveDown:  {input.KeyGamepadDown, input.KeyDown, input.KeyS, input.KeyJ},
+		ActionClick:     {input.KeyMouseLeft, input.KeyEnter, input.KeyGamepadA},
 
 		ActionToggleDebug: {input.KeyF5},
 	}

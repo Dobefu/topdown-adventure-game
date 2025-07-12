@@ -55,7 +55,7 @@ func NewGame(isDebugEnabled bool) (g *game) {
 		g.isDebugActive = val == "true"
 	}
 
-	g.input = input.Input.NewHandler(255, input.UIKeymap)
+	g.input = input.Input.NewHandler(0, input.UIKeymap)
 
 	g.SetScene(&scene.MainMenuScene{})
 
@@ -146,6 +146,7 @@ func (g *game) Update() (err error) {
 		)
 	}
 
+	g.UpdateUIInput()
 	g.scene.GetUI().Update()
 
 	activeGameObjects := g.scene.GetActiveGameObjects()
