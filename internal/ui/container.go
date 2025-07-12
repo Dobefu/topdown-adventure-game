@@ -15,6 +15,7 @@ func NewContainer(opts ...widget.ContainerOpt) *widget.Container {
 		widget.ContainerOpts.Layout(
 			widget.NewRowLayout(
 				widget.RowLayoutOpts.Direction(widget.DirectionVertical),
+				widget.RowLayoutOpts.Spacing(8),
 			),
 		),
 	}
