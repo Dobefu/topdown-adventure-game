@@ -7,14 +7,7 @@ import (
 
 func (g *game) UpdateUIInput() {
 	ui := g.scene.GetUI()
-
-	if g.input.ActionIsJustPressed(input.ActionMoveLeft) {
-		ui.ChangeFocus(widget.FOCUS_WEST)
-	}
-
-	if g.input.ActionIsJustPressed(input.ActionMoveRight) {
-		ui.ChangeFocus(widget.FOCUS_EAST)
-	}
+	focusedWidget := ui.GetFocusedWidget()
 
 	if g.input.ActionIsJustPressed(input.ActionMoveUp) {
 		ui.ChangeFocus(widget.FOCUS_NORTH)
@@ -24,9 +17,23 @@ func (g *game) UpdateUIInput() {
 		ui.ChangeFocus(widget.FOCUS_SOUTH)
 	}
 
-	if g.input.ActionIsJustPressed(input.ActionClick) {
-		focusedWidget := ui.GetFocusedWidget()
+	if g.input.ActionIsJustPressed(input.ActionMoveLeft) {
+		ui.ChangeFocus(widget.FOCUS_WEST)
 
+		if focusedSlider, ok := focusedWidget.(*widget.Slider); ok {
+			focusedSlider.Current -= 10
+		}
+	}
+
+	if g.input.ActionIsJustPressed(input.ActionMoveRight) {
+		ui.ChangeFocus(widget.FOCUS_EAST)
+
+		if focusedSlider, ok := focusedWidget.(*widget.Slider); ok {
+			focusedSlider.Current += 10
+		}
+	}
+
+	if g.input.ActionIsJustPressed(input.ActionClick) {
 		if focusedBtn, ok := focusedWidget.(*widget.Button); ok {
 			focusedBtn.Click()
 		}

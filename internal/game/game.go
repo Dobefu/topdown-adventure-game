@@ -9,6 +9,7 @@ import (
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 	"github.com/Dobefu/topdown-adventure-game/internal/scene"
 	"github.com/Dobefu/topdown-adventure-game/internal/storage"
+	"github.com/ebitenui/ebitenui/widget"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/audio"
 	ebitengine_input "github.com/quasilyte/ebitengine-input"
@@ -102,6 +103,13 @@ func (g *game) SetScene(scene interfaces.Scene) {
 
 	g.scene.Init()
 	g.scene.InitUI()
+
+	ui := g.scene.GetUI()
+	ui.ChangeFocus(widget.FOCUS_SOUTH)
+
+	// Update the UI immediately, so the new focused element gets set.
+	// Otherwise, two inputs will be needed in order to change focus on a controller.
+	ui.Update()
 
 	sceneMap, _ := g.scene.GetSceneMapData()
 
