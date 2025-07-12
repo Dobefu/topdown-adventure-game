@@ -89,7 +89,7 @@ func getCurrentVolume() (currentVolume int, err error) {
 		return 100, err
 	}
 
-	parsedVolumeOption, err := strconv.ParseInt(volumeOption, 10, 64)
+	parsedVolumeOption, err := strconv.ParseInt(volumeOption, 10, 16)
 
 	if err != nil {
 		return 100, err

@@ -60,6 +60,7 @@ func (p *Player) Shoot() {
 		if !cameraPos.IsZero() {
 			_ = p.audioPlayer.Rewind()
 			p.audioPlayer.Play()
+
 			pos = *p.GetPosition()
 			pos.Z = 0
 
