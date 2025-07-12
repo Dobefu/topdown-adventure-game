@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"image/color"
 	"log/slog"
-	"strconv"
 
 	"github.com/Dobefu/topdown-adventure-game/internal/fonts"
 	"github.com/Dobefu/topdown-adventure-game/internal/storage"
@@ -23,7 +22,7 @@ func (s *OptionsScene) Init() {
 func (s *OptionsScene) InitUI() {
 	s.Scene.InitUI()
 
-	currentVolume, err := getCurrentVolume()
+	currentVolume, err := storage.GetOption("volume", 100)
 
 	if err != nil {
 		slog.Error(err.Error())
@@ -80,22 +79,4 @@ func (s *OptionsScene) InitUI() {
 	btnBack.AddFocus(widget.FOCUS_NORTH, sliderVolume)
 
 	s.ui.Container.AddChild(outerContainer)
-}
-
-func getCurrentVolume() (currentVolume int, err error) {
-	volumeOption, err := storage.GetOption("volume")
-
-	if err != nil {
-		return 100, err
-	}
-
-	parsedVolumeOption, err := strconv.ParseInt(volumeOption, 10, 16)
-
-	if err != nil {
-		return 100, err
-	}
-
-	currentVolume = int(parsedVolumeOption)
-
-	return currentVolume, nil
 }

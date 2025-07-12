@@ -49,13 +49,13 @@ func NewGame(isDebugEnabled bool) (g *game) {
 	}
 
 	if isDebugEnabled {
-		val, err := storage.GetOption("isDebugActive")
+		val, err := storage.GetOption("isDebugActive", false)
 
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		g.isDebugActive = val == "true"
+		g.isDebugActive = val
 	}
 
 	g.audioContext = audio.NewContext(48000)
@@ -131,7 +131,7 @@ func (g *game) Update() (err error) {
 	heightScale := float64(g.screenHeight) / VIRTUAL_WIDTH
 	g.scale = math.Min(widthScale, heightScale)
 
-	if g.input.ActionIsJustPressed(input.ActionToggleDebug) {
+	if g.isDebugEnabled && g.input.ActionIsJustPressed(input.ActionToggleDebug) {
 		g.isDebugActive = !g.isDebugActive
 		err = storage.SetOption("isDebugActive", fmt.Sprintf("%v", g.isDebugActive))
 
