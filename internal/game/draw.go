@@ -55,12 +55,6 @@ func (g *game) Draw(screen *ebiten.Image) {
 		g.cachedLayerImages[1].WritePixels(sceneMapRenderer.Result.Pix)
 		camera.Draw(g.cachedLayerImages[1], &ebiten.DrawImageOptions{}, screen)
 		sceneMapRenderer.Clear()
-
-		g.drawGameObjectsUI(g.cachedUIImg, activeGameObjects)
-
-		UIImgOptions := &ebiten.DrawImageOptions{}
-		UIImgOptions.GeoM.Scale(widthScale, heightScale)
-		screen.DrawImage(g.cachedUIImg, UIImgOptions)
 	}
 
 	g.drawGameObjects(screen, activeGameObjects)
@@ -76,6 +70,12 @@ func (g *game) Draw(screen *ebiten.Image) {
 		camera.Draw(g.cachedLayerImages[2], &ebiten.DrawImageOptions{}, screen)
 		sceneMapRenderer.Clear()
 	}
+
+	g.drawGameObjectsUI(g.cachedUIImg, activeGameObjects)
+
+	g.cachedUIImgOptions.GeoM.Reset()
+	g.cachedUIImgOptions.GeoM.Scale(widthScale, heightScale)
+	screen.DrawImage(g.cachedUIImg, g.cachedUIImgOptions)
 
 	g.scene.GetUI().Draw(screen)
 
