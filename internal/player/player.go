@@ -140,6 +140,7 @@ func NewPlayer(position vectors.Vector3) (player *Player) {
 
 func (p *Player) Init() {
 	p.GameObject.Init()
+	p.CollidableGameObject.Init()
 
 	scene := *p.GetScene()
 

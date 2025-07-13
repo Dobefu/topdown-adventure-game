@@ -114,6 +114,7 @@ func NewEnemy(position vectors.Vector3) (enemy *Enemy) {
 
 func (e *Enemy) Init() {
 	e.GameObject.Init()
+	e.CollidableGameObject.Init()
 
 	scene := *e.GetScene()
 

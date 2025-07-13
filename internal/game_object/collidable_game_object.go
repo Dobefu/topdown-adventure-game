@@ -1,8 +1,12 @@
 package game_object
 
 import (
+	"image/color"
+	"math"
+
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 	"github.com/Dobefu/vectors"
+	"github.com/hajimehoshi/ebiten/v2"
 )
 
 type CollidableGameObject struct {
@@ -10,6 +14,53 @@ type CollidableGameObject struct {
 	interfaces.Collidable
 
 	OnCollision func(self interfaces.GameObject, other interfaces.GameObject)
+
+	debugCollisionImage        *ebiten.Image
+	debugCollisionImageOptions *ebiten.DrawImageOptions
+}
+
+func (c *CollidableGameObject) Init() {
+	c.GameObject.Init()
+
+	scene := *c.GetScene()
+
+	if scene.GetGame().GetIsDebugEnabled() {
+		x1, y1, x2, y2 := c.GetCollisionRect()
+
+		c.debugCollisionImage = ebiten.NewImage(int(x2-x1), int(y2-y1))
+		c.debugCollisionImage.Fill(color.RGBA{R: 255, G: 0, B: 0, A: 128})
+
+		c.debugCollisionImageOptions = &ebiten.DrawImageOptions{}
+		c.debugCollisionImageOptions.Blend = ebiten.Blend{
+			BlendFactorSourceRGB: ebiten.BlendFactorSourceAlpha,
+		}
+	}
+}
+
+func (c *CollidableGameObject) DrawAbove(screen *ebiten.Image) {
+	c.GameObject.DrawAbove(screen)
+
+	scene := *c.GetScene()
+
+	if !scene.GetGame().GetIsDebugActive() {
+		return
+	}
+
+	pos := c.GetPosition()
+	camera := scene.GetCamera()
+	x1, y1, _, _ := c.GetCollisionRect()
+
+	c.debugCollisionImageOptions.GeoM.Reset()
+	c.debugCollisionImageOptions.GeoM.Translate(
+		math.Round(pos.X+x1),
+		math.Round(pos.Y+y1),
+	)
+
+	camera.Draw(
+		c.debugCollisionImage,
+		c.debugCollisionImageOptions,
+		screen,
+	)
 }
 
 func (c *CollidableGameObject) GetOnCollision() func(self interfaces.GameObject, other interfaces.GameObject) {
