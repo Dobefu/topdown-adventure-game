@@ -5,6 +5,7 @@ import (
 	"github.com/Dobefu/topdown-adventure-game/internal/player"
 	"github.com/Dobefu/topdown-adventure-game/internal/ui"
 	"github.com/Dobefu/vectors"
+	"github.com/ebitenui/ebitenui/widget"
 )
 
 type OverworldScene struct {
@@ -32,9 +33,28 @@ func (s *OverworldScene) InitUI() {
 func (s *OverworldScene) InitPauseScreenUI() {
 	s.Scene.InitPauseScreenUI()
 
+	btnContinue := ui.NewButton(
+		"Continue",
+		widget.ButtonOpts.ClickedHandler(func(args *widget.ButtonClickedEventArgs) {
+			s.SetIsPaused(false)
+		}),
+	)
+
 	outerContainer := ui.NewContainer(64)
 
 	outerContainer.AddChild(ui.NewTitle("Paused"))
+
+	innerContainer := ui.NewContainer(
+		16,
+		widget.ContainerOpts.WidgetOpts(
+			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
+				Position: widget.RowLayoutPositionCenter,
+			}),
+		),
+	)
+	outerContainer.AddChild(innerContainer)
+
+	innerContainer.AddChild(btnContinue)
 
 	s.pauseScreenUi.Container.AddChild(outerContainer)
 }
