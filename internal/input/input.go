@@ -46,13 +46,13 @@ func init() {
 	}
 
 	UIKeymap = input.Keymap{
-		ActionMoveLeft:  {input.KeyGamepadLeft, input.KeyLeft, input.KeyA, input.KeyH},
-		ActionMoveRight: {input.KeyGamepadRight, input.KeyRight, input.KeyD, input.KeyL},
-		ActionMoveUp:    {input.KeyGamepadUp, input.KeyUp, input.KeyW, input.KeyK},
-		ActionMoveDown:  {input.KeyGamepadDown, input.KeyDown, input.KeyS, input.KeyJ},
+		ActionMoveLeft:  {input.KeyGamepadLeft, input.KeyGamepadLStickLeft, input.KeyLeft, input.KeyA, input.KeyH},
+		ActionMoveRight: {input.KeyGamepadRight, input.KeyGamepadLStickRight, input.KeyRight, input.KeyD, input.KeyL},
+		ActionMoveUp:    {input.KeyGamepadUp, input.KeyGamepadLStickUp, input.KeyUp, input.KeyW, input.KeyK},
+		ActionMoveDown:  {input.KeyGamepadDown, input.KeyGamepadLStickDown, input.KeyDown, input.KeyS, input.KeyJ},
 
-		ActionSelect: {input.KeyEnter, input.KeyGamepadA},
-		ActionPause:  {input.KeyEscape, input.KeyGamepadStart},
+		ActionSelect: {input.KeyGamepadA, input.KeyEnter},
+		ActionPause:  {input.KeyGamepadStart, input.KeyEscape},
 
 		ActionToggleDebug: {input.KeyF5},
 	}
