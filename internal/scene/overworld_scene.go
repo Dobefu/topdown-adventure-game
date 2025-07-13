@@ -53,6 +53,7 @@ func (s *OverworldScene) InitPauseScreenUI() {
 	outerContainer := ui.NewContainer(
 		64,
 		32,
+		32,
 		widget.ContainerOpts.BackgroundImage(
 			image.NewNineSliceColor(color.RGBA{R: 32, G: 32, B: 32, A: 128}),
 		),
@@ -62,6 +63,7 @@ func (s *OverworldScene) InitPauseScreenUI() {
 
 	innerContainer := ui.NewContainer(
 		16,
+		0,
 		0,
 		widget.ContainerOpts.WidgetOpts(
 			widget.WidgetOpts.LayoutData(widget.RowLayoutData{

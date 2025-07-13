@@ -30,12 +30,13 @@ func (s *MainMenuScene) InitUI() {
 		}),
 	)
 
-	outerContainer := ui.NewContainer(64, 0)
+	outerContainer := ui.NewContainer(64, 0, 0)
 
 	outerContainer.AddChild(ui.NewTitle("Title"))
 
 	innerContainer := ui.NewContainer(
 		16,
+		0,
 		0,
 		widget.ContainerOpts.WidgetOpts(
 			widget.WidgetOpts.LayoutData(widget.RowLayoutData{

@@ -4,7 +4,12 @@ import (
 	"github.com/ebitenui/ebitenui/widget"
 )
 
-func NewContainer(spacing int, padding int, opts ...widget.ContainerOpt) *widget.Container {
+func NewContainer(
+	spacing int,
+	paddingBlock int,
+	paddingInline int,
+	opts ...widget.ContainerOpt,
+) *widget.Container {
 	defaultOpts := []widget.ContainerOpt{
 		widget.ContainerOpts.WidgetOpts(
 			widget.WidgetOpts.LayoutData(widget.AnchorLayoutData{
@@ -17,10 +22,10 @@ func NewContainer(spacing int, padding int, opts ...widget.ContainerOpt) *widget
 				widget.RowLayoutOpts.Direction(widget.DirectionVertical),
 				widget.RowLayoutOpts.Spacing(spacing),
 				widget.RowLayoutOpts.Padding(widget.Insets{
-					Top:    padding,
-					Left:   padding,
-					Right:  padding,
-					Bottom: padding,
+					Top:    paddingBlock,
+					Left:   paddingInline,
+					Right:  paddingInline,
+					Bottom: paddingBlock,
 				}),
 			),
 		),
