@@ -18,6 +18,8 @@ type Scene interface {
 	GetActiveGameObjects() []GameObject
 	GetSceneMapData() (sceneMap *tiled.Map, sceneMapRenderer *render.Renderer)
 	GetUI() *ebitenui.UI
+	SetCanPause(canPause bool)
+	GetCanPause() (canPause bool)
 	SetCamera(camera *kamera.Camera)
 	GetCamera() *kamera.Camera
 	SetCameraTarget(camera GameObject)

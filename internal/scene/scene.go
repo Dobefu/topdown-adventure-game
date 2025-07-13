@@ -25,6 +25,7 @@ type Scene struct {
 	sceneMap         *tiled.Map
 	sceneMapRenderer *render.Renderer
 	ui               *ebitenui.UI
+	canPause         bool
 }
 
 func (s *Scene) Init() {
@@ -86,6 +87,14 @@ func (s *Scene) GetSceneMapData() (sceneMap *tiled.Map, sceneMapRenderer *render
 
 func (s *Scene) GetUI() *ebitenui.UI {
 	return s.ui
+}
+
+func (s *Scene) SetCanPause(canPause bool) {
+	s.canPause = canPause
+}
+
+func (s *Scene) GetCanPause() (canPause bool) {
+	return s.canPause
 }
 
 func (s *Scene) SetCamera(camera *kamera.Camera) {
