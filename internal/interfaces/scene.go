@@ -11,6 +11,7 @@ import (
 type Scene interface {
 	Init()
 	InitUI()
+	InitPauseScreenUI()
 	InitSceneMap(path string)
 	SetGame(game Game)
 	GetGame() (game Game)
@@ -18,6 +19,7 @@ type Scene interface {
 	GetActiveGameObjects() []GameObject
 	GetSceneMapData() (sceneMap *tiled.Map, sceneMapRenderer *render.Renderer)
 	GetUI() *ebitenui.UI
+	GetPauseScreenUI() *ebitenui.UI
 	SetCanPause(canPause bool)
 	GetCanPause() (canPause bool)
 	SetIsPaused(isPaused bool)

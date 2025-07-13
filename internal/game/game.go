@@ -103,6 +103,7 @@ func (g *game) SetScene(scene interfaces.Scene) {
 
 	g.scene.Init()
 	g.scene.InitUI()
+	g.scene.InitPauseScreenUI()
 
 	ui := g.scene.GetUI()
 	ui.ChangeFocus(widget.FOCUS_SOUTH)

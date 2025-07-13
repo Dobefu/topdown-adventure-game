@@ -3,6 +3,7 @@ package scene
 import (
 	"github.com/Dobefu/topdown-adventure-game/internal/enemy"
 	"github.com/Dobefu/topdown-adventure-game/internal/player"
+	"github.com/Dobefu/topdown-adventure-game/internal/ui"
 	"github.com/Dobefu/vectors"
 )
 
@@ -26,4 +27,14 @@ func (s *OverworldScene) Init() {
 
 func (s *OverworldScene) InitUI() {
 	s.Scene.InitUI()
+}
+
+func (s *OverworldScene) InitPauseScreenUI() {
+	s.Scene.InitPauseScreenUI()
+
+	outerContainer := ui.NewContainer(64)
+
+	outerContainer.AddChild(ui.NewTitle("Paused"))
+
+	s.pauseScreenUi.Container.AddChild(outerContainer)
 }

@@ -25,16 +25,26 @@ type Scene struct {
 	sceneMap         *tiled.Map
 	sceneMapRenderer *render.Renderer
 	ui               *ebitenui.UI
+	pauseScreenUi    *ebitenui.UI
 	canPause         bool
 	isPaused         bool
 }
 
 func (s *Scene) Init() {
 	s.InitUI()
+	s.InitPauseScreenUI()
 }
 
 func (s *Scene) InitUI() {
 	s.ui = &ebitenui.UI{
+		Container: widget.NewContainer(
+			widget.ContainerOpts.Layout(widget.NewAnchorLayout()),
+		),
+	}
+}
+
+func (s *Scene) InitPauseScreenUI() {
+	s.pauseScreenUi = &ebitenui.UI{
 		Container: widget.NewContainer(
 			widget.ContainerOpts.Layout(widget.NewAnchorLayout()),
 		),
@@ -88,6 +98,10 @@ func (s *Scene) GetSceneMapData() (sceneMap *tiled.Map, sceneMapRenderer *render
 
 func (s *Scene) GetUI() *ebitenui.UI {
 	return s.ui
+}
+
+func (s *Scene) GetPauseScreenUI() *ebitenui.UI {
+	return s.pauseScreenUi
 }
 
 func (s *Scene) SetCanPause(canPause bool) {

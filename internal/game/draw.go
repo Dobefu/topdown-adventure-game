@@ -78,6 +78,10 @@ func (g *game) Draw(screen *ebiten.Image) {
 	}
 
 	g.scene.GetUI().Draw(screen)
+
+	if g.scene.GetIsPaused() {
+		g.scene.GetPauseScreenUI().Draw(screen)
+	}
 }
 
 func (g *game) drawGameObjectsBelow(
