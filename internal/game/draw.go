@@ -58,6 +58,7 @@ func (g *game) Draw(screen *ebiten.Image) {
 	}
 
 	g.drawGameObjects(screen, activeGameObjects)
+	g.drawGameObjectsAbove(screen, activeGameObjects)
 
 	if sceneMap != nil {
 		err := sceneMapRenderer.RenderLayer(2)
@@ -99,6 +100,15 @@ func (g *game) drawGameObjects(
 ) {
 	for _, gameObject := range activeGameObjects {
 		gameObject.Draw(screen)
+	}
+}
+
+func (g *game) drawGameObjectsAbove(
+	screen *ebiten.Image,
+	activeGameObjects []interfaces.GameObject,
+) {
+	for _, gameObject := range activeGameObjects {
+		gameObject.DrawAbove(screen)
 	}
 }
 

@@ -44,6 +44,10 @@ func (g *GameObject) DrawBelow(screen *ebiten.Image) {
 	// noop
 }
 
+func (g *GameObject) DrawAbove(screen *ebiten.Image) {
+	// noop
+}
+
 func (g *GameObject) DrawUI(screen *ebiten.Image) {
 	// noop
 }

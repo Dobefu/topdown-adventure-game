@@ -10,6 +10,7 @@ type GameObject interface {
 	Update() (err error)
 	Draw(screen *ebiten.Image)
 	DrawBelow(screen *ebiten.Image)
+	DrawAbove(screen *ebiten.Image)
 	DrawUI(screen *ebiten.Image)
 	GetID() (id uint64)
 	SetID(id uint64)
