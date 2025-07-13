@@ -26,6 +26,7 @@ type Scene struct {
 	sceneMapRenderer *render.Renderer
 	ui               *ebitenui.UI
 	canPause         bool
+	isPaused         bool
 }
 
 func (s *Scene) Init() {
@@ -95,6 +96,14 @@ func (s *Scene) SetCanPause(canPause bool) {
 
 func (s *Scene) GetCanPause() (canPause bool) {
 	return s.canPause
+}
+
+func (s *Scene) SetIsPaused(isPaused bool) {
+	s.isPaused = isPaused
+}
+
+func (s *Scene) GetIsPaused() (isPaused bool) {
+	return s.isPaused
 }
 
 func (s *Scene) SetCamera(camera *kamera.Camera) {

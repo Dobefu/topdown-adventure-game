@@ -20,6 +20,8 @@ type Scene interface {
 	GetUI() *ebitenui.UI
 	SetCanPause(canPause bool)
 	GetCanPause() (canPause bool)
+	SetIsPaused(isPaused bool)
+	GetIsPaused() (isPaused bool)
 	SetCamera(camera *kamera.Camera)
 	GetCamera() *kamera.Camera
 	SetCameraTarget(camera GameObject)
