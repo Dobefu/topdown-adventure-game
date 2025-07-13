@@ -72,6 +72,10 @@ func NewGame(isDebugEnabled bool) (g *game) {
 	return g
 }
 
+func (g *game) GetIsDebugActive() (isDebugEnabled bool) {
+	return g.isDebugActive
+}
+
 func (g *game) GetScale() (scale float64) {
 	return g.scale
 }

@@ -10,6 +10,7 @@ type Game interface {
 
 	UpdateUIInput()
 
+	GetIsDebugActive() (isDebugActive bool)
 	GetScale() (scale float64)
 	GetScene() (scene Scene)
 	SetScene(scene Scene)
