@@ -22,6 +22,7 @@ const (
 	ActionShoot
 
 	ActionSelect
+	ActionPause
 
 	ActionToggleDebug
 )
@@ -49,7 +50,9 @@ func init() {
 		ActionMoveRight: {input.KeyGamepadRight, input.KeyRight, input.KeyD, input.KeyL},
 		ActionMoveUp:    {input.KeyGamepadUp, input.KeyUp, input.KeyW, input.KeyK},
 		ActionMoveDown:  {input.KeyGamepadDown, input.KeyDown, input.KeyS, input.KeyJ},
-		ActionSelect:    {input.KeyEnter, input.KeyGamepadA},
+
+		ActionSelect: {input.KeyEnter, input.KeyGamepadA},
+		ActionPause:  {input.KeyEscape, input.KeyGamepadStart},
 
 		ActionToggleDebug: {input.KeyF5},
 	}
