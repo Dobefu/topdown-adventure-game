@@ -114,6 +114,10 @@ func (s *Scene) GetCanPause() (canPause bool) {
 
 func (s *Scene) SetIsPaused(isPaused bool) {
 	s.isPaused = isPaused
+
+	if isPaused && s.pauseScreenUi.GetFocusedWidget() == nil {
+		s.pauseScreenUi.ChangeFocus(widget.FOCUS_NEXT)
+	}
 }
 
 func (s *Scene) GetIsPaused() (isPaused bool) {
