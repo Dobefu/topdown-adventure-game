@@ -18,7 +18,9 @@ var (
 )
 
 func init() {
-	stream, err := wav.DecodeWithoutResampling(bytes.NewReader(playerShootSoundBytes))
+	stream, err := wav.DecodeWithoutResampling(
+		bytes.NewReader(playerShootSoundBytes),
+	)
 
 	if err != nil {
 		log.Fatal(err)

@@ -1,7 +1,7 @@
 package game_object
 
 import (
-	"log"
+	"log/slog"
 	"math"
 
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
@@ -37,7 +37,7 @@ func (h *HurtableGameObject) Damage(amount int, source interfaces.GameObject) {
 
 	if h.health <= 0 {
 		if h.maxHealth == 0 {
-			log.Println("maxHealth is zero. Did you forget to set it?")
+			slog.Warn("maxHealth is zero. Did you forget to set it?")
 		}
 
 		if h.deathCallback != nil {
