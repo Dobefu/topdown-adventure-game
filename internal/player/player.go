@@ -186,15 +186,6 @@ func (p *Player) Draw(screen *ebiten.Image) {
 	cameraPos.ClampMagnitude(MAX_CAMERA_OFFSET)
 
 	p.aimOverlayImg.Clear()
-	vector.StrokeCircle(
-		p.aimOverlayImg,
-		MAX_CURSOR_DISTANCE,
-		MAX_CURSOR_DISTANCE,
-		MAX_CURSOR_DISTANCE,
-		1,
-		color.Alpha{A: uint8(cameraPos.Magnitude() / MAX_CAMERA_OFFSET * 127)},
-		false,
-	)
 
 	vector.StrokeLine(
 		p.aimOverlayImg,
