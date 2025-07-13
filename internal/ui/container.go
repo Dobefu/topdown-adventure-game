@@ -5,6 +5,7 @@ import (
 )
 
 func NewContainer(
+	direction widget.Direction,
 	spacing int,
 	paddingBlock int,
 	paddingInline int,
@@ -19,7 +20,7 @@ func NewContainer(
 		),
 		widget.ContainerOpts.Layout(
 			widget.NewRowLayout(
-				widget.RowLayoutOpts.Direction(widget.DirectionVertical),
+				widget.RowLayoutOpts.Direction(direction),
 				widget.RowLayoutOpts.Spacing(spacing),
 				widget.RowLayoutOpts.Padding(widget.Insets{
 					Top:    paddingBlock,

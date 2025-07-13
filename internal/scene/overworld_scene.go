@@ -51,6 +51,7 @@ func (s *OverworldScene) InitPauseScreenUI() {
 	)
 
 	outerContainer := ui.NewContainer(
+		widget.DirectionVertical,
 		64,
 		32,
 		32,
@@ -62,6 +63,7 @@ func (s *OverworldScene) InitPauseScreenUI() {
 	outerContainer.AddChild(ui.NewTitle("Paused"))
 
 	innerContainer := ui.NewContainer(
+		widget.DirectionVertical,
 		16,
 		0,
 		0,
