@@ -43,6 +43,13 @@ func (s *OverworldScene) InitPauseScreenUI() {
 		}),
 	)
 
+	btnMainMenu := ui.NewButton(
+		"Main Menu",
+		widget.ButtonOpts.ClickedHandler(func(args *widget.ButtonClickedEventArgs) {
+			s.game.SetScene(&MainMenuScene{})
+		}),
+	)
+
 	outerContainer := ui.NewContainer(
 		64,
 		32,
@@ -65,6 +72,10 @@ func (s *OverworldScene) InitPauseScreenUI() {
 	outerContainer.AddChild(innerContainer)
 
 	innerContainer.AddChild(btnContinue)
+	innerContainer.AddChild(btnMainMenu)
+
+	btnContinue.AddFocus(widget.FOCUS_SOUTH, btnMainMenu)
+	btnMainMenu.AddFocus(widget.FOCUS_NORTH, btnContinue)
 
 	s.pauseScreenUi.Container.AddChild(outerContainer)
 }
