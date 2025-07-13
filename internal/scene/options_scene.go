@@ -48,12 +48,13 @@ func (s *OptionsScene) InitUI() {
 		}),
 	)
 
-	outerContainer := ui.NewContainer(64)
+	outerContainer := ui.NewContainer(64, 0)
 
 	outerContainer.AddChild(ui.NewTitle("Options"))
 
 	innerContainer := ui.NewContainer(
 		16,
+		0,
 		widget.ContainerOpts.WidgetOpts(
 			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
 				Position: widget.RowLayoutPositionCenter,

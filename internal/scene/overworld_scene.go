@@ -1,10 +1,13 @@
 package scene
 
 import (
+	"image/color"
+
 	"github.com/Dobefu/topdown-adventure-game/internal/enemy"
 	"github.com/Dobefu/topdown-adventure-game/internal/player"
 	"github.com/Dobefu/topdown-adventure-game/internal/ui"
 	"github.com/Dobefu/vectors"
+	"github.com/ebitenui/ebitenui/image"
 	"github.com/ebitenui/ebitenui/widget"
 )
 
@@ -40,12 +43,19 @@ func (s *OverworldScene) InitPauseScreenUI() {
 		}),
 	)
 
-	outerContainer := ui.NewContainer(64)
+	outerContainer := ui.NewContainer(
+		64,
+		32,
+		widget.ContainerOpts.BackgroundImage(
+			image.NewNineSliceColor(color.RGBA{R: 32, G: 32, B: 32, A: 128}),
+		),
+	)
 
 	outerContainer.AddChild(ui.NewTitle("Paused"))
 
 	innerContainer := ui.NewContainer(
 		16,
+		0,
 		widget.ContainerOpts.WidgetOpts(
 			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
 				Position: widget.RowLayoutPositionCenter,
