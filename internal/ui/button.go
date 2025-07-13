@@ -36,8 +36,9 @@ func init() {
 	}
 }
 
-func NewButton(opts ...widget.ButtonOpt) *widget.Button {
+func NewButton(text string, opts ...widget.ButtonOpt) *widget.Button {
 	defaultOpts := []widget.ButtonOpt{
+		widget.ButtonOpts.TextLabel(text),
 		widget.ButtonOpts.TextPadding(widget.Insets{
 			Top:    16,
 			Left:   24,

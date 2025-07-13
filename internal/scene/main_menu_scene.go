@@ -17,14 +17,14 @@ func (s *MainMenuScene) InitUI() {
 	s.Scene.InitUI()
 
 	btnStart := ui.NewButton(
-		widget.ButtonOpts.TextLabel("Start"),
+		"Start",
 		widget.ButtonOpts.ClickedHandler(func(args *widget.ButtonClickedEventArgs) {
 			s.GetGame().SetScene(&OverworldScene{})
 		}),
 	)
 
 	btnOptions := ui.NewButton(
-		widget.ButtonOpts.TextLabel("Options"),
+		"Options",
 		widget.ButtonOpts.ClickedHandler(func(args *widget.ButtonClickedEventArgs) {
 			s.GetGame().SetScene(&OptionsScene{})
 		}),
