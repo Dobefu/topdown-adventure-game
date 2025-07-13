@@ -72,7 +72,11 @@ func NewGame(isDebugEnabled bool) (g *game) {
 	return g
 }
 
-func (g *game) GetIsDebugActive() (isDebugEnabled bool) {
+func (g *game) GetIsDebugEnabled() (isDebugEnabled bool) {
+	return g.isDebugEnabled
+}
+
+func (g *game) GetIsDebugActive() (isDebugActive bool) {
 	return g.isDebugActive
 }
 
