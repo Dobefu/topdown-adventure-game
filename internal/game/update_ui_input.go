@@ -7,6 +7,11 @@ import (
 
 func (g *game) UpdateUIInput() {
 	ui := g.scene.GetUI()
+
+	if g.scene.GetIsPaused() {
+		ui = g.scene.GetPauseScreenUI()
+	}
+
 	focusedWidget := ui.GetFocusedWidget()
 
 	if g.input.ActionIsJustPressed(input.ActionMoveUp) {

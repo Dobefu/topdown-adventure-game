@@ -133,12 +133,15 @@ func (g *game) GetAudioContext() (audioContext *audio.Context) {
 
 func (g *game) Update() (err error) {
 	input.Input.Update()
+	g.UpdateUIInput()
 
 	if g.scene.GetCanPause() && g.input.ActionIsJustPressed(input.ActionPause) {
 		g.scene.SetIsPaused(!g.scene.GetIsPaused())
 	}
 
 	if g.scene.GetIsPaused() {
+		g.scene.GetPauseScreenUI().Update()
+
 		return nil
 	}
 
@@ -172,7 +175,6 @@ func (g *game) Update() (err error) {
 		)
 	}
 
-	g.UpdateUIInput()
 	g.scene.GetUI().Update()
 
 	activeGameObjects := g.scene.GetActiveGameObjects()
