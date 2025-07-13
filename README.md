@@ -18,12 +18,14 @@ go build
 
 ### Keyboard + mouse
 
+- Pause: Escape
 - Move: Arrow keys / WASD / HJKL
 - Aim: Right mouse button
 - Shoot: Left mouse button / Spacebar
 
 ### Controller:
 
+- Pause: Start
 - Move: Left analog stick
 - Aim: Right analog stick
 - Shoot: R2 (Bottom right shoulder button)
