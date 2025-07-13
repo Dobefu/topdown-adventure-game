@@ -126,7 +126,7 @@ func (e *Enemy) Init() {
 }
 
 func (e *Enemy) GetCollisionRect() (x1, y1, x2, y2 float64) {
-	return 4, 23, 27, 31
+	return 4, 19, 27, 31
 }
 
 func (e *Enemy) MoveWithCollision(
