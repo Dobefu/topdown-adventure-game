@@ -77,6 +77,7 @@ func (g *game) Draw(screen *ebiten.Image) {
 	g.cachedUIImgOptions.GeoM.Reset()
 	g.cachedUIImgOptions.GeoM.Scale(widthScale, heightScale)
 	screen.DrawImage(g.cachedUIImg, g.cachedUIImgOptions)
+	g.cachedUIImg.Clear()
 
 	g.scene.GetUI().Draw(screen)
 
