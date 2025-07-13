@@ -135,16 +135,6 @@ func (g *game) Update() (err error) {
 	input.Input.Update()
 	g.UpdateUIInput()
 
-	if g.scene.GetCanPause() && g.input.ActionIsJustPressed(input.ActionPause) {
-		g.scene.SetIsPaused(!g.scene.GetIsPaused())
-	}
-
-	if g.scene.GetIsPaused() {
-		g.scene.GetPauseScreenUI().Update()
-
-		return nil
-	}
-
 	camera := g.scene.GetCamera()
 
 	widthScale := float64(g.screenWidth) / VIRTUAL_WIDTH
@@ -173,6 +163,16 @@ func (g *game) Update() (err error) {
 			cameraTargetPosition.X-camera.Width/2,
 			cameraTargetPosition.Y-camera.Height/2,
 		)
+	}
+
+	if g.scene.GetCanPause() && g.input.ActionIsJustPressed(input.ActionPause) {
+		g.scene.SetIsPaused(!g.scene.GetIsPaused())
+	}
+
+	if g.scene.GetIsPaused() {
+		g.scene.GetPauseScreenUI().Update()
+
+		return nil
 	}
 
 	g.scene.GetUI().Update()

@@ -17,7 +17,7 @@ const MAX_CAMERA_OFFSET = 50
 const MAX_CURSOR_DISTANCE = 100
 
 func (p *Player) GetCameraPosition() (position *vectors.Vector3) {
-	if (*p.GetScene()).GetIsPaused() {
+	if (*p.GetScene()).GetIsPaused() && p.state == state.StateDefault {
 		return prevCameraPosition
 	}
 
