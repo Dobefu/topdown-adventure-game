@@ -5,8 +5,8 @@ import (
 	_ "embed"
 	"io"
 	"log"
+	"log/slog"
 
-	"github.com/Dobefu/topdown-adventure-game/internal/storage"
 	"github.com/Dobefu/vectors"
 	"github.com/hajimehoshi/ebiten/v2/audio/wav"
 )
@@ -59,11 +59,11 @@ func (p *Player) Shoot() {
 
 		// Skip firing if the bullet would remain still, just in case.
 		if !cameraPos.IsZero() {
-			currentVolume, _ := storage.GetOption("volume", 100)
-			p.audioPlayer.SetVolume(float64(currentVolume) / 100)
+			err := p.audioPlayer.Play()
 
-			_ = p.audioPlayer.Rewind()
-			p.audioPlayer.Play()
+			if err != nil {
+				slog.Error(err.Error())
+			}
 
 			pos = *p.GetPosition()
 			pos.Z = 0
