@@ -9,10 +9,18 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
+var (
+	prevCameraPosition *vectors.Vector3
+)
+
 const MAX_CAMERA_OFFSET = 50
 const MAX_CURSOR_DISTANCE = 100
 
 func (p *Player) GetCameraPosition() (position *vectors.Vector3) {
+	if (*p.GetScene()).GetIsPaused() {
+		return prevCameraPosition
+	}
+
 	playerPosition := *p.GetPosition()
 
 	playerCenter := vectors.Vector3{
@@ -73,6 +81,8 @@ func (p *Player) GetCameraPosition() (position *vectors.Vector3) {
 
 	cameraPosition := playerCenter
 	cameraPosition.Add(cursorOffset)
+
+	prevCameraPosition = &cameraPosition
 
 	return &cameraPosition
 }
