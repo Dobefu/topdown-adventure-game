@@ -11,6 +11,8 @@ type OverworldScene struct {
 }
 
 func (s *OverworldScene) Init() {
+	s.canPause = true
+
 	s.Scene.Init()
 	s.InitSceneMap("maps/overworld.tmx")
 

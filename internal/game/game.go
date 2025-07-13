@@ -133,6 +133,14 @@ func (g *game) GetAudioContext() (audioContext *audio.Context) {
 func (g *game) Update() (err error) {
 	input.Input.Update()
 
+	if g.scene.GetCanPause() && g.input.ActionIsJustPressed(input.ActionPause) {
+		g.scene.SetIsPaused(!g.scene.GetIsPaused())
+	}
+
+	if g.scene.GetIsPaused() {
+		return nil
+	}
+
 	camera := g.scene.GetCamera()
 
 	widthScale := float64(g.screenWidth) / VIRTUAL_WIDTH
