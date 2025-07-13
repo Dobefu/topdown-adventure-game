@@ -46,7 +46,15 @@ func GetOption[T []byte | string | int | bool](option string, defaultValue T) (v
 			return defaultValue, err
 		}
 
-		parsedValue, err := strconv.ParseInt(string(val), 10, 16)
+		valStr := string(val)
+
+		// If the string is empty, there is probably no value to get.
+		// In this case, let's just return the default value.
+		if valStr == "" {
+			return defaultValue, nil
+		}
+
+		parsedValue, err := strconv.ParseInt(valStr, 10, 16)
 
 		if err != nil {
 			return defaultValue, err
