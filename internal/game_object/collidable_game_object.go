@@ -25,11 +25,6 @@ func (c *CollidableGameObject) Init() {
 	scene := *c.GetScene()
 
 	if scene.GetGame().GetIsDebugEnabled() {
-		x1, y1, x2, y2 := c.GetCollisionRect()
-
-		c.debugCollisionImage = ebiten.NewImage(int(x2-x1), int(y2-y1))
-		c.debugCollisionImage.Fill(color.RGBA{R: 255, G: 0, B: 0, A: 128})
-
 		c.debugCollisionImageOptions = &ebiten.DrawImageOptions{}
 		c.debugCollisionImageOptions.Blend = ebiten.Blend{
 			BlendFactorSourceRGB: ebiten.BlendFactorSourceAlpha,
@@ -39,16 +34,28 @@ func (c *CollidableGameObject) Init() {
 
 func (c *CollidableGameObject) DrawAbove(screen *ebiten.Image) {
 	c.GameObject.DrawAbove(screen)
+}
 
+func (c *CollidableGameObject) DrawDebugCollision(
+	screen *ebiten.Image,
+	x1 float64,
+	y1 float64,
+	x2 float64,
+	y2 float64,
+) {
 	scene := *c.GetScene()
 
 	if !scene.GetGame().GetIsDebugActive() {
 		return
 	}
 
+	if c.debugCollisionImage == nil {
+		c.debugCollisionImage = ebiten.NewImage(int(x2-x1), int(y2-y1))
+		c.debugCollisionImage.Fill(color.RGBA{R: 255, G: 0, B: 0, A: 128})
+	}
+
 	pos := c.GetPosition()
 	camera := scene.GetCamera()
-	x1, y1, _, _ := c.GetCollisionRect()
 
 	c.debugCollisionImageOptions.GeoM.Reset()
 	c.debugCollisionImageOptions.GeoM.Translate(

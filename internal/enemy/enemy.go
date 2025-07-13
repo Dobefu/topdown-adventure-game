@@ -172,6 +172,11 @@ func (e *Enemy) DrawBelow(screen *ebiten.Image) {
 	)
 }
 
+func (e *Enemy) DrawAbove(screen *ebiten.Image) {
+	x1, y1, x2, y2 := e.GetCollisionRect()
+	e.DrawDebugCollision(screen, x1, y1, x2, y2)
+}
+
 func (e *Enemy) Update() (err error) {
 	e.handleMovement()
 	e.handleAnimations()

@@ -235,6 +235,11 @@ func (p *Player) DrawBelow(screen *ebiten.Image) {
 	)
 }
 
+func (p *Player) DrawAbove(screen *ebiten.Image) {
+	x1, y1, x2, y2 := p.GetCollisionRect()
+	p.DrawDebugCollision(screen, x1, y1, x2, y2)
+}
+
 func (p *Player) DrawUI(screen *ebiten.Image) {
 	ui.DrawHealthBar(
 		screen,

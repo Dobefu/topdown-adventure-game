@@ -159,6 +159,11 @@ func (b *Bullet) Draw(screen *ebiten.Image) {
 	)
 }
 
+func (b *Bullet) DrawAbove(screen *ebiten.Image) {
+	x1, y1, x2, y2 := b.GetCollisionRect()
+	b.DrawDebugCollision(screen, x1, y1, x2, y2)
+}
+
 func (b *Bullet) Update() (err error) {
 	b.frameCount += 1
 
