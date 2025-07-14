@@ -92,8 +92,8 @@ func (g *game) SetScene(scene interfaces.Scene) {
 	g.scene = scene
 
 	camera := kamera.NewCamera(
-		-float64(g.screenWidth)/2,
-		-float64(g.screenHeight)/2,
+		16,
+		16,
 		float64(g.screenWidth),
 		float64(g.screenHeight),
 	)
@@ -170,8 +170,8 @@ func (g *game) Update() (err error) {
 		cameraTargetPosition := cameraTarget.GetCameraPosition()
 
 		camera.LookAt(
-			cameraTargetPosition.X-camera.Width/2,
-			cameraTargetPosition.Y-camera.Height/2,
+			cameraTargetPosition.X,
+			cameraTargetPosition.Y,
 		)
 	}
 
