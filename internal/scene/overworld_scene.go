@@ -81,5 +81,5 @@ func (s *OverworldScene) InitPauseScreenUI() {
 	btnContinue.AddFocus(widget.FOCUS_SOUTH, btnMainMenu)
 	btnMainMenu.AddFocus(widget.FOCUS_NORTH, btnContinue)
 
-	s.pauseScreenUi.Container.AddChild(outerContainer)
+	s.pauseScreenUI.Container.AddChild(outerContainer)
 }

@@ -26,7 +26,7 @@ type Scene struct {
 	sceneMap         *tiled.Map
 	sceneMapRenderer *render.Renderer
 	ui               *ebitenui.UI
-	pauseScreenUi    *ebitenui.UI
+	pauseScreenUI    *ebitenui.UI
 	canPause         bool
 	isPaused         bool
 }
@@ -43,7 +43,7 @@ func (s *Scene) InitUI() {
 }
 
 func (s *Scene) InitPauseScreenUI() {
-	s.pauseScreenUi = &ebitenui.UI{
+	s.pauseScreenUI = &ebitenui.UI{
 		Container: ui.NewAnchorContainer(0, 0),
 	}
 }
@@ -98,7 +98,7 @@ func (s *Scene) GetUI() *ebitenui.UI {
 }
 
 func (s *Scene) GetPauseScreenUI() *ebitenui.UI {
-	return s.pauseScreenUi
+	return s.pauseScreenUI
 }
 
 func (s *Scene) SetCanPause(canPause bool) {
@@ -112,8 +112,8 @@ func (s *Scene) GetCanPause() (canPause bool) {
 func (s *Scene) SetIsPaused(isPaused bool) {
 	s.isPaused = isPaused
 
-	if isPaused && s.pauseScreenUi.GetFocusedWidget() == nil {
-		s.pauseScreenUi.ChangeFocus(widget.FOCUS_NEXT)
+	if isPaused && s.pauseScreenUI.GetFocusedWidget() == nil {
+		s.pauseScreenUI.ChangeFocus(widget.FOCUS_NEXT)
 	}
 }
 
