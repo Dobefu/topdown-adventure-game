@@ -5,10 +5,6 @@ import (
 )
 
 func NewContainer(
-	direction widget.Direction,
-	spacing int,
-	paddingBlock int,
-	paddingInline int,
 	opts ...widget.ContainerOpt,
 ) *widget.Container {
 	defaultOpts := []widget.ContainerOpt{
@@ -17,18 +13,6 @@ func NewContainer(
 				HorizontalPosition: widget.AnchorLayoutPositionCenter,
 				VerticalPosition:   widget.AnchorLayoutPositionCenter,
 			}),
-		),
-		widget.ContainerOpts.Layout(
-			widget.NewRowLayout(
-				widget.RowLayoutOpts.Direction(direction),
-				widget.RowLayoutOpts.Spacing(spacing),
-				widget.RowLayoutOpts.Padding(widget.Insets{
-					Top:    paddingBlock,
-					Left:   paddingInline,
-					Right:  paddingInline,
-					Bottom: paddingBlock,
-				}),
-			),
 		),
 	}
 

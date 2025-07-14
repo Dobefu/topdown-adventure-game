@@ -71,7 +71,7 @@ func NewSlider(
 		),
 	)
 
-	container := NewContainer(
+	container := NewRowContainer(
 		widget.DirectionHorizontal,
 		16,
 		12,
