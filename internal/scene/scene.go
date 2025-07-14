@@ -6,6 +6,7 @@ import (
 	"slices"
 
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
+	"github.com/Dobefu/topdown-adventure-game/internal/ui"
 	"github.com/Dobefu/vectors"
 	"github.com/ebitenui/ebitenui"
 	"github.com/ebitenui/ebitenui/widget"
@@ -37,17 +38,13 @@ func (s *Scene) Init() {
 
 func (s *Scene) InitUI() {
 	s.ui = &ebitenui.UI{
-		Container: widget.NewContainer(
-			widget.ContainerOpts.Layout(widget.NewAnchorLayout()),
-		),
+		Container: ui.NewAnchorContainer(0, 0),
 	}
 }
 
 func (s *Scene) InitPauseScreenUI() {
 	s.pauseScreenUi = &ebitenui.UI{
-		Container: widget.NewContainer(
-			widget.ContainerOpts.Layout(widget.NewAnchorLayout()),
-		),
+		Container: ui.NewAnchorContainer(0, 0),
 	}
 }
 
