@@ -40,9 +40,7 @@ type game struct {
 	screenWidth  int
 	screenHeight int
 
-	cachedLayerImages  []*ebiten.Image
-	cachedUIImg        *ebiten.Image
-	cachedUIImgOptions *ebiten.DrawImageOptions
+	cachedLayerImages []*ebiten.Image
 }
 
 func NewGame(isDebugEnabled bool) (g *game) {
@@ -65,9 +63,6 @@ func NewGame(isDebugEnabled bool) (g *game) {
 	g.input = input.Input.NewHandler(0, input.UIKeymap)
 
 	g.SetScene(&scene.MainMenuScene{})
-
-	g.cachedUIImg = ebiten.NewImage(VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
-	g.cachedUIImgOptions = &ebiten.DrawImageOptions{}
 
 	return g
 }
@@ -208,5 +203,5 @@ func (g *game) DrawFinalScreen(screen ebiten.FinalScreen, offscreen *ebiten.Imag
 }
 
 func (g *game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	return outsideWidth, outsideHeight
+	return VIRTUAL_WIDTH, VIRTUAL_HEIGHT
 }

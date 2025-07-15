@@ -72,13 +72,7 @@ func (g *game) Draw(screen *ebiten.Image) {
 		sceneMapRenderer.Clear()
 	}
 
-	g.drawGameObjectsUI(g.cachedUIImg, activeGameObjects)
-
-	g.cachedUIImgOptions.GeoM.Reset()
-	g.cachedUIImgOptions.GeoM.Scale(widthScale, heightScale)
-	screen.DrawImage(g.cachedUIImg, g.cachedUIImgOptions)
-	g.cachedUIImg.Clear()
-
+	g.drawGameObjectsUI(screen, activeGameObjects)
 	g.scene.GetUI().Draw(screen)
 
 	if g.scene.GetIsPaused() {
