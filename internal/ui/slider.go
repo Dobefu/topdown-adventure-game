@@ -41,10 +41,10 @@ func NewSlider(
 			},
 			handleImg,
 		),
-		widget.SliderOpts.FixedHandleSize(32),
+		widget.SliderOpts.FixedHandleSize(24),
 		widget.SliderOpts.TrackOffset(0),
 		widget.SliderOpts.WidgetOpts(
-			widget.WidgetOpts.MinSize(200, 32),
+			widget.WidgetOpts.MinSize(150, 24),
 		),
 		widget.SliderOpts.WidgetOpts(
 			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
@@ -66,7 +66,7 @@ func NewSlider(
 		}))),
 		widget.LabelOpts.Text(
 			fmt.Sprintf("% 4d%%", slider.Current),
-			fonts.FontDefaultSm,
+			fonts.FontDefaultMd,
 			&widget.LabelColor{Idle: color.White},
 		),
 	)

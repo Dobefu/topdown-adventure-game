@@ -9,7 +9,7 @@ import (
 
 func NewTitle(text string) *widget.Text {
 	return widget.NewText(
-		widget.TextOpts.Text(text, fonts.FontDefaultXxl, color.White),
+		widget.TextOpts.Text(text, fonts.FontDefaultXl, color.White),
 
 		widget.TextOpts.WidgetOpts(
 			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
