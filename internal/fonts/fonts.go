@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	//go:embed ttf/Oxanium-Semibold.ttf
+	//go:embed ttf/Oxanium-SemiBold.ttf
 	fontSrc []byte
 
 	FontDefaultSm  *text.GoTextFace
