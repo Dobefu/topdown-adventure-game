@@ -52,7 +52,7 @@ func (s *OverworldScene) InitPauseScreenUI() {
 
 	outerContainer := ui.NewRowContainer(
 		widget.DirectionVertical,
-		20,
+		16,
 		16,
 		16,
 		widget.ContainerOpts.BackgroundImage(

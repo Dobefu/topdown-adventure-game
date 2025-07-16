@@ -67,7 +67,7 @@ func NewSlider(
 				widget.TextPositionCenter,
 			),
 			widget.TextOpts.WidgetOpts(
-				widget.WidgetOpts.MinSize(40, 0),
+				widget.WidgetOpts.MinSize(45, 0),
 				widget.WidgetOpts.LayoutData(
 					widget.RowLayoutData{
 						Position: widget.RowLayoutPositionCenter,
@@ -77,7 +77,7 @@ func NewSlider(
 		),
 		widget.LabelOpts.Text(
 			fmt.Sprintf("%d%%", slider.Current),
-			fonts.FontDefaultSm,
+			fonts.FontDefaultMd,
 			&widget.LabelColor{Idle: color.White},
 		),
 	)

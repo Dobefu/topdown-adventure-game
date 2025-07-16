@@ -4,11 +4,15 @@ import (
 	"bytes"
 	"log"
 
-	"github.com/hajimehoshi/ebiten/v2/examples/resources/fonts"
+	_ "embed"
+
 	"github.com/hajimehoshi/ebiten/v2/text/v2"
 )
 
 var (
+	//go:embed ttf/Oxanium-Semibold.ttf
+	fontSrc []byte
+
 	FontDefaultSm  *text.GoTextFace
 	FontDefaultMd  *text.GoTextFace
 	FontDefaultLg  *text.GoTextFace
@@ -17,7 +21,7 @@ var (
 )
 
 func init() {
-	fontSrc, err := text.NewGoTextFaceSource(bytes.NewReader(fonts.MPlus1pRegular_ttf))
+	fontSrc, err := text.NewGoTextFaceSource(bytes.NewReader(fontSrc))
 
 	if err != nil {
 		log.Fatal(err)

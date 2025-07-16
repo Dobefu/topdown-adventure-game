@@ -30,7 +30,7 @@ func (s *MainMenuScene) InitUI() {
 		}),
 	)
 
-	outerContainer := ui.NewRowContainer(widget.DirectionVertical, 20, 0, 0)
+	outerContainer := ui.NewRowContainer(widget.DirectionVertical, 16, 0, 0)
 
 	outerContainer.AddChild(ui.NewTitle("Title"))
 
