@@ -54,7 +54,7 @@ func (s *OptionsScene) InitUI() {
 
 	innerContainer := ui.NewRowContainer(
 		widget.DirectionVertical,
-		8,
+		4,
 		0,
 		0,
 		widget.ContainerOpts.WidgetOpts(
