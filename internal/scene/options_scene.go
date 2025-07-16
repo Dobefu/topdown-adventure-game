@@ -27,6 +27,7 @@ func (s *OptionsScene) InitUI() {
 	}
 
 	sliderVolumeContainer, sliderVolume := ui.NewSlider(
+		"Volume",
 		currentVolume,
 		func(args *widget.SliderChangedEventArgs) {
 			if args.Dragging {

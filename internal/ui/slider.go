@@ -24,10 +24,12 @@ func init() {
 }
 
 func NewSlider(
+	label string,
 	currentValue int,
 	changedHandler func(args *widget.SliderChangedEventArgs),
 	opts ...widget.SliderOpt,
 ) (*widget.Container, *widget.Slider) {
+	var sliderLabel *widget.Label
 	var sliderText *widget.Label
 
 	defaultOpts := []widget.SliderOpt{
@@ -60,6 +62,14 @@ func NewSlider(
 
 	slider := widget.NewSlider(append(defaultOpts, opts...)...)
 
+	sliderLabel = widget.NewLabel(
+		widget.LabelOpts.Text(
+			label,
+			fonts.FontDefaultMd,
+			&widget.LabelColor{Idle: color.White},
+		),
+	)
+
 	sliderText = widget.NewLabel(
 		widget.LabelOpts.TextOpts(
 			widget.TextOpts.Position(
@@ -82,15 +92,20 @@ func NewSlider(
 		),
 	)
 
-	container := NewRowContainer(
-		widget.DirectionHorizontal,
+	outerContainer := NewRowContainer(
+		widget.DirectionVertical,
 		0,
-		8,
+		0,
 		0,
 	)
 
-	container.AddChild(slider)
-	container.AddChild(sliderText)
+	innerContainer := NewRowContainer(widget.DirectionHorizontal, 0, 0, 0)
 
-	return container, slider
+	outerContainer.AddChild(sliderLabel)
+	outerContainer.AddChild(innerContainer)
+
+	innerContainer.AddChild(slider)
+	innerContainer.AddChild(sliderText)
+
+	return outerContainer, slider
 }
