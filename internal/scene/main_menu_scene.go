@@ -1,6 +1,9 @@
 package scene
 
 import (
+	"os"
+	"runtime"
+
 	"github.com/Dobefu/topdown-adventure-game/internal/ui"
 	"github.com/ebitenui/ebitenui/widget"
 )
@@ -46,9 +49,19 @@ func (s *MainMenuScene) InitUI() {
 		),
 	)
 	outerContainer.AddChild(innerContainer)
-
 	innerContainer.AddChild(btnStart)
 	innerContainer.AddChild(btnOptions)
+
+	if runtime.GOOS != "js" {
+		innerContainer.AddChild(
+			ui.NewButton(
+				"Quit",
+				widget.ButtonOpts.ClickedHandler(func(args *widget.ButtonClickedEventArgs) {
+					os.Exit(0)
+				}),
+			),
+		)
+	}
 
 	btnStart.AddFocus(widget.FOCUS_SOUTH, btnOptions)
 	btnOptions.AddFocus(widget.FOCUS_NORTH, btnStart)
