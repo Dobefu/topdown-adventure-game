@@ -17,7 +17,7 @@ var (
 )
 
 func init() {
-	fontSrc, err := text.NewGoTextFaceSource(bytes.NewReader(fonts.PressStart2P_ttf))
+	fontSrc, err := text.NewGoTextFaceSource(bytes.NewReader(fonts.MPlus1pRegular_ttf))
 
 	if err != nil {
 		log.Fatal(err)

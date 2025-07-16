@@ -67,7 +67,7 @@ func NewSlider(
 				widget.TextPositionCenter,
 			),
 			widget.TextOpts.WidgetOpts(
-				widget.WidgetOpts.MinSize(75, 0),
+				widget.WidgetOpts.MinSize(50, 0),
 				widget.WidgetOpts.LayoutData(
 					widget.RowLayoutData{
 						Position: widget.RowLayoutPositionCenter,
