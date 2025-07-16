@@ -45,7 +45,7 @@ func NewButton(text string, opts ...widget.ButtonOpt) *widget.Button {
 			Right:  24,
 			Bottom: 8,
 		}),
-		widget.ButtonOpts.TextFace(fonts.FontDefaultMd),
+		widget.ButtonOpts.TextFace(fonts.FontDefaultSm),
 		widget.ButtonOpts.TextColor(&widget.ButtonTextColor{
 			Idle: color.NRGBA{0xff, 0xff, 0xff, 0xff},
 		}),

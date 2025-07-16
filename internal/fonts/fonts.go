@@ -23,7 +23,7 @@ func init() {
 		log.Fatal(err)
 	}
 
-	FontDefaultSm = &text.GoTextFace{Source: fontSrc, Size: 8}
+	FontDefaultSm = &text.GoTextFace{Source: fontSrc, Size: 12}
 	FontDefaultMd = &text.GoTextFace{Source: fontSrc, Size: 16}
 	FontDefaultLg = &text.GoTextFace{Source: fontSrc, Size: 24}
 	FontDefaultXl = &text.GoTextFace{Source: fontSrc, Size: 32}

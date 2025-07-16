@@ -41,10 +41,10 @@ func NewSlider(
 			},
 			handleImg,
 		),
-		widget.SliderOpts.FixedHandleSize(24),
+		widget.SliderOpts.FixedHandleSize(16),
 		widget.SliderOpts.TrackOffset(0),
 		widget.SliderOpts.WidgetOpts(
-			widget.WidgetOpts.MinSize(150, 24),
+			widget.WidgetOpts.MinSize(150, 16),
 		),
 		widget.SliderOpts.WidgetOpts(
 			widget.WidgetOpts.LayoutData(widget.RowLayoutData{
@@ -67,7 +67,7 @@ func NewSlider(
 				widget.TextPositionCenter,
 			),
 			widget.TextOpts.WidgetOpts(
-				widget.WidgetOpts.MinSize(50, 0),
+				widget.WidgetOpts.MinSize(40, 0),
 				widget.WidgetOpts.LayoutData(
 					widget.RowLayoutData{
 						Position: widget.RowLayoutPositionCenter,
@@ -77,7 +77,7 @@ func NewSlider(
 		),
 		widget.LabelOpts.Text(
 			fmt.Sprintf("%d%%", slider.Current),
-			fonts.FontDefaultMd,
+			fonts.FontDefaultSm,
 			&widget.LabelColor{Idle: color.White},
 		),
 	)
@@ -85,7 +85,7 @@ func NewSlider(
 	container := NewRowContainer(
 		widget.DirectionHorizontal,
 		0,
-		12,
+		8,
 		0,
 	)
 
