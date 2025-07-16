@@ -54,18 +54,29 @@ func NewSlider(
 		widget.SliderOpts.ChangedHandler(func(args *widget.SliderChangedEventArgs) {
 			changedHandler(args)
 
-			sliderText.Label = fmt.Sprintf("% 4d%%", args.Current)
+			sliderText.Label = fmt.Sprintf("%d%%", args.Current)
 		}),
 	}
 
 	slider := widget.NewSlider(append(defaultOpts, opts...)...)
 
 	sliderText = widget.NewLabel(
-		widget.LabelOpts.TextOpts(widget.TextOpts.WidgetOpts(widget.WidgetOpts.LayoutData(widget.RowLayoutData{
-			Position: widget.RowLayoutPositionCenter,
-		}))),
+		widget.LabelOpts.TextOpts(
+			widget.TextOpts.Position(
+				widget.TextPositionEnd,
+				widget.TextPositionCenter,
+			),
+			widget.TextOpts.WidgetOpts(
+				widget.WidgetOpts.MinSize(75, 0),
+				widget.WidgetOpts.LayoutData(
+					widget.RowLayoutData{
+						Position: widget.RowLayoutPositionCenter,
+					},
+				),
+			),
+		),
 		widget.LabelOpts.Text(
-			fmt.Sprintf("% 4d%%", slider.Current),
+			fmt.Sprintf("%d%%", slider.Current),
 			fonts.FontDefaultMd,
 			&widget.LabelColor{Idle: color.White},
 		),
