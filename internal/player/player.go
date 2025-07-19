@@ -269,6 +269,10 @@ func (p *Player) Damage(amount int, source interfaces.GameObject) {
 		return
 	}
 
+	scene := (*p.GetScene())
+	camera := scene.GetCamera()
+	camera.AddTrauma(.5)
+
 	p.HurtableGameObject.Damage(amount, source)
 	p.state = state.StateHurt
 
