@@ -215,7 +215,12 @@ func (b *Bullet) Update() (err error) {
 			Y: position.Y + 16 + float64(int(fastrand.Rand.Next()>>28)-8),
 			Z: 0,
 		})
-		particle.SetLifetime(10)
+		particle.SetVelocity(vectors.Vector3{
+			X: float64(int(fastrand.Rand.Next()>>28)-8) / 10,
+			Y: float64(int(fastrand.Rand.Next()>>28)-8) / 10,
+			Z: 0,
+		})
+		particle.SetLifetime(20)
 		particle.SetIsActive(true)
 
 		return

@@ -28,6 +28,7 @@ func NewPixel(position vectors.Vector3) (pixel *Pixel) {
 
 func (p *Pixel) Update() (err error) {
 	p.Particle.Update()
+
 	return nil
 }
 
