@@ -8,8 +8,10 @@ import (
 	"math"
 
 	"github.com/Dobefu/topdown-adventure-game/internal/animation"
+	"github.com/Dobefu/topdown-adventure-game/internal/fastrand"
 	"github.com/Dobefu/topdown-adventure-game/internal/game_object"
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
+	"github.com/Dobefu/topdown-adventure-game/internal/particles/pixel"
 	"github.com/Dobefu/vectors"
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -70,6 +72,8 @@ type Bullet struct {
 	frameCount     int
 	frameIndex     int
 	animationState animation.AnimationState
+
+	trailParticles []*pixel.Pixel
 }
 
 func NewBullet() (bullet *Bullet) {
@@ -95,6 +99,20 @@ func NewBullet() (bullet *Bullet) {
 	})
 
 	return bullet
+}
+
+func (b *Bullet) Init() {
+	b.GameObject.Init()
+	b.CollidableGameObject.Init()
+
+	scene := *b.GetScene()
+
+	for range 100 {
+		p := pixel.NewPixel(vectors.Vector3{X: 10, Y: 10, Z: 0})
+
+		b.trailParticles = append(b.trailParticles, p)
+		scene.AddGameObject(p)
+	}
 }
 
 func (b *Bullet) GetOwner() (owner interfaces.GameObject) {
@@ -184,6 +202,24 @@ func (b *Bullet) Update() (err error) {
 
 	b.CheckCollision(*b.GetScene(), *b.GetPosition())
 	b.MoveWithCollision(b.velocity)
+
+	position := b.GetPosition()
+
+	for _, particle := range b.trailParticles {
+		if particle.GetIsActive() {
+			continue
+		}
+
+		particle.SetPosition(vectors.Vector3{
+			X: position.X + 16 + float64(int(fastrand.Rand.Next()>>28)-8),
+			Y: position.Y + 16 + float64(int(fastrand.Rand.Next()>>28)-8),
+			Z: 0,
+		})
+		particle.SetLifetime(10)
+		particle.SetIsActive(true)
+
+		return
+	}
 
 	return nil
 }
