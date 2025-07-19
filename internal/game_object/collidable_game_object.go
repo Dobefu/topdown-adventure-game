@@ -2,7 +2,6 @@ package game_object
 
 import (
 	"image/color"
-	"math"
 
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 	"github.com/Dobefu/vectors"
@@ -59,8 +58,8 @@ func (c *CollidableGameObject) DrawDebugCollision(
 
 	c.debugCollisionImageOptions.GeoM.Reset()
 	c.debugCollisionImageOptions.GeoM.Translate(
-		math.Round(pos.X+x1),
-		math.Round(pos.Y+y1),
+		pos.X+x1,
+		pos.Y+y1,
 	)
 
 	camera.Draw(

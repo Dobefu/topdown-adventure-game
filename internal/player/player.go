@@ -6,7 +6,6 @@ import (
 	"image"
 	"image/color"
 	"log"
-	"math"
 
 	"github.com/Dobefu/topdown-adventure-game/internal/animation"
 	"github.com/Dobefu/topdown-adventure-game/internal/audioplayer"
@@ -201,13 +200,13 @@ func (p *Player) Draw(screen *ebiten.Image) {
 
 	p.imgOptions.GeoM.Reset()
 	p.imgOptions.GeoM.Translate(
-		math.Round(pos.X+(FRAME_WIDTH/2)-MAX_CURSOR_DISTANCE),
-		math.Round(pos.Y+(FRAME_HEIGHT/2)-MAX_CURSOR_DISTANCE),
+		(pos.X + (FRAME_WIDTH / 2) - MAX_CURSOR_DISTANCE),
+		(pos.Y + (FRAME_HEIGHT / 2) - MAX_CURSOR_DISTANCE),
 	)
 	camera.Draw(p.aimOverlayImg, p.imgOptions, screen)
 
 	p.imgOptions.GeoM.Reset()
-	p.imgOptions.GeoM.Translate(math.Round(pos.X), math.Round(pos.Y-pos.Z))
+	p.imgOptions.GeoM.Translate(pos.X, pos.Y-pos.Z)
 
 	camera.Draw(
 		playerSubImgs[int(p.animationState)*NUM_FRAMES+p.frameIndex],
@@ -224,8 +223,8 @@ func (p *Player) DrawBelow(screen *ebiten.Image) {
 
 	p.imgOptions.GeoM.Reset()
 	p.imgOptions.GeoM.Translate(
-		math.Round(pos.X),
-		math.Round(pos.Y+FRAME_HEIGHT*.75),
+		pos.X,
+		pos.Y+FRAME_HEIGHT*.75,
 	)
 
 	camera.Draw(

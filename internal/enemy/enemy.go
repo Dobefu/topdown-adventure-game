@@ -5,7 +5,6 @@ import (
 	_ "embed"
 	"image"
 	"log"
-	"math"
 
 	"github.com/Dobefu/topdown-adventure-game/internal/animation"
 	"github.com/Dobefu/topdown-adventure-game/internal/bullet"
@@ -144,7 +143,7 @@ func (e *Enemy) Draw(screen *ebiten.Image) {
 	camera := scene.GetCamera()
 
 	e.imgOptions.GeoM.Reset()
-	e.imgOptions.GeoM.Translate(math.Round(pos.X), math.Round(pos.Y))
+	e.imgOptions.GeoM.Translate(pos.X, pos.Y)
 
 	camera.Draw(
 		enemySubImgs[int(e.animationState)*NUM_FRAMES+e.frameIndex],
@@ -161,8 +160,8 @@ func (e *Enemy) DrawBelow(screen *ebiten.Image) {
 
 	e.imgOptions.GeoM.Reset()
 	e.imgOptions.GeoM.Translate(
-		math.Round(pos.X),
-		math.Round(pos.Y+FRAME_HEIGHT*.75),
+		pos.X,
+		pos.Y+FRAME_HEIGHT*.75,
 	)
 
 	camera.Draw(
