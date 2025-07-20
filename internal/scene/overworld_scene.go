@@ -11,10 +11,12 @@ import (
 	"github.com/ebitenui/ebitenui/widget"
 )
 
+// OverworldScene defines a main menu scene instance.
 type OverworldScene struct {
 	Scene
 }
 
+// Init initializes the overworld scene.
 func (s *OverworldScene) Init() {
 	s.canPause = true
 
@@ -29,10 +31,12 @@ func (s *OverworldScene) Init() {
 	s.AddGameObject(enemy)
 }
 
+// InitUI initializes the overworld scene UI.
 func (s *OverworldScene) InitUI() {
 	s.Scene.InitUI()
 }
 
+// InitPauseScreenUI initializes the overworld scene pause screen UI.
 func (s *OverworldScene) InitPauseScreenUI() {
 	s.Scene.InitPauseScreenUI()
 

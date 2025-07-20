@@ -8,14 +8,17 @@ import (
 	"github.com/ebitenui/ebitenui/widget"
 )
 
+// MainMenuScene defines a main menu scene instance.
 type MainMenuScene struct {
 	Scene
 }
 
+// Init initializes the main menu scene.
 func (s *MainMenuScene) Init() {
 	s.Scene.Init()
 }
 
+// InitUI initializes the main menu scene UI.
 func (s *MainMenuScene) InitUI() {
 	s.Scene.InitUI()
 

@@ -9,14 +9,17 @@ import (
 	"github.com/ebitenui/ebitenui/widget"
 )
 
+// OptionsScene defines a main menu scene instance.
 type OptionsScene struct {
 	Scene
 }
 
+// Init initializes the options scene.
 func (s *OptionsScene) Init() {
 	s.Scene.Init()
 }
 
+// InitUI initializes the options scene UI.
 func (s *OptionsScene) InitUI() {
 	s.Scene.InitUI()
 

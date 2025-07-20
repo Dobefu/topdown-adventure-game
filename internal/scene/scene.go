@@ -16,6 +16,8 @@ import (
 	"github.com/setanarut/kamera/v2"
 )
 
+// Scene defines a base scene instance.
+// This is meant to be embedded, it should not be used directly.
 type Scene struct {
 	interfaces.Scene
 
@@ -38,7 +40,7 @@ func (s *Scene) Init() {
 	s.InitPauseScreenUI()
 }
 
-// InitUI initializes the scene UI.
+// InitUI initializes the base scene UI.
 func (s *Scene) InitUI() {
 	s.ui = &ebitenui.UI{
 		Container: ui.NewAnchorContainer(0, 0),
