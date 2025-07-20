@@ -1,3 +1,4 @@
+// Package fonts provides fonts in several sizes.
 package fonts
 
 import (
@@ -13,10 +14,15 @@ var (
 	//go:embed ttf/Oxanium-SemiBold.ttf
 	fontSrc []byte
 
-	FontDefaultSm  *text.GoTextFace
-	FontDefaultMd  *text.GoTextFace
-	FontDefaultLg  *text.GoTextFace
-	FontDefaultXl  *text.GoTextFace
+	// FontDefaultSm provides a small font.
+	FontDefaultSm *text.GoTextFace
+	// FontDefaultMd provides a medium size font.
+	FontDefaultMd *text.GoTextFace
+	// FontDefaultLg provides a large font.
+	FontDefaultLg *text.GoTextFace
+	// FontDefaultXl provides an extra large font.
+	FontDefaultXl *text.GoTextFace
+	// FontDefaultXxl provides an even larger font.
 	FontDefaultXxl *text.GoTextFace
 )
 
