@@ -6,12 +6,14 @@ import (
 	"github.com/Dobefu/vectors"
 )
 
+// Move handles moving a game object.
 func (g *GameObject) Move(
 	velocity vectors.Vector3,
 ) {
 	(*g.GetPosition()).Add(velocity)
 }
 
+// MoveWithCollisionRect moves a game object, with a given collision rectangle.
 func (g *GameObject) MoveWithCollisionRect(
 	velocity vectors.Vector3,
 	x1 float64,
@@ -90,7 +92,7 @@ func (g *GameObject) findMaxMovement(
 		target = velocity.Y
 	}
 
-	var minDistance float64 = 0
+	var minDistance float64
 	maxDistance := math.Abs(target)
 	threshold := 0.1
 
@@ -108,9 +110,9 @@ func (g *GameObject) findMaxMovement(
 
 	if target > 0 {
 		return minDistance
-	} else {
-		return -minDistance
 	}
+
+	return -minDistance
 }
 
 func (g *GameObject) canMoveTo(

@@ -8,6 +8,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
+// CollidableGameObject defines a game object that can collide.
 type CollidableGameObject struct {
 	GameObject
 	interfaces.Collidable
@@ -18,6 +19,7 @@ type CollidableGameObject struct {
 	debugCollisionImageOptions *ebiten.DrawImageOptions
 }
 
+// Init initializes the game object.
 func (c *CollidableGameObject) Init() {
 	c.GameObject.Init()
 
@@ -31,10 +33,12 @@ func (c *CollidableGameObject) Init() {
 	}
 }
 
+// DrawAbove handles drawing above the game object.
 func (c *CollidableGameObject) DrawAbove(screen *ebiten.Image) {
 	c.GameObject.DrawAbove(screen)
 }
 
+// DrawDebugCollision handles drawing of the collision debug overlay.
 func (c *CollidableGameObject) DrawDebugCollision(
 	screen *ebiten.Image,
 	x1 float64,
@@ -69,14 +73,21 @@ func (c *CollidableGameObject) DrawDebugCollision(
 	)
 }
 
-func (c *CollidableGameObject) GetOnCollision() func(self interfaces.GameObject, other interfaces.GameObject) {
+// GetOnCollision gets the current OnCollision callback function.
+func (c *CollidableGameObject) GetOnCollision() (
+	callback func(self interfaces.GameObject, other interfaces.GameObject),
+) {
 	return c.OnCollision
 }
 
-func (c *CollidableGameObject) SetOnCollision(callback func(self interfaces.GameObject, other interfaces.GameObject)) {
+// SetOnCollision sets the current OnCollision callback function.
+func (c *CollidableGameObject) SetOnCollision(
+	callback func(self interfaces.GameObject, other interfaces.GameObject),
+) {
 	c.OnCollision = callback
 }
 
+// MoveWithCollision moves the game object with collision checks.
 func (c *CollidableGameObject) MoveWithCollision(
 	velocity vectors.Vector3,
 ) (newVelocity vectors.Vector3, hasCollided bool) {
@@ -85,10 +96,12 @@ func (c *CollidableGameObject) MoveWithCollision(
 	return c.MoveWithCollisionRect(velocity, x1, y1, x2, y2)
 }
 
+// GetCollisionRect gets the four points of the collision rectangle.
 func (c *CollidableGameObject) GetCollisionRect() (x1, y1, x2, y2 float64) {
 	return 0, 0, 31, 31
 }
 
+// CheckCollision checks if the game object collides with another game object.
 func (c *CollidableGameObject) CheckCollision(
 	scene interfaces.Scene,
 	position vectors.Vector3,
@@ -103,6 +116,7 @@ func (c *CollidableGameObject) CheckCollision(
 	c.CheckCollisionWithCollisionRect(x1, y1, x2, y2, activeGameObjects, position)
 }
 
+// CheckCollisionWithCollisionRect checks for collision with a bounding box.
 func (c *CollidableGameObject) CheckCollisionWithCollisionRect(
 	x1 float64,
 	y1 float64,

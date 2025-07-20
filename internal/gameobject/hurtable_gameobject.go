@@ -7,6 +7,7 @@ import (
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 )
 
+// HurtableGameObject defines a game object that can get damaged and can die.
 type HurtableGameObject struct {
 	interfaces.HurtableGameObject
 	CollidableGameObject
@@ -16,23 +17,28 @@ type HurtableGameObject struct {
 	deathCallback func()
 }
 
+// GetHealth gets the health of the game object.
 func (h *HurtableGameObject) GetHealth() (health int) {
 	return h.health
 }
 
+// SetHealth sets the health of the game object.
 func (h *HurtableGameObject) SetHealth(health int) {
 	h.health = health
 }
 
+// GetMaxHealth gets the max health of the game object.
 func (h *HurtableGameObject) GetMaxHealth() (maxHealth int) {
 	return h.maxHealth
 }
 
+// SetMaxHealth sets the max health of the game object.
 func (h *HurtableGameObject) SetMaxHealth(maxHealth int) {
 	h.maxHealth = maxHealth
 }
 
-func (h *HurtableGameObject) Damage(amount int, source interfaces.GameObject) {
+// Damage handles damaging the game object.
+func (h *HurtableGameObject) Damage(amount int, _ interfaces.GameObject) {
 	h.health = int(math.Max(0, float64(h.health-amount)))
 
 	if h.health <= 0 {
@@ -46,14 +52,17 @@ func (h *HurtableGameObject) Damage(amount int, source interfaces.GameObject) {
 	}
 }
 
+// Heal handles healing a game object.
 func (h *HurtableGameObject) Heal(amount int) {
 	h.health += amount
 }
 
+// GetDeathCallback gets the death callback function of the game object.
 func (h *HurtableGameObject) GetDeathCallback() (callback func()) {
 	return h.deathCallback
 }
 
+// SetDeathCallback sets the death callback function of the game object.
 func (h *HurtableGameObject) SetDeathCallback(callback func()) {
 	h.deathCallback = callback
 }
