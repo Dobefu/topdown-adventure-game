@@ -280,6 +280,7 @@ func (p *Player) Damage(amount int, source interfaces.GameObject) {
 	pos.Z = 0
 
 	srcPosition := (*source.GetPosition())
+	srcPosition.Z = 0
 	srcPosition.Sub(pos)
 	srcPosition.ClampMagnitude(1)
 	srcPosition.Bounce()

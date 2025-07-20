@@ -26,10 +26,10 @@ var (
 )
 
 const (
-	FRAME_WIDTH      = 32
-	FRAME_HEIGHT     = 32
-	NUM_FRAMES       = 16
-	GAMEPAD_DEADZONE = .1
+	FRAME_WIDTH  = 32
+	FRAME_HEIGHT = 32
+	NUM_FRAMES   = 16
+	KNOCKBACK    = 10
 
 	MAX_HEALTH = 10
 )
@@ -143,7 +143,7 @@ func (e *Enemy) Draw(screen *ebiten.Image) {
 	camera := scene.GetCamera()
 
 	e.imgOptions.GeoM.Reset()
-	e.imgOptions.GeoM.Translate(pos.X, pos.Y)
+	e.imgOptions.GeoM.Translate(pos.X, pos.Y-pos.Z)
 
 	camera.Draw(
 		enemySubImgs[int(e.animationState)*NUM_FRAMES+e.frameIndex],
@@ -182,6 +182,27 @@ func (e *Enemy) Update() (err error) {
 	e.CheckCollision(*e.GetScene(), *e.GetPosition())
 
 	return nil
+}
+
+func (e *Enemy) Damage(amount int, source interfaces.GameObject) {
+	// if e.state != state.StateDefault {
+	// 	return
+	// }
+
+	e.HurtableGameObject.Damage(amount, source)
+	// e.state = state.StateHurt
+
+	pos := *e.GetPosition()
+	pos.Z = 0
+
+	srcPosition := (*source.GetPosition())
+	srcPosition.Z = 0
+	srcPosition.Sub(pos)
+	srcPosition.ClampMagnitude(1)
+	srcPosition.Bounce()
+	srcPosition.Mul(vectors.Vector3{X: 10, Y: 10, Z: 1})
+	e.velocity.Add(srcPosition)
+	e.velocity.Z += 10 / 2
 }
 
 func (e *Enemy) Die() {

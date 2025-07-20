@@ -12,8 +12,8 @@ const (
 )
 
 func (e *Enemy) handleMovement() {
-	// Dampen the X and Y velocity.
-	e.velocity.Mul(vectors.Vector3{X: VELOCITY_DAMPING, Y: VELOCITY_DAMPING, Z: 1})
+	// Dampen the velocity.
+	e.velocity.Mul(vectors.Vector3{X: VELOCITY_DAMPING, Y: VELOCITY_DAMPING, Z: VELOCITY_DAMPING})
 
 	// If the velocity magnitude is very low, set it to zero.
 	// This allows the idle animations to work.
@@ -21,15 +21,15 @@ func (e *Enemy) handleMovement() {
 		e.velocity.Mul(vectors.Vector3{X: 0, Y: 0, Z: 1})
 	}
 
-	e.rawInputVelocity.Clear()
+	pos := *e.GetPosition()
 
-	if e.rawInputVelocity.Magnitude() > 0 {
-		e.rawInputVelocity.Normalize()
-		e.rawInputVelocity.Mul(vectors.Vector3{X: ACCELERATION, Y: ACCELERATION, Z: 1})
+	// Apply gravity.
+	if pos.Z > 0 {
+		e.velocity.Z -= ACCELERATION / 2
 	}
 
-	e.velocity.Add(e.rawInputVelocity)
 	e.velocity.ClampMagnitude(MAX_SPEED)
 
-	e.velocity, _ = e.MoveWithCollision(e.velocity)
+	x1, y1, x2, y2 := e.GetCollisionRect()
+	e.velocity, _ = e.MoveWithCollisionRect(e.velocity, x1, y1, x2, y2)
 }

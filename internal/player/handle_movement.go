@@ -51,7 +51,8 @@ func (p *Player) handleMovement() {
 		}
 	}
 
-	p.velocity, _ = p.MoveWithCollision(p.velocity)
+	x1, y1, x2, y2 := p.GetCollisionRect()
+	p.velocity, _ = p.MoveWithCollisionRect(p.velocity, x1, y1, x2, y2)
 }
 
 func (p *Player) handleInput() {
