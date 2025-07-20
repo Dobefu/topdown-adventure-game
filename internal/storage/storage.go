@@ -1,3 +1,4 @@
+// Package storage handles the saving and loading of game data.
 package storage
 
 import (
@@ -34,6 +35,7 @@ func init() {
 	}
 }
 
+// GetOption retrieves an option from the saved storage.
 func GetOption[T []byte | string | int | bool](option string, defaultValue T) (value T, err error) {
 	val, err := dataManager.LoadObjectProp("options", option)
 
@@ -70,6 +72,7 @@ func GetOption[T []byte | string | int | bool](option string, defaultValue T) (v
 	}
 }
 
+// SetOption sets an option in saved storage.
 func SetOption(option string, value string) (err error) {
 	return dataManager.SaveObjectProp("options", option, []byte(value))
 }
