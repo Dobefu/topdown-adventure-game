@@ -13,10 +13,10 @@ var (
 
 func init() {
 	Rand = fastrand{
-		x: rand.Uint32(),
-		y: rand.Uint32(),
-		z: rand.Uint32(),
-		w: rand.Uint32(),
+		x: rand.Uint32(), // #nosec G404
+		y: rand.Uint32(), // #nosec G404
+		z: rand.Uint32(), // #nosec G404
+		w: rand.Uint32(), // #nosec G404
 	}
 }
 
