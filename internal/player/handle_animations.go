@@ -20,7 +20,7 @@ func (p *Player) handleAnimations() {
 	if (p.frameCount % 3) == 0 {
 		p.frameIndex++
 
-		if p.frameIndex >= NUM_FRAMES {
+		if p.frameIndex >= NumFrames {
 			p.frameIndex = 0
 
 			if p.state == state.StateHurt {
@@ -42,8 +42,8 @@ func (p *Player) handleAnimations() {
 		cameraPos := *p.GetCameraPosition()
 		pos := *p.GetPosition()
 		pos.Add(vectors.Vector3{
-			X: FRAME_WIDTH / 2,
-			Y: FRAME_HEIGHT / 2,
+			X: FrameWidth / 2,
+			Y: FrameHeight / 2,
 			Z: 0,
 		})
 

@@ -47,8 +47,8 @@ func (p *Player) Shoot() {
 		pos.Z = 0
 
 		pos.Add(vectors.Vector3{
-			X: FRAME_WIDTH / 2,
-			Y: FRAME_HEIGHT / 2,
+			X: FrameWidth / 2,
+			Y: FrameHeight / 2,
 			Z: 0,
 		})
 
