@@ -21,14 +21,14 @@ func (s *MainMenuScene) InitUI() {
 
 	btnStart := ui.NewButton(
 		"Start",
-		widget.ButtonOpts.ClickedHandler(func(args *widget.ButtonClickedEventArgs) {
+		widget.ButtonOpts.ClickedHandler(func(_ *widget.ButtonClickedEventArgs) {
 			s.GetGame().SetScene(&OverworldScene{})
 		}),
 	)
 
 	btnOptions := ui.NewButton(
 		"Options",
-		widget.ButtonOpts.ClickedHandler(func(args *widget.ButtonClickedEventArgs) {
+		widget.ButtonOpts.ClickedHandler(func(_ *widget.ButtonClickedEventArgs) {
 			s.GetGame().SetScene(&OptionsScene{})
 		}),
 	)
@@ -56,7 +56,7 @@ func (s *MainMenuScene) InitUI() {
 		innerContainer.AddChild(
 			ui.NewButton(
 				"Quit",
-				widget.ButtonOpts.ClickedHandler(func(args *widget.ButtonClickedEventArgs) {
+				widget.ButtonOpts.ClickedHandler(func(_ *widget.ButtonClickedEventArgs) {
 					os.Exit(0)
 				}),
 			),

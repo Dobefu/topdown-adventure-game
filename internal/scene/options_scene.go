@@ -44,7 +44,7 @@ func (s *OptionsScene) InitUI() {
 
 	btnBack := ui.NewButton(
 		"Back",
-		widget.ButtonOpts.ClickedHandler(func(args *widget.ButtonClickedEventArgs) {
+		widget.ButtonOpts.ClickedHandler(func(_ *widget.ButtonClickedEventArgs) {
 			s.GetGame().SetScene(&MainMenuScene{})
 		}),
 	)
