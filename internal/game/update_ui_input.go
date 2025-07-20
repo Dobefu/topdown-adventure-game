@@ -38,7 +38,7 @@ func (g *game) UpdateUIInput() {
 		}
 	}
 
-	if g.input.ActionIsJustPressed(input.ActionSelect) {
+	if g.input.ActionIsJustPressed(input.ActionConfirm) {
 		if focusedBtn, ok := focusedWidget.(*widget.Button); ok {
 			focusedBtn.Click()
 		}

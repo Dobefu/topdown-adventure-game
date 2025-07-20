@@ -1,3 +1,4 @@
+// Package input provides mapping for input actions.
 package input
 
 import (
@@ -5,25 +6,39 @@ import (
 )
 
 var (
-	Input        input.System
+	// Input is a singleton that handles the "ebitengine-input" input system.
+	Input input.System
+	// PlayerKeymap houses the keymap for player controls.
 	PlayerKeymap input.Keymap
-	UIKeymap     input.Keymap
+	// UIKeymap houses the keymap for UI controls.
+	UIKeymap input.Keymap
 )
 
 const (
+	// ActionMoveLeft handles movement to the left.
 	ActionMoveLeft = iota
+	// ActionMoveRight handles movement to the right.
 	ActionMoveRight
+	// ActionMoveUp handles upward movement.
 	ActionMoveUp
+	// ActionMoveDown handles downward movement.
 	ActionMoveDown
+	// ActionMoveAnalog handles movement with the analog stick.
 	ActionMoveAnalog
 
+	// ActionAimMouse handles aiming with the mouse.
 	ActionAimMouse
+	// ActionAimAnalog handles aiming with the analog stick.
 	ActionAimAnalog
+	// ActionShoot handles shooting.
 	ActionShoot
 
-	ActionSelect
+	// ActionConfirm handles the UI confirmation button.
+	ActionConfirm
+	// ActionPause handles the pause button.
 	ActionPause
 
+	// ActionToggleDebug handles toggling of the debug overlay.
 	ActionToggleDebug
 )
 
@@ -51,8 +66,8 @@ func init() {
 		ActionMoveUp:    {input.KeyGamepadUp, input.KeyGamepadLStickUp, input.KeyUp, input.KeyW, input.KeyK},
 		ActionMoveDown:  {input.KeyGamepadDown, input.KeyGamepadLStickDown, input.KeyDown, input.KeyS, input.KeyJ},
 
-		ActionSelect: {input.KeyGamepadA, input.KeyEnter},
-		ActionPause:  {input.KeyGamepadStart, input.KeyEscape},
+		ActionConfirm: {input.KeyGamepadA, input.KeyEnter},
+		ActionPause:   {input.KeyGamepadStart, input.KeyEscape},
 
 		ActionToggleDebug: {input.KeyF5},
 	}
