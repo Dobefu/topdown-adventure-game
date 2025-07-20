@@ -76,7 +76,7 @@ type Bullet struct {
 	imgOptions     *ebiten.DrawImageOptions
 	frameCount     int
 	frameIndex     int
-	animationState animation.AnimationState
+	animationState animation.State
 
 	trailParticles []*pixel.Pixel
 }
@@ -213,7 +213,7 @@ func (b *Bullet) Update() (err error) {
 
 	angle := b.velocity.AngleDegrees()
 
-	b.animationState = animation.AnimationState(
+	b.animationState = animation.State(
 		int((angle+22.5)/45) % 8,
 	)
 

@@ -83,7 +83,7 @@ type Enemy struct {
 
 	frameCount     int
 	frameIndex     int
-	animationState animation.AnimationState
+	animationState animation.State
 }
 
 func NewEnemy(position vectors.Vector3) (enemy *Enemy) {
@@ -97,7 +97,7 @@ func NewEnemy(position vectors.Vector3) (enemy *Enemy) {
 	enemy.SetIsActive(true)
 	enemy.SetPosition(position)
 
-	enemy.animationState = animation.AnimationStateIdleDown
+	enemy.animationState = animation.StateIdleDown
 
 	enemy.SetOnCollision(func(self, other interfaces.GameObject) {
 		if hurtable, ok := other.(interfaces.HurtableGameObject); ok {

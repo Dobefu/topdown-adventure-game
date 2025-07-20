@@ -25,18 +25,18 @@ func (e *Enemy) handleAnimations() {
 
 	if e.velocity.IsZero() {
 		// Idle state.
-		e.animationState = animation.AnimationState(
-			int(e.animationState)%8 + int(animation.AnimationStateOffsetIdle),
+		e.animationState = animation.State(
+			int(e.animationState)%8 + int(animation.StateOffsetIdle),
 		)
 	} else if e.velocity.Magnitude() < RUNNING_THRESHOLD {
 		// Walking state.
-		e.animationState = animation.AnimationState(
-			int((angle+22.5)/45)%8 + int(animation.AnimationStateOffsetWalk),
+		e.animationState = animation.State(
+			int((angle+22.5)/45)%8 + int(animation.StateOffsetWalk),
 		)
 	} else {
 		// Running state.
-		e.animationState = animation.AnimationState(
-			int((angle+22.5)/45)%8 + int(animation.AnimationStateOffsetRun),
+		e.animationState = animation.State(
+			int((angle+22.5)/45)%8 + int(animation.StateOffsetRun),
 		)
 	}
 

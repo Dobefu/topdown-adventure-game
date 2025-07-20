@@ -1,63 +1,63 @@
 package animation
 
-type AnimationState int
+type State int
 
 const (
-	AnimationStateOffsetIdle = iota * 8
-	AnimationStateOffsetWalk
-	AnimationStateOffsetRun
-	AnimationStateOffsetAim
-	AnimationStateOffsetShoot
-	AnimationStateOffsetHurt
+	StateOffsetIdle = iota * 8
+	StateOffsetWalk
+	StateOffsetRun
+	StateOffsetAim
+	StateOffsetShoot
+	StateOffsetHurt
 )
 
 const (
-	AnimationStateIdleRight = iota
-	AnimationStateIdleDownRight
-	AnimationStateIdleDown
-	AnimationStateIdleDownLeft
-	AnimationStateIdleLeft
-	AnimationStateIdleUpLeft
-	AnimationStateIdleUp
-	AnimationStateIdleUpRight
-	AnimationStateWalkRight
-	AnimationStateWalkDownRight
-	AnimationStateWalkDown
-	AnimationStateWalkDownLeft
-	AnimationStateWalkLeft
-	AnimationStateWalkUpLeft
-	AnimationStateWalkUp
-	AnimationStateWalkUpRight
-	AnimationStateRunRight
-	AnimationStateRunDownRight
-	AnimationStateRunDown
-	AnimationStateRunDownLeft
-	AnimationStateRunLeft
-	AnimationStateRunUpLeft
-	AnimationStateRunUp
-	AnimationStateRunUpRight
-	AnimationStateAimRight
-	AnimationStateAimDownRight
-	AnimationStateAimDown
-	AnimationStateAimDownLeft
-	AnimationStateAimLeft
-	AnimationStateAimUpLeft
-	AnimationStateAimUp
-	AnimationStateAimUpRight
-	AnimationStateShootRight
-	AnimationStateShootDownRight
-	AnimationStateShootDown
-	AnimationStateShootDownLeft
-	AnimationStateShootLeft
-	AnimationStateShootUpLeft
-	AnimationStateShootUp
-	AnimationStateShootUpRight
-	AnimationStateHurtRight
-	AnimationStateHurtDownRight
-	AnimationStateHurtDown
-	AnimationStateHurtDownLeft
-	AnimationStateHurtLeft
-	AnimationStateHurtUpLeft
-	AnimationStateHurtUp
-	AnimationStateHurtUpRight
+	StateIdleRight = iota
+	StateIdleDownRight
+	StateIdleDown
+	StateIdleDownLeft
+	StateIdleLeft
+	StateIdleUpLeft
+	StateIdleUp
+	StateIdleUpRight
+	StateWalkRight
+	StateWalkDownRight
+	StateWalkDown
+	StateWalkDownLeft
+	StateWalkLeft
+	StateWalkUpLeft
+	StateWalkUp
+	StateWalkUpRight
+	StateRunRight
+	StateRunDownRight
+	StateRunDown
+	StateRunDownLeft
+	StateRunLeft
+	StateRunUpLeft
+	StateRunUp
+	StateRunUpRight
+	StateAimRight
+	StateAimDownRight
+	StateAimDown
+	StateAimDownLeft
+	StateAimLeft
+	StateAimUpLeft
+	StateAimUp
+	StateAimUpRight
+	StateShootRight
+	StateShootDownRight
+	StateShootDown
+	StateShootDownLeft
+	StateShootLeft
+	StateShootUpLeft
+	StateShootUp
+	StateShootUpRight
+	StateHurtRight
+	StateHurtDownRight
+	StateHurtDown
+	StateHurtDownLeft
+	StateHurtLeft
+	StateHurtUpLeft
+	StateHurtUp
+	StateHurtUpRight
 )

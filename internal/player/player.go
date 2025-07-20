@@ -100,7 +100,7 @@ type Player struct {
 
 	frameCount     int
 	frameIndex     int
-	animationState animation.AnimationState
+	animationState animation.State
 	state          state.State
 }
 
@@ -121,7 +121,7 @@ func NewPlayer(position vectors.Vector3) (player *Player) {
 
 	player.shootCooldownMax = 20
 
-	player.animationState = animation.AnimationStateIdleDown
+	player.animationState = animation.StateIdleDown
 
 	player.SetOnCollision(func(self, other interfaces.GameObject) {
 		// Skip the collision callback if the player hits a bullet they own.

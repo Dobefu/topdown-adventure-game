@@ -32,8 +32,8 @@ func (p *Player) handleAnimations() {
 
 	if p.state == state.StateHurt {
 		// Hurt state.
-		p.animationState = animation.AnimationState(
-			int(p.animationState)%8 + int(animation.AnimationStateOffsetHurt),
+		p.animationState = animation.State(
+			int(p.animationState)%8 + int(animation.StateOffsetHurt),
 		)
 	} else if _, ok := p.input.PressedActionInfo(input.ActionAimAnalog); ok ||
 		p.input.ActionIsPressed(input.ActionAimMouse) {
@@ -50,23 +50,23 @@ func (p *Player) handleAnimations() {
 		angle := cameraPos.AngleDegrees()
 
 		// Aiming state.
-		p.animationState = animation.AnimationState(
-			int((angle+22.5)/45)%8 + int(animation.AnimationStateOffsetAim),
+		p.animationState = animation.State(
+			int((angle+22.5)/45)%8 + int(animation.StateOffsetAim),
 		)
 	} else if p.velocity.IsZero() {
 		// Idle state.
-		p.animationState = animation.AnimationState(
-			int(p.animationState)%8 + int(animation.AnimationStateOffsetIdle),
+		p.animationState = animation.State(
+			int(p.animationState)%8 + int(animation.StateOffsetIdle),
 		)
 	} else if p.velocity.Magnitude() < RUNNING_THRESHOLD {
 		// Walking state.
-		p.animationState = animation.AnimationState(
-			int((angle+22.5)/45)%8 + int(animation.AnimationStateOffsetWalk),
+		p.animationState = animation.State(
+			int((angle+22.5)/45)%8 + int(animation.StateOffsetWalk),
 		)
 	} else {
 		// Running state.
-		p.animationState = animation.AnimationState(
-			int((angle+22.5)/45)%8 + int(animation.AnimationStateOffsetRun),
+		p.animationState = animation.State(
+			int((angle+22.5)/45)%8 + int(animation.StateOffsetRun),
 		)
 	}
 
