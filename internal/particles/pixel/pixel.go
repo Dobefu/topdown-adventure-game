@@ -1,3 +1,4 @@
+// Package pixel provides a "pixel" particle.
 package pixel
 
 import (
@@ -8,6 +9,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
+// Pixel struct provides a struct for the pixel particle.
 type Pixel struct {
 	particles.Particle
 
@@ -15,6 +17,7 @@ type Pixel struct {
 	img        *ebiten.Image
 }
 
+// NewPixel creates a single new pixel particle.
 func NewPixel(position vectors.Vector3) (pixel *Pixel) {
 	pixel = &Pixel{}
 	pixel.SetPosition(position)
@@ -26,12 +29,14 @@ func NewPixel(position vectors.Vector3) (pixel *Pixel) {
 	return pixel
 }
 
+// Update runs during the game's Update function.
 func (p *Pixel) Update() (err error) {
 	p.Particle.Update()
 
 	return nil
 }
 
+// Draw runs during the game's Draw function.
 func (p *Pixel) Draw(screen *ebiten.Image) {
 	scene := *p.GetScene()
 	camera := scene.GetCamera()
