@@ -77,8 +77,7 @@ type Enemy struct {
 	game_object.HostileGameObject
 	game_object.HurtableGameObject
 
-	velocity         vectors.Vector3
-	rawInputVelocity vectors.Vector3
+	velocity vectors.Vector3
 
 	imgOptions *ebiten.DrawImageOptions
 

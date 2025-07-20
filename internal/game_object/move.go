@@ -145,11 +145,7 @@ func (g *GameObject) canMoveTo(
 
 	bottomRight := scene.GetCollisionTile(velocity, vectors.Vector2{X: target.X + x2, Y: target.Y + y2})
 
-	if bottomRight != 0 {
-		return false
-	}
-
-	return true
+	return bottomRight == 0
 }
 
 func getTestVelocityFromVelocity(
