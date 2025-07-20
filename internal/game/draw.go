@@ -9,7 +9,8 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
-func (g *game) Draw(screen *ebiten.Image) {
+// Draw handles drawing of all active gameobjects in a scene.
+func (g *Game) Draw(screen *ebiten.Image) {
 	screen.Fill(color.Black)
 	screenSize := screen.Bounds().Size()
 	g.screenWidth = screenSize.X
@@ -22,8 +23,8 @@ func (g *game) Draw(screen *ebiten.Image) {
 	camera := g.scene.GetCamera()
 	camera.SetSize(float64(g.screenWidth), float64(g.screenHeight))
 
-	widthScale := float64(g.screenWidth) / VIRTUAL_WIDTH
-	heightScale := float64(g.screenHeight) / VIRTUAL_HEIGHT
+	widthScale := float64(g.screenWidth) / VirtualWidth
+	heightScale := float64(g.screenHeight) / VirtualHeight
 	camera.ZoomFactor = math.Min(widthScale, heightScale)
 
 	activeGameObjects := g.scene.GetActiveGameObjects()
@@ -80,7 +81,7 @@ func (g *game) Draw(screen *ebiten.Image) {
 	}
 }
 
-func (g *game) drawGameObjectsBelow(
+func (g *Game) drawGameObjectsBelow(
 	screen *ebiten.Image,
 	activeGameObjects []interfaces.GameObject,
 ) {
@@ -89,7 +90,7 @@ func (g *game) drawGameObjectsBelow(
 	}
 }
 
-func (g *game) drawGameObjects(
+func (g *Game) drawGameObjects(
 	screen *ebiten.Image,
 	activeGameObjects []interfaces.GameObject,
 ) {
@@ -98,7 +99,7 @@ func (g *game) drawGameObjects(
 	}
 }
 
-func (g *game) drawGameObjectsAbove(
+func (g *Game) drawGameObjectsAbove(
 	screen *ebiten.Image,
 	activeGameObjects []interfaces.GameObject,
 ) {
@@ -107,7 +108,7 @@ func (g *game) drawGameObjectsAbove(
 	}
 }
 
-func (g *game) drawGameObjectsUI(
+func (g *Game) drawGameObjectsUI(
 	screen *ebiten.Image,
 	activeGameObjects []interfaces.GameObject,
 ) {

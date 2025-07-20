@@ -13,7 +13,6 @@ type Game interface {
 
 	GetIsDebugEnabled() (isDebugEnabled bool)
 	GetIsDebugActive() (isDebugActive bool)
-	GetScale() (scale float64)
 	GetScene() (scene Scene)
 	SetScene(scene Scene)
 	GetAudioContext() (audioContext *audio.Context)

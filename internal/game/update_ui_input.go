@@ -5,7 +5,8 @@ import (
 	"github.com/ebitenui/ebitenui/widget"
 )
 
-func (g *game) UpdateUIInput() {
+// UpdateUIInput updates the controller input in the UI.
+func (g *Game) UpdateUIInput() {
 	ui := g.scene.GetUI()
 
 	if g.scene.GetIsPaused() {

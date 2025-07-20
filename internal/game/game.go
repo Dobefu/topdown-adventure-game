@@ -1,3 +1,4 @@
+// Package game provides the main game.
 package game
 
 import (
@@ -17,13 +18,17 @@ import (
 )
 
 const (
-	VIRTUAL_WIDTH  = 640
-	VIRTUAL_HEIGHT = 360
+	// VirtualWidth is the virtual width to draw the game at.
+	VirtualWidth = 640
+	// VirtualHeight is the virtual height to draw the game at.
+	VirtualHeight = 360
 
-	CAMERA_SMOOTHING = .1
+	// CameraSmoothing is the smooth factor of the camera. Range: 0.01 - 1.
+	CameraSmoothing = .1
 )
 
-type game struct {
+// Game struct provides the game.
+type Game struct {
 	interfaces.Game
 
 	isDebugEnabled bool
@@ -43,8 +48,9 @@ type game struct {
 	cachedLayerImages []*ebiten.Image
 }
 
-func NewGame(isDebugEnabled bool) (g *game) {
-	g = &game{
+// NewGame creates a new game instance.
+func NewGame(isDebugEnabled bool) (g *Game) {
+	g = &Game{
 		isDebugEnabled: isDebugEnabled,
 	}
 
@@ -67,23 +73,23 @@ func NewGame(isDebugEnabled bool) (g *game) {
 	return g
 }
 
-func (g *game) GetIsDebugEnabled() (isDebugEnabled bool) {
+// GetIsDebugEnabled gets whether or not debugging is enabled.
+func (g *Game) GetIsDebugEnabled() (isDebugEnabled bool) {
 	return g.isDebugEnabled
 }
 
-func (g *game) GetIsDebugActive() (isDebugActive bool) {
+// GetIsDebugActive gets whether or not debugging is active.
+func (g *Game) GetIsDebugActive() (isDebugActive bool) {
 	return g.isDebugActive
 }
 
-func (g *game) GetScale() (scale float64) {
-	return g.scale
-}
-
-func (g *game) GetScene() (scene interfaces.Scene) {
+// GetScene gets the current active scene.
+func (g *Game) GetScene() (scene interfaces.Scene) {
 	return g.scene
 }
 
-func (g *game) SetScene(scene interfaces.Scene) {
+// SetScene sets the currently active scene.
+func (g *Game) SetScene(scene interfaces.Scene) {
 	g.scene = scene
 
 	camera := kamera.NewCamera(
@@ -99,11 +105,11 @@ func (g *game) SetScene(scene interfaces.Scene) {
 	camera.ShakeEnabled = true
 	camera.SmoothType = kamera.SmoothDamp
 	camera.SmoothOptions = kamera.DefaultSmoothOptions()
-	camera.SmoothOptions.SmoothDampTimeX = CAMERA_SMOOTHING
-	camera.SmoothOptions.SmoothDampTimeY = CAMERA_SMOOTHING
+	camera.SmoothOptions.SmoothDampTimeX = CameraSmoothing
+	camera.SmoothOptions.SmoothDampTimeY = CameraSmoothing
 
-	widthScale := float64(g.screenWidth) / VIRTUAL_WIDTH
-	heightScale := float64(g.screenHeight) / VIRTUAL_WIDTH
+	widthScale := float64(g.screenWidth) / VirtualWidth
+	heightScale := float64(g.screenHeight) / VirtualWidth
 	camera.ZoomFactor = math.Min(widthScale, heightScale)
 
 	g.scene.Init()
@@ -132,18 +138,20 @@ func (g *game) SetScene(scene interfaces.Scene) {
 	}
 }
 
-func (g *game) GetAudioContext() (audioContext *audio.Context) {
+// GetAudioContext gets the current audio context.
+func (g *Game) GetAudioContext() (audioContext *audio.Context) {
 	return g.audioContext
 }
 
-func (g *game) Update() (err error) {
+// Update handles updating of all active gameobjects in a scene.
+func (g *Game) Update() (err error) {
 	input.Input.Update()
 	g.UpdateUIInput()
 
 	camera := g.scene.GetCamera()
 
-	widthScale := float64(g.screenWidth) / VIRTUAL_WIDTH
-	heightScale := float64(g.screenHeight) / VIRTUAL_WIDTH
+	widthScale := float64(g.screenWidth) / VirtualWidth
+	heightScale := float64(g.screenHeight) / VirtualWidth
 	g.scale = math.Min(widthScale, heightScale)
 
 	if g.isDebugEnabled && g.input.ActionIsJustPressed(input.ActionToggleDebug) {
@@ -195,13 +203,15 @@ func (g *game) Update() (err error) {
 	return nil
 }
 
-func (g *game) DrawFinalScreen(screen ebiten.FinalScreen, offscreen *ebiten.Image, geoM ebiten.GeoM) {
+// DrawFinalScreen draws the final screen.
+func (g *Game) DrawFinalScreen(screen ebiten.FinalScreen, offscreen *ebiten.Image, geoM ebiten.GeoM) {
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM = geoM
 
 	screen.DrawImage(offscreen, op)
 }
 
-func (g *game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	return VIRTUAL_WIDTH, VIRTUAL_HEIGHT
+// Layout determines the size of the rendered game.
+func (g *Game) Layout(_, _ int) (screenWidth, screenHeight int) {
+	return VirtualWidth, VirtualHeight
 }
