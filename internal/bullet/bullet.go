@@ -1,3 +1,4 @@
+// Package bullet provides functionality for bullets.
 package bullet
 
 import (
@@ -24,9 +25,12 @@ var (
 )
 
 const (
-	FRAME_WIDTH  = 32
-	FRAME_HEIGHT = 32
-	NUM_FRAMES   = 16
+	// FrameWidth defines the width of an animation frame.
+	FrameWidth = 32
+	// FrameHeight defines the height of an animation frame.
+	FrameHeight = 32
+	// NumFrames defines number of animation frames in the spritesheet.
+	NumFrames = 16
 )
 
 func init() {
@@ -39,20 +43,20 @@ func init() {
 	bulletImg = ebiten.NewImageFromImage(img)
 	bulletSubImgs = make(
 		[]*ebiten.Image,
-		bulletImg.Bounds().Dy()/FRAME_HEIGHT*NUM_FRAMES,
+		bulletImg.Bounds().Dy()/FrameHeight*NumFrames,
 	)
 
-	for state := range bulletImg.Bounds().Dy() / FRAME_HEIGHT {
-		for frame := range NUM_FRAMES {
-			key := state*NUM_FRAMES + frame
+	for state := range bulletImg.Bounds().Dy() / FrameHeight {
+		for frame := range NumFrames {
+			key := state*NumFrames + frame
 
 			bulletSubImgs[key] = ebiten.NewImageFromImage(
 				bulletImg.SubImage(
 					image.Rect(
-						frame*FRAME_WIDTH,
-						state*FRAME_HEIGHT,
-						frame*FRAME_WIDTH+FRAME_WIDTH,
-						state*FRAME_HEIGHT+FRAME_HEIGHT,
+						frame*FrameWidth,
+						state*FrameHeight,
+						frame*FrameWidth+FrameWidth,
+						state*FrameHeight+FrameHeight,
 					),
 				),
 			)
@@ -60,6 +64,7 @@ func init() {
 	}
 }
 
+// Bullet struct provides a single bullet.
 type Bullet struct {
 	interfaces.Bullet
 	game_object.CollidableGameObject
@@ -76,6 +81,7 @@ type Bullet struct {
 	trailParticles []*pixel.Pixel
 }
 
+// NewBullet creates a new bullet.
 func NewBullet() (bullet *Bullet) {
 	bullet = &Bullet{
 		velocity: vectors.Vector3{},
@@ -101,6 +107,7 @@ func NewBullet() (bullet *Bullet) {
 	return bullet
 }
 
+// Init initializes a bullet instance.
 func (b *Bullet) Init() {
 	b.GameObject.Init()
 	b.CollidableGameObject.Init()
@@ -115,18 +122,23 @@ func (b *Bullet) Init() {
 	}
 }
 
+// GetOwner gets the owner of a bullet.
 func (b *Bullet) GetOwner() (owner interfaces.GameObject) {
 	return b.owner
 }
 
+// SetOwner sets the owner of a bullet.
+// The owner of a bullet cannot get hurt by it.
 func (b *Bullet) SetOwner(owner interfaces.GameObject) {
 	b.owner = owner
 }
 
+// GetCollisionRect gets the four points of the collision rectangle.
 func (b *Bullet) GetCollisionRect() (x1, y1, x2, y2 float64) {
 	return 12, 12, 19, 19
 }
 
+// Fire fires a single bullet.
 func (b *Bullet) Fire(
 	from vectors.Vector3,
 	angle float64,
@@ -144,10 +156,12 @@ func (b *Bullet) Fire(
 	b.velocity = velocity
 }
 
+// SetVelocity sets the current velocity of a bullet.
 func (b *Bullet) SetVelocity(velocity vectors.Vector3) {
 	b.velocity = velocity
 }
 
+// MoveWithCollision moves the bullet, and checks for collision.
 func (b *Bullet) MoveWithCollision(
 	velocity vectors.Vector3,
 ) (newVelocity vectors.Vector3, hasCollided bool) {
@@ -161,6 +175,7 @@ func (b *Bullet) MoveWithCollision(
 	return newVelocity, hasCollided
 }
 
+// Draw draws the bullet.
 func (b *Bullet) Draw(screen *ebiten.Image) {
 	pos := b.GetPosition()
 
@@ -171,25 +186,27 @@ func (b *Bullet) Draw(screen *ebiten.Image) {
 	b.imgOptions.GeoM.Translate(pos.X, pos.Y)
 
 	camera.Draw(
-		bulletSubImgs[int(b.animationState)*NUM_FRAMES+b.frameIndex],
+		bulletSubImgs[int(b.animationState)*NumFrames+b.frameIndex],
 		b.imgOptions,
 		screen,
 	)
 }
 
+// DrawAbove draws above the bullet.
 func (b *Bullet) DrawAbove(screen *ebiten.Image) {
 	x1, y1, x2, y2 := b.GetCollisionRect()
 	b.DrawDebugCollision(screen, x1, y1, x2, y2)
 }
 
+// Update runs during the update function of the game.
 func (b *Bullet) Update() (err error) {
-	b.frameCount += 1
+	b.frameCount++
 
 	// Change the animation frame every 3 game ticks.
 	if (b.frameCount % 3) == 0 {
-		b.frameIndex += 1
+		b.frameIndex++
 
-		if b.frameIndex >= NUM_FRAMES {
+		if b.frameIndex >= NumFrames {
 			b.frameIndex = 0
 		}
 	}
