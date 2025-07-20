@@ -8,6 +8,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
+// Main is the main function.
 func Main(isDebugEnabled bool) {
 	ebiten.SetWindowTitle("Top-down Adventure Game")
 	ebiten.SetWindowResizingMode(ebiten.WindowResizingModeDisabled)
