@@ -5,18 +5,19 @@ import (
 )
 
 const (
-	RUNNING_THRESHOLD = 1.75
+	// RunningThreshold is the threshold at which the running animation plays.
+	RunningThreshold = 1.75
 )
 
 func (e *Enemy) handleAnimations() {
-	e.frameCount += 1
+	e.frameCount++
 	prevAnimationState := e.animationState
 
 	// Change the animation frame every 3 game ticks.
 	if (e.frameCount % 3) == 0 {
-		e.frameIndex += 1
+		e.frameIndex++
 
-		if e.frameIndex >= NUM_FRAMES {
+		if e.frameIndex >= NumFrames {
 			e.frameIndex = 0
 		}
 	}
@@ -28,7 +29,7 @@ func (e *Enemy) handleAnimations() {
 		e.animationState = animation.State(
 			int(e.animationState)%8 + int(animation.StateOffsetIdle),
 		)
-	} else if e.velocity.Magnitude() < RUNNING_THRESHOLD {
+	} else if e.velocity.Magnitude() < RunningThreshold {
 		// Walking state.
 		e.animationState = animation.State(
 			int((angle+22.5)/45)%8 + int(animation.StateOffsetWalk),

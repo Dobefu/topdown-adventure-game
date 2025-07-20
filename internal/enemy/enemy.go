@@ -1,3 +1,4 @@
+// Package enemy provides functionality for enemies.
 package enemy
 
 import (
@@ -26,12 +27,17 @@ var (
 )
 
 const (
-	FRAME_WIDTH  = 32
-	FRAME_HEIGHT = 32
-	NUM_FRAMES   = 16
-	KNOCKBACK    = 10
+	// FrameWidth defines the width of an animation frame.
+	FrameWidth = 32
+	// FrameHeight defines the height of an animation frame.
+	FrameHeight = 32
+	// NumFrames defines number of animation frames in the spritesheet.
+	NumFrames = 16
+	// Knockback defines the amount of knockback the enemy gets when hit.
+	Knockback = 10
 
-	MAX_HEALTH = 10
+	// MaxHealth defines the base max health that the enemy has.
+	MaxHealth = 10
 )
 
 func init() {
@@ -44,20 +50,20 @@ func init() {
 	enemyImg = ebiten.NewImageFromImage(img)
 	enemySubImgs = make(
 		[]*ebiten.Image,
-		enemyImg.Bounds().Dy()/FRAME_HEIGHT*NUM_FRAMES,
+		enemyImg.Bounds().Dy()/FrameHeight*NumFrames,
 	)
 
-	for state := range enemyImg.Bounds().Dy() / FRAME_HEIGHT {
-		for frame := range NUM_FRAMES {
-			key := state*NUM_FRAMES + frame
+	for state := range enemyImg.Bounds().Dy() / FrameHeight {
+		for frame := range NumFrames {
+			key := state*NumFrames + frame
 
 			enemySubImgs[key] = ebiten.NewImageFromImage(
 				enemyImg.SubImage(
 					image.Rect(
-						frame*FRAME_WIDTH,
-						state*FRAME_HEIGHT,
-						frame*FRAME_WIDTH+FRAME_WIDTH,
-						state*FRAME_HEIGHT+FRAME_HEIGHT,
+						frame*FrameWidth,
+						state*FrameHeight,
+						frame*FrameWidth+FrameWidth,
+						state*FrameHeight+FrameHeight,
 					),
 				),
 			)
@@ -73,6 +79,7 @@ func init() {
 	enemyShadowImg = ebiten.NewImageFromImage(img)
 }
 
+// Enemy struct defines a base enemy type.
 type Enemy struct {
 	game_object.HostileGameObject
 	game_object.HurtableGameObject
@@ -86,13 +93,14 @@ type Enemy struct {
 	animationState animation.State
 }
 
+// NewEnemy creates a new enemy.
 func NewEnemy(position vectors.Vector3) (enemy *Enemy) {
 	enemy = &Enemy{}
 
 	enemy.imgOptions = &ebiten.DrawImageOptions{}
 
-	enemy.SetMaxHealth(MAX_HEALTH)
-	enemy.SetHealth(MAX_HEALTH)
+	enemy.SetMaxHealth(MaxHealth)
+	enemy.SetHealth(MaxHealth)
 
 	enemy.SetIsActive(true)
 	enemy.SetPosition(position)
@@ -110,6 +118,7 @@ func NewEnemy(position vectors.Vector3) (enemy *Enemy) {
 	return enemy
 }
 
+// Init initializes a new enemy.
 func (e *Enemy) Init() {
 	e.GameObject.Init()
 	e.CollidableGameObject.Init()
@@ -123,10 +132,12 @@ func (e *Enemy) Init() {
 	}
 }
 
+// GetCollisionRect gets the four points of the collision rectangle.
 func (e *Enemy) GetCollisionRect() (x1, y1, x2, y2 float64) {
 	return 4, 19, 27, 31
 }
 
+// MoveWithCollision moves the enemy, and checks for collision.
 func (e *Enemy) MoveWithCollision(
 	velocity vectors.Vector3,
 ) (newVelocity vectors.Vector3, hasCollided bool) {
@@ -135,6 +146,7 @@ func (e *Enemy) MoveWithCollision(
 	return e.MoveWithCollisionRect(velocity, x1, y1, x2, y2)
 }
 
+// Draw draws the enemy.
 func (e *Enemy) Draw(screen *ebiten.Image) {
 	pos := e.GetPosition()
 
@@ -145,12 +157,13 @@ func (e *Enemy) Draw(screen *ebiten.Image) {
 	e.imgOptions.GeoM.Translate(pos.X, pos.Y-pos.Z)
 
 	camera.Draw(
-		enemySubImgs[int(e.animationState)*NUM_FRAMES+e.frameIndex],
+		enemySubImgs[int(e.animationState)*NumFrames+e.frameIndex],
 		e.imgOptions,
 		screen,
 	)
 }
 
+// DrawBelow draws a shadow beneath the enemy.
 func (e *Enemy) DrawBelow(screen *ebiten.Image) {
 	pos := e.GetPosition()
 
@@ -160,7 +173,7 @@ func (e *Enemy) DrawBelow(screen *ebiten.Image) {
 	e.imgOptions.GeoM.Reset()
 	e.imgOptions.GeoM.Translate(
 		pos.X,
-		pos.Y+FRAME_HEIGHT*.75,
+		pos.Y+FrameHeight*.75,
 	)
 
 	camera.Draw(
@@ -170,11 +183,13 @@ func (e *Enemy) DrawBelow(screen *ebiten.Image) {
 	)
 }
 
+// DrawAbove draws above the enemy.
 func (e *Enemy) DrawAbove(screen *ebiten.Image) {
 	x1, y1, x2, y2 := e.GetCollisionRect()
 	e.DrawDebugCollision(screen, x1, y1, x2, y2)
 }
 
+// Update runs during the update function of the game.
 func (e *Enemy) Update() (err error) {
 	e.handleMovement()
 	e.handleAnimations()
@@ -183,13 +198,13 @@ func (e *Enemy) Update() (err error) {
 	return nil
 }
 
+// Damage handles the damaging of the enemy.
 func (e *Enemy) Damage(amount int, source interfaces.GameObject) {
 	// if e.state != state.StateDefault {
 	// 	return
 	// }
 
 	e.HurtableGameObject.Damage(amount, source)
-	// e.state = state.StateHurt
 
 	pos := *e.GetPosition()
 	pos.Z = 0
@@ -199,11 +214,12 @@ func (e *Enemy) Damage(amount int, source interfaces.GameObject) {
 	srcPosition.Sub(pos)
 	srcPosition.ClampMagnitude(1)
 	srcPosition.Bounce()
-	srcPosition.Mul(vectors.Vector3{X: 10, Y: 10, Z: 1})
+	srcPosition.Mul(vectors.Vector3{X: Knockback, Y: Knockback, Z: 1})
 	e.velocity.Add(srcPosition)
-	e.velocity.Z += 10 / 2
+	e.velocity.Z += Knockback / 2
 }
 
+// Die handles the death of the enemy.
 func (e *Enemy) Die() {
 	e.SetIsActive(false)
 }

@@ -5,19 +5,24 @@ import (
 )
 
 const (
-	VELOCITY_DAMPING float64 = .9
-	STOP_THRESHOLD   float64 = .15
-	ACCELERATION     float64 = .6
-	MAX_SPEED        float64 = 4
+	// VelocityDamping defines the amount of friction that the enemy has.
+	VelocityDamping float64 = .9
+	// StopThreshold defines the minimum velocity at which the enemy is
+	// considered "stopped".
+	StopThreshold float64 = .15
+	// Acceleration defines the acceleration of the velocity.
+	Acceleration float64 = .6
+	// MaxSpeed defines the maximum speed that the enemy can have.
+	MaxSpeed float64 = 4
 )
 
 func (e *Enemy) handleMovement() {
 	// Dampen the velocity.
-	e.velocity.Mul(vectors.Vector3{X: VELOCITY_DAMPING, Y: VELOCITY_DAMPING, Z: VELOCITY_DAMPING})
+	e.velocity.Mul(vectors.Vector3{X: VelocityDamping, Y: VelocityDamping, Z: VelocityDamping})
 
 	// If the velocity magnitude is very low, set it to zero.
 	// This allows the idle animations to work.
-	if e.velocity.Magnitude() < STOP_THRESHOLD {
+	if e.velocity.Magnitude() < StopThreshold {
 		e.velocity.Mul(vectors.Vector3{X: 0, Y: 0, Z: 1})
 	}
 
@@ -25,10 +30,10 @@ func (e *Enemy) handleMovement() {
 
 	// Apply gravity.
 	if pos.Z > 0 {
-		e.velocity.Z -= ACCELERATION / 2
+		e.velocity.Z -= Acceleration / 2
 	}
 
-	e.velocity.ClampMagnitude(MAX_SPEED)
+	e.velocity.ClampMagnitude(MaxSpeed)
 
 	x1, y1, x2, y2 := e.GetCollisionRect()
 	e.velocity, _ = e.MoveWithCollisionRect(e.velocity, x1, y1, x2, y2)
