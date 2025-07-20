@@ -4,6 +4,7 @@ import (
 	"github.com/Dobefu/vectors"
 )
 
+// CollidableGameObject defines the interface for a collidable game object.
 type CollidableGameObject interface {
 	MoveWithCollision(velocity vectors.Vector3)
 	GetCollisionRect() (x1, y1, x2, y2 float64)

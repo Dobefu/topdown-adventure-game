@@ -5,6 +5,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
+// GameObject defines the interface for a base game object.
 type GameObject interface {
 	Init()
 	Update() (err error)

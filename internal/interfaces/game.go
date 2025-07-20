@@ -5,6 +5,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/audio"
 )
 
+// Game defines the interface for the game.
 type Game interface {
 	ebiten.Game
 
