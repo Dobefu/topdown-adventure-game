@@ -1,13 +1,13 @@
+// Package fastrand provides fast pseudo-random number generation.
+//
+// This code was taken directly from the Ebitengine examples:
+// https://github.com/hajimehoshi/ebiten/blob/2.8/examples/noise/main.go#L35
 package fastrand
 
 import "math/rand"
 
-/**
- * This code was taken directly from the Ebitengine examples:
- * https://github.com/hajimehoshi/ebiten/blob/2.8/examples/noise/main.go#L35
- */
-
 var (
+	// Rand is the random number generation singleton.
 	Rand fastrand
 )
 
@@ -27,6 +27,7 @@ type fastrand struct {
 	w uint32
 }
 
+// Next gets the next pseudo-random number.
 func (r *fastrand) Next() uint32 {
 	t := r.x ^ (r.x << 11)
 	r.x, r.y, r.z = r.y, r.z, r.w
