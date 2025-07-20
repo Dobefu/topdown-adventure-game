@@ -32,23 +32,27 @@ type Scene struct {
 	isPaused         bool
 }
 
+// Init initializes the base scene.
 func (s *Scene) Init() {
 	s.InitUI()
 	s.InitPauseScreenUI()
 }
 
+// InitUI initializes the scene UI.
 func (s *Scene) InitUI() {
 	s.ui = &ebitenui.UI{
 		Container: ui.NewAnchorContainer(0, 0),
 	}
 }
 
+// InitPauseScreenUI initializes the pause screen UI.
 func (s *Scene) InitPauseScreenUI() {
 	s.pauseScreenUI = &ebitenui.UI{
 		Container: ui.NewAnchorContainer(0, 0),
 	}
 }
 
+// InitSceneMap initializes the scene map.
 func (s *Scene) InitSceneMap(path string) {
 	sceneMap, err := tiled.LoadFile(path, tiled.WithFileSystem(mapsFS))
 
@@ -66,18 +70,22 @@ func (s *Scene) InitSceneMap(path string) {
 	s.sceneMapRenderer = sceneMapRenderer
 }
 
+// SetGame sets the game instance.
 func (s *Scene) SetGame(game interfaces.Game) {
 	s.game = game
 }
 
+// GetGame gets the game instance.
 func (s *Scene) GetGame() (game interfaces.Game) {
 	return s.game
 }
 
+// GetGameObjects gets all the game objects in the scene.
 func (s *Scene) GetGameObjects() []interfaces.GameObject {
 	return s.gameObjects
 }
 
+// GetActiveGameObjects gets all the active game objects in the scene.
 func (s *Scene) GetActiveGameObjects() (gameObjects []interfaces.GameObject) {
 	for _, gameObject := range s.gameObjects {
 		if !gameObject.GetIsActive() {
@@ -90,26 +98,32 @@ func (s *Scene) GetActiveGameObjects() (gameObjects []interfaces.GameObject) {
 	return gameObjects
 }
 
+// GetSceneMapData gets the map data of the scene.
 func (s *Scene) GetSceneMapData() (sceneMap *tiled.Map, sceneMapRenderer *render.Renderer) {
 	return s.sceneMap, s.sceneMapRenderer
 }
 
+// GetUI gets the UI of the scene.
 func (s *Scene) GetUI() *ebitenui.UI {
 	return s.ui
 }
 
+// GetPauseScreenUI gets the pause screen UI of the scene.
 func (s *Scene) GetPauseScreenUI() *ebitenui.UI {
 	return s.pauseScreenUI
 }
 
+// SetCanPause sets whether or not the scene can be paused.
 func (s *Scene) SetCanPause(canPause bool) {
 	s.canPause = canPause
 }
 
+// GetCanPause gets whether or not the scene can be paused.
 func (s *Scene) GetCanPause() (canPause bool) {
 	return s.canPause
 }
 
+// SetIsPaused sets whether or not the scene is paused.
 func (s *Scene) SetIsPaused(isPaused bool) {
 	s.isPaused = isPaused
 
@@ -118,22 +132,27 @@ func (s *Scene) SetIsPaused(isPaused bool) {
 	}
 }
 
+// GetIsPaused gets the current pause state of the scene.
 func (s *Scene) GetIsPaused() (isPaused bool) {
 	return s.isPaused
 }
 
+// SetCamera sets the scene's active camera.
 func (s *Scene) SetCamera(camera *kamera.Camera) {
 	s.camera = camera
 }
 
+// GetCamera gets the scene's active camera.
 func (s *Scene) GetCamera() *kamera.Camera {
 	return s.camera
 }
 
+// SetCameraTarget sets the current camera target of the scene.
 func (s *Scene) SetCameraTarget(target interfaces.GameObject) {
 	s.cameraTarget = &target
 }
 
+// GetCameraTarget gets the current camera target of the scene.
 func (s *Scene) GetCameraTarget() interfaces.GameObject {
 	if s.cameraTarget == nil {
 		return nil
@@ -142,6 +161,7 @@ func (s *Scene) GetCameraTarget() interfaces.GameObject {
 	return *s.cameraTarget
 }
 
+// GetCollisionTile gets the collision tile in a scene at a position.
 func (s *Scene) GetCollisionTile(velocity vectors.Vector3, position vectors.Vector2) int {
 	if s.sceneMap == nil || len(s.sceneMap.Layers) < 4 {
 		return 0
@@ -185,12 +205,14 @@ func (s *Scene) GetCollisionTile(velocity vectors.Vector3, position vectors.Vect
 	return int(tile.ID)
 }
 
+// AddGameObject adds a game object to the scene.
 func (s *Scene) AddGameObject(gameObject interfaces.GameObject) {
 	s.gameObjects = append(s.gameObjects, gameObject)
 	gameObject.SetScene(s)
 	gameObject.Init()
 }
 
+// RemoveGameObject removes a game object from the scene.
 func (s *Scene) RemoveGameObject(gameObject interfaces.GameObject) {
 	for idx, obj := range s.gameObjects {
 		if obj.GetID() != gameObject.GetID() {
