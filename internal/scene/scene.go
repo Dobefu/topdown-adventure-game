@@ -1,3 +1,4 @@
+// Package scene houses both the Scene struct and the scenes in the game.
 package scene
 
 import (
