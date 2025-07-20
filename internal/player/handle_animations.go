@@ -8,16 +8,17 @@ import (
 )
 
 const (
-	RUNNING_THRESHOLD = 1.75
+	// RunningThreshold is the threshold at which the running animation plays.
+	RunningThreshold = 1.75
 )
 
 func (p *Player) handleAnimations() {
-	p.frameCount += 1
+	p.frameCount++
 	prevAnimationState := p.animationState
 
 	// Change the animation frame every 3 game ticks.
 	if (p.frameCount % 3) == 0 {
-		p.frameIndex += 1
+		p.frameIndex++
 
 		if p.frameIndex >= NUM_FRAMES {
 			p.frameIndex = 0
@@ -58,7 +59,7 @@ func (p *Player) handleAnimations() {
 		p.animationState = animation.State(
 			int(p.animationState)%8 + int(animation.StateOffsetIdle),
 		)
-	} else if p.velocity.Magnitude() < RUNNING_THRESHOLD {
+	} else if p.velocity.Magnitude() < RunningThreshold {
 		// Walking state.
 		p.animationState = animation.State(
 			int((angle+22.5)/45)%8 + int(animation.StateOffsetWalk),

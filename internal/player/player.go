@@ -1,3 +1,4 @@
+// Package player provides a player.
 package player
 
 import (
@@ -33,13 +34,19 @@ var (
 )
 
 const (
-	FRAME_WIDTH      = 32
-	FRAME_HEIGHT     = 32
-	NUM_FRAMES       = 16
-	GAMEPAD_DEADZONE = .1
-	KNOCKBACK        = 10
+	// FrameWidth defines the width of an animation frame.
+	FrameWidth = 32
+	// FrameHeight defines the height of an animation frame.
+	FrameHeight = 32
+	// NumFrames defines number of animation frames in the spritesheet.
+	NumFrames = 16
+	// GamepadDeadzone defines the dead zone for gamepad control sticks.
+	GamepadDeadzone = .1
+	// Knockback defines the amount of knockback the player gets when hit.
+	Knockback = 10
 
-	MAX_HEALTH = 20
+	// MaxHealth defines the base max health that the player has.
+	MaxHealth = 20
 )
 
 func init() {
@@ -52,20 +59,20 @@ func init() {
 	playerImg = ebiten.NewImageFromImage(img)
 	playerSubImgs = make(
 		[]*ebiten.Image,
-		playerImg.Bounds().Dy()/FRAME_HEIGHT*NUM_FRAMES,
+		playerImg.Bounds().Dy()/FrameHeight*NumFrames,
 	)
 
-	for state := range playerImg.Bounds().Dy() / FRAME_HEIGHT {
-		for frame := range NUM_FRAMES {
-			key := state*NUM_FRAMES + frame
+	for state := range playerImg.Bounds().Dy() / FrameHeight {
+		for frame := range NumFrames {
+			key := state*NumFrames + frame
 
 			playerSubImgs[key] = ebiten.NewImageFromImage(
 				playerImg.SubImage(
 					image.Rect(
-						frame*FRAME_WIDTH,
-						state*FRAME_HEIGHT,
-						frame*FRAME_WIDTH+FRAME_WIDTH,
-						state*FRAME_HEIGHT+FRAME_HEIGHT,
+						frame*FrameWidth,
+						state*FrameHeight,
+						frame*FrameWidth+FrameWidth,
+						state*FrameHeight+FrameHeight,
 					),
 				),
 			)
@@ -81,6 +88,7 @@ func init() {
 	playerShadowImg = ebiten.NewImageFromImage(img)
 }
 
+// Player struct defines the player.
 type Player struct {
 	interfaces.Player
 	gameobject.HurtableGameObject
@@ -104,26 +112,27 @@ type Player struct {
 	state          state.State
 }
 
+// NewPlayer creates a new player.
 func NewPlayer(position vectors.Vector3) (player *Player) {
 	player = &Player{}
 
-	player.aimOverlayImg = ebiten.NewImage(MAX_CURSOR_DISTANCE*2, MAX_CURSOR_DISTANCE*2)
+	player.aimOverlayImg = ebiten.NewImage(MaxCursorDistance*2, MaxCursorDistance*2)
 	player.imgOptions = &ebiten.DrawImageOptions{}
 
-	player.SetMaxHealth(MAX_HEALTH)
-	player.SetHealth(MAX_HEALTH)
+	player.SetMaxHealth(MaxHealth)
+	player.SetHealth(MaxHealth)
 
 	player.SetIsActive(true)
 	player.SetPosition(position)
 
 	player.input = input.Input.NewHandler(0, input.PlayerKeymap)
-	player.input.GamepadDeadzone = GAMEPAD_DEADZONE
+	player.input.GamepadDeadzone = GamepadDeadzone
 
 	player.shootCooldownMax = 20
 
 	player.animationState = animation.StateIdleDown
 
-	player.SetOnCollision(func(self, other interfaces.GameObject) {
+	player.SetOnCollision(func(_, other interfaces.GameObject) {
 		// Skip the collision callback if the player hits a bullet they own.
 		if bullet, ok := other.(*bullet.Bullet); ok {
 			if bullet.GetOwner().GetID() == player.GetID() {
@@ -137,6 +146,7 @@ func NewPlayer(position vectors.Vector3) (player *Player) {
 	return player
 }
 
+// Init initializes the player.
 func (p *Player) Init() {
 	p.GameObject.Init()
 	p.CollidableGameObject.Init()
@@ -154,10 +164,12 @@ func (p *Player) Init() {
 	p.audioPlayer = audioplayer.NewAudioPlayerFromBytes(audioContext, playerShootSound)
 }
 
+// GetCollisionRect gets the four points of the collision rectangle.
 func (p *Player) GetCollisionRect() (x1, y1, x2, y2 float64) {
 	return 4, 19, 27, 31
 }
 
+// MoveWithCollision moves the player with collision checks.
 func (p *Player) MoveWithCollision(
 	velocity vectors.Vector3,
 ) (newVelocity vectors.Vector3, hasCollided bool) {
@@ -166,6 +178,7 @@ func (p *Player) MoveWithCollision(
 	return p.MoveWithCollisionRect(velocity, x1, y1, x2, y2)
 }
 
+// Draw runs during the game's Draw function.
 func (p *Player) Draw(screen *ebiten.Image) {
 	pos := p.GetPosition()
 
@@ -177,31 +190,31 @@ func (p *Player) Draw(screen *ebiten.Image) {
 	currentPos.Z = 0
 
 	currentPos.Add(vectors.Vector3{
-		X: FRAME_WIDTH / 2,
-		Y: FRAME_HEIGHT / 2,
+		X: FrameWidth / 2,
+		Y: FrameHeight / 2,
 		Z: 0,
 	})
 
 	cameraPos.Sub(currentPos)
-	cameraPos.ClampMagnitude(MAX_CAMERA_OFFSET)
+	cameraPos.ClampMagnitude(MaxCameraOffset)
 
 	p.aimOverlayImg.Clear()
 
 	vector.StrokeLine(
 		p.aimOverlayImg,
-		MAX_CURSOR_DISTANCE,
-		MAX_CURSOR_DISTANCE,
-		MAX_CURSOR_DISTANCE+float32(cameraPos.X*2),
-		MAX_CURSOR_DISTANCE+float32(cameraPos.Y*2),
+		MaxCursorDistance,
+		MaxCursorDistance,
+		MaxCursorDistance+float32(cameraPos.X*2),
+		MaxCursorDistance+float32(cameraPos.Y*2),
 		1,
-		color.Alpha{A: uint8(cameraPos.Magnitude() / MAX_CAMERA_OFFSET * 255)},
+		color.Alpha{A: uint8(cameraPos.Magnitude() / MaxCameraOffset * 255)},
 		false,
 	)
 
 	p.imgOptions.GeoM.Reset()
 	p.imgOptions.GeoM.Translate(
-		(pos.X + (FRAME_WIDTH / 2) - MAX_CURSOR_DISTANCE),
-		(pos.Y + (FRAME_HEIGHT / 2) - MAX_CURSOR_DISTANCE),
+		(pos.X + (FrameWidth / 2) - MaxCursorDistance),
+		(pos.Y + (FrameHeight / 2) - MaxCursorDistance),
 	)
 	camera.Draw(p.aimOverlayImg, p.imgOptions, screen)
 
@@ -209,12 +222,13 @@ func (p *Player) Draw(screen *ebiten.Image) {
 	p.imgOptions.GeoM.Translate(pos.X, pos.Y-pos.Z)
 
 	camera.Draw(
-		playerSubImgs[int(p.animationState)*NUM_FRAMES+p.frameIndex],
+		playerSubImgs[int(p.animationState)*NumFrames+p.frameIndex],
 		p.imgOptions,
 		screen,
 	)
 }
 
+// DrawBelow draws a shadow below the player.
 func (p *Player) DrawBelow(screen *ebiten.Image) {
 	pos := p.GetPosition()
 
@@ -224,7 +238,7 @@ func (p *Player) DrawBelow(screen *ebiten.Image) {
 	p.imgOptions.GeoM.Reset()
 	p.imgOptions.GeoM.Translate(
 		pos.X,
-		pos.Y+FRAME_HEIGHT*.75,
+		pos.Y+FrameHeight*.75,
 	)
 
 	camera.Draw(
@@ -234,11 +248,13 @@ func (p *Player) DrawBelow(screen *ebiten.Image) {
 	)
 }
 
+// DrawAbove draws a debug overlay if debugging is enabled and active.
 func (p *Player) DrawAbove(screen *ebiten.Image) {
 	x1, y1, x2, y2 := p.GetCollisionRect()
 	p.DrawDebugCollision(screen, x1, y1, x2, y2)
 }
 
+// DrawUI draws the player's health bar.
 func (p *Player) DrawUI(screen *ebiten.Image) {
 	ui.DrawHealthBar(
 		screen,
@@ -248,13 +264,14 @@ func (p *Player) DrawUI(screen *ebiten.Image) {
 	)
 }
 
+// Update runs during the game's Update function.
 func (p *Player) Update() (err error) {
 	p.handleMovement()
 	p.handleAnimations()
 	p.CheckCollision(*p.GetScene(), *p.GetPosition())
 
 	if p.shootCooldown > 0 {
-		p.shootCooldown -= 1
+		p.shootCooldown--
 	}
 
 	if p.input.ActionIsPressed(input.ActionShoot) && p.shootCooldown <= 0 {
@@ -264,6 +281,7 @@ func (p *Player) Update() (err error) {
 	return nil
 }
 
+// Damage handles damaging the player.
 func (p *Player) Damage(amount int, source interfaces.GameObject) {
 	if p.state != state.StateDefault {
 		return
@@ -284,11 +302,12 @@ func (p *Player) Damage(amount int, source interfaces.GameObject) {
 	srcPosition.Sub(pos)
 	srcPosition.ClampMagnitude(1)
 	srcPosition.Bounce()
-	srcPosition.Mul(vectors.Vector3{X: KNOCKBACK, Y: KNOCKBACK, Z: 1})
+	srcPosition.Mul(vectors.Vector3{X: Knockback, Y: Knockback, Z: 1})
 	p.velocity.Add(srcPosition)
-	p.velocity.Z += KNOCKBACK / 2
+	p.velocity.Z += Knockback / 2
 }
 
+// Die handles the player death.
 func (p *Player) Die() {
 	scene := *p.GetScene()
 	scene.RemoveGameObject(p)

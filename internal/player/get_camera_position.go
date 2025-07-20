@@ -13,9 +13,14 @@ var (
 	prevCameraPosition *vectors.Vector3
 )
 
-const MAX_CAMERA_OFFSET = 50
-const MAX_CURSOR_DISTANCE = 100
+const (
+	// MaxCameraOffset defines the maximum offset that the camera can have.
+	MaxCameraOffset = 50
+	// MaxCursorDistance defines the max distance that the cursor can be.
+	MaxCursorDistance = 100
+)
 
+// GetCameraPosition gets the position that a camera should be following.
 func (p *Player) GetCameraPosition() (position *vectors.Vector3) {
 	if (*p.GetScene()).GetIsPaused() && p.state == state.StateDefault {
 		return prevCameraPosition
@@ -37,8 +42,8 @@ func (p *Player) GetCameraPosition() (position *vectors.Vector3) {
 
 	if info, ok := p.input.PressedActionInfo(input.ActionAimAnalog); ok {
 		cursorOffset = vectors.Vector3{
-			X: info.Pos.X * MAX_CAMERA_OFFSET,
-			Y: info.Pos.Y * MAX_CAMERA_OFFSET,
+			X: info.Pos.X * MaxCameraOffset,
+			Y: info.Pos.Y * MaxCameraOffset,
 			Z: 0,
 		}
 	} else if p.input.ActionIsPressed(input.ActionAimMouse) {
@@ -70,11 +75,11 @@ func (p *Player) GetCameraPosition() (position *vectors.Vector3) {
 		}
 
 		worldDistMagnitude := math.Sqrt(worldDistanceSquared)
-		scale := math.Min(worldDistMagnitude/MAX_CURSOR_DISTANCE, 1.0)
+		scale := math.Min(worldDistMagnitude/MaxCursorDistance, 1.0)
 
 		cursorOffset = vectors.Vector3{
-			X: (worldDistX / worldDistMagnitude) * scale * MAX_CAMERA_OFFSET,
-			Y: (worldDistY / worldDistMagnitude) * scale * MAX_CAMERA_OFFSET,
+			X: (worldDistX / worldDistMagnitude) * scale * MaxCameraOffset,
+			Y: (worldDistY / worldDistMagnitude) * scale * MaxCameraOffset,
 			Z: 0,
 		}
 	}

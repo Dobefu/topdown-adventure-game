@@ -33,6 +33,7 @@ func init() {
 	}
 }
 
+// Shoot handles the player shoot logic.
 func (p *Player) Shoot() {
 	for _, b := range p.bulletPool {
 		if b.GetIsActive() {

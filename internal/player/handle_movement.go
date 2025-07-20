@@ -7,19 +7,24 @@ import (
 )
 
 const (
-	VELOCITY_DAMPING float64 = .9
-	STOP_THRESHOLD   float64 = .15
-	ACCELERATION     float64 = .6
-	MAX_SPEED        float64 = 4
+	// VelocityDamping defines the amount of friction that the player has.
+	VelocityDamping float64 = .9
+	// StopThreshold defines the minimum velocity at which the player is
+	// considered "stopped".
+	StopThreshold float64 = .15
+	// Acceleration defines the acceleration of the velocity.
+	Acceleration float64 = .6
+	// MaxSpeed defines the maximum speed that the enemy can have.
+	MaxSpeed float64 = 4
 )
 
 func (p *Player) handleMovement() {
 	// Dampen the velocity.
-	p.velocity.Mul(vectors.Vector3{X: VELOCITY_DAMPING, Y: VELOCITY_DAMPING, Z: VELOCITY_DAMPING})
+	p.velocity.Mul(vectors.Vector3{X: VelocityDamping, Y: VelocityDamping, Z: VelocityDamping})
 
 	// If the velocity magnitude is very low, set it to zero.
 	// This allows the idle animations to work.
-	if p.velocity.Magnitude() < STOP_THRESHOLD {
+	if p.velocity.Magnitude() < StopThreshold {
 		p.velocity.Mul(vectors.Vector3{X: 0, Y: 0, Z: 1})
 	}
 
@@ -29,7 +34,7 @@ func (p *Player) handleMovement() {
 
 	if p.rawInputVelocity.Magnitude() > 0 {
 		p.rawInputVelocity.Normalize()
-		p.rawInputVelocity.Mul(vectors.Vector3{X: ACCELERATION, Y: ACCELERATION, Z: 1})
+		p.rawInputVelocity.Mul(vectors.Vector3{X: Acceleration, Y: Acceleration, Z: 1})
 	}
 
 	p.velocity.Add(p.rawInputVelocity)
@@ -38,7 +43,7 @@ func (p *Player) handleMovement() {
 
 	// Apply gravity.
 	if pos.Z > 0 {
-		p.velocity.Z -= ACCELERATION / 2
+		p.velocity.Z -= Acceleration / 2
 	}
 
 	if p.state != state.StateHurt {
@@ -47,7 +52,7 @@ func (p *Player) handleMovement() {
 
 			p.velocity.ClampMagnitude(RUNNING_THRESHOLD)
 		} else {
-			p.velocity.ClampMagnitude(MAX_SPEED)
+			p.velocity.ClampMagnitude(MaxSpeed)
 		}
 	}
 
@@ -68,19 +73,19 @@ func (p *Player) handleInput() {
 		})
 	} else {
 		if p.input.ActionIsPressed(input.ActionMoveLeft) {
-			p.rawInputVelocity.X -= 1
+			p.rawInputVelocity.X--
 		}
 
 		if p.input.ActionIsPressed(input.ActionMoveRight) {
-			p.rawInputVelocity.X += 1
+			p.rawInputVelocity.X++
 		}
 
 		if p.input.ActionIsPressed(input.ActionMoveUp) {
-			p.rawInputVelocity.Y -= 1
+			p.rawInputVelocity.Y--
 		}
 
 		if p.input.ActionIsPressed(input.ActionMoveDown) {
-			p.rawInputVelocity.Y += 1
+			p.rawInputVelocity.Y++
 		}
 	}
 }
