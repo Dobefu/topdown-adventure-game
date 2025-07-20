@@ -4,6 +4,7 @@ import (
 	"github.com/ebitenui/ebitenui/widget"
 )
 
+// NewAnchorContainer creates a new EbitenUI container with an anchor layout.
 func NewAnchorContainer(
 	paddingBlock int,
 	paddingInline int,

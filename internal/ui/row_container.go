@@ -4,6 +4,7 @@ import (
 	"github.com/ebitenui/ebitenui/widget"
 )
 
+// NewRowContainer creates a new EbitenUI container with a row layout.
 func NewRowContainer(
 	direction widget.Direction,
 	spacing int,

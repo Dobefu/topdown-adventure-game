@@ -4,6 +4,7 @@ import (
 	"github.com/ebitenui/ebitenui/widget"
 )
 
+// NewContainer creates a new EbitenUI container with some default options.
 func NewContainer(
 	opts ...widget.ContainerOpt,
 ) *widget.Container {

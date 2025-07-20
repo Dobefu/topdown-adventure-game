@@ -23,6 +23,7 @@ func init() {
 	}
 }
 
+// NewSlider creates a new EbitenUI slider with some default options.
 func NewSlider(
 	label string,
 	currentValue int,

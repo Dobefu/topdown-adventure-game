@@ -36,6 +36,7 @@ func init() {
 	}
 }
 
+// NewButton creates a new EbitenUI button with some default options.
 func NewButton(text string, opts ...widget.ButtonOpt) *widget.Button {
 	defaultOpts := []widget.ButtonOpt{
 		widget.ButtonOpts.TextLabel(text),

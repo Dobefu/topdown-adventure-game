@@ -60,6 +60,7 @@ func init() {
 	)
 }
 
+// DrawHealthBar draws a health bar at a given position.
 func DrawHealthBar(
 	screen *ebiten.Image,
 	position vectors.Vector2,
@@ -79,7 +80,7 @@ func DrawHealthBar(
 			screen.DrawImage(heartFilledImgRight, op)
 		}
 
-		i += 1
+		i++
 	}
 
 	for range maxHealth - health {
@@ -92,6 +93,6 @@ func DrawHealthBar(
 			screen.DrawImage(heartEmptyImgRight, op)
 		}
 
-		i += 1
+		i++
 	}
 }
