@@ -9,7 +9,7 @@ import (
 
 	"github.com/Dobefu/topdown-adventure-game/internal/animation"
 	"github.com/Dobefu/topdown-adventure-game/internal/bullet"
-	"github.com/Dobefu/topdown-adventure-game/internal/game_object"
+	"github.com/Dobefu/topdown-adventure-game/internal/gameobject"
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 	"github.com/Dobefu/vectors"
 	"github.com/hajimehoshi/ebiten/v2"
@@ -81,8 +81,8 @@ func init() {
 
 // Enemy struct defines a base enemy type.
 type Enemy struct {
-	game_object.HostileGameObject
-	game_object.HurtableGameObject
+	gameobject.HostileGameObject
+	gameobject.HurtableGameObject
 
 	velocity vectors.Vector3
 

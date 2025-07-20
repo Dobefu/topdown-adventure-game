@@ -1,4 +1,4 @@
-package game_object
+package gameobject
 
 import (
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"

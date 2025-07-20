@@ -10,7 +10,7 @@ import (
 	"github.com/Dobefu/topdown-adventure-game/internal/animation"
 	"github.com/Dobefu/topdown-adventure-game/internal/audioplayer"
 	"github.com/Dobefu/topdown-adventure-game/internal/bullet"
-	"github.com/Dobefu/topdown-adventure-game/internal/game_object"
+	"github.com/Dobefu/topdown-adventure-game/internal/gameobject"
 	"github.com/Dobefu/topdown-adventure-game/internal/input"
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 	"github.com/Dobefu/topdown-adventure-game/internal/state"
@@ -83,7 +83,7 @@ func init() {
 
 type Player struct {
 	interfaces.Player
-	game_object.HurtableGameObject
+	gameobject.HurtableGameObject
 
 	audioPlayer *audioplayer.AudioPlayer
 

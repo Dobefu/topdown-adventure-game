@@ -1,4 +1,4 @@
-package game_object
+package gameobject
 
 import (
 	"image/color"

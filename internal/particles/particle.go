@@ -1,7 +1,7 @@
 package particles
 
 import (
-	"github.com/Dobefu/topdown-adventure-game/internal/game_object"
+	"github.com/Dobefu/topdown-adventure-game/internal/gameobject"
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 	"github.com/Dobefu/vectors"
 )
@@ -9,7 +9,7 @@ import (
 // Particle struct provides a base particle, which is meant to be embedded.
 // Do not use this struct on its own.
 type Particle struct {
-	game_object.GameObject
+	gameobject.GameObject
 	interfaces.Particle
 
 	lifetime int

@@ -10,7 +10,7 @@ import (
 
 	"github.com/Dobefu/topdown-adventure-game/internal/animation"
 	"github.com/Dobefu/topdown-adventure-game/internal/fastrand"
-	"github.com/Dobefu/topdown-adventure-game/internal/game_object"
+	"github.com/Dobefu/topdown-adventure-game/internal/gameobject"
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 	"github.com/Dobefu/topdown-adventure-game/internal/particles/pixel"
 	"github.com/Dobefu/vectors"
@@ -67,7 +67,7 @@ func init() {
 // Bullet struct provides a single bullet.
 type Bullet struct {
 	interfaces.Bullet
-	game_object.CollidableGameObject
+	gameobject.CollidableGameObject
 
 	owner interfaces.GameObject
 
