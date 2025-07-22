@@ -3,6 +3,7 @@ package gameobject
 import (
 	"math"
 
+	"github.com/Dobefu/topdown-adventure-game/internal/tiledata"
 	"github.com/Dobefu/vectors"
 )
 
@@ -131,23 +132,23 @@ func (g *GameObject) canMoveTo(
 	}
 
 	topLeft := scene.GetCollisionTile(velocity, vectors.Vector2{X: target.X + x1, Y: target.Y + y1})
-	if topLeft != 0 {
+	if topLeft == tiledata.TileCollisionWall {
 		return false
 	}
 
 	topRight := scene.GetCollisionTile(velocity, vectors.Vector2{X: target.X + x2, Y: target.Y + y1})
-	if topRight != 0 {
+	if topRight == tiledata.TileCollisionWall {
 		return false
 	}
 
 	bottomLeft := scene.GetCollisionTile(velocity, vectors.Vector2{X: target.X + x1, Y: target.Y + y2})
-	if bottomLeft != 0 {
+	if bottomLeft == tiledata.TileCollisionWall {
 		return false
 	}
 
 	bottomRight := scene.GetCollisionTile(velocity, vectors.Vector2{X: target.X + x2, Y: target.Y + y2})
 
-	return bottomRight == 0
+	return bottomRight != tiledata.TileCollisionWall
 }
 
 func getTestVelocityFromVelocity(
