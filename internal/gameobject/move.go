@@ -116,13 +116,13 @@ func (g *GameObject) findMaxMovement(
 	return -minDistance
 }
 
-func (g *GameObject) canMoveTo(
+func (g *GameObject) getCollidedTile(
 	velocity vectors.Vector3,
 	x1 float64,
 	y1 float64,
 	x2 float64,
 	y2 float64,
-) bool {
+) int {
 	pos := g.GetPosition()
 	scene := *g.GetScene()
 
@@ -131,24 +131,49 @@ func (g *GameObject) canMoveTo(
 		Y: pos.Y + velocity.Y,
 	}
 
+	var corners []int
+
 	topLeft := scene.GetCollisionTile(velocity, vectors.Vector2{X: target.X + x1, Y: target.Y + y1})
-	if topLeft == tiledata.TileCollisionWall {
-		return false
+	if topLeft != 0 {
+		corners = append(corners, topLeft)
 	}
 
 	topRight := scene.GetCollisionTile(velocity, vectors.Vector2{X: target.X + x2, Y: target.Y + y1})
-	if topRight == tiledata.TileCollisionWall {
-		return false
+	if topRight != 0 {
+		corners = append(corners, topRight)
 	}
 
 	bottomLeft := scene.GetCollisionTile(velocity, vectors.Vector2{X: target.X + x1, Y: target.Y + y2})
-	if bottomLeft == tiledata.TileCollisionWall {
-		return false
+	if bottomLeft != 0 {
+		corners = append(corners, bottomLeft)
 	}
 
 	bottomRight := scene.GetCollisionTile(velocity, vectors.Vector2{X: target.X + x2, Y: target.Y + y2})
+	if bottomRight != 0 {
+		corners = append(corners, bottomRight)
+	}
 
-	return bottomRight != tiledata.TileCollisionWall
+	minCorner := math.MaxInt
+
+	for _, corner := range corners {
+		if minCorner > corner {
+			minCorner = corner
+		}
+	}
+
+	return minCorner
+}
+
+func (g *GameObject) canMoveTo(
+	velocity vectors.Vector3,
+	x1 float64,
+	y1 float64,
+	x2 float64,
+	y2 float64,
+) bool {
+	collidedTile := g.getCollidedTile(velocity, x1, y1, x2, y2)
+
+	return collidedTile != tiledata.TileCollisionWall
 }
 
 func getTestVelocityFromVelocity(
