@@ -4,8 +4,10 @@ package tiledata
 const (
 	// TileCollisionWall collision tile.
 	TileCollisionWall = iota + 257
-	// TileCollisionLedge collision tile.
-	TileCollisionLedge
+	// TileCollisionLedgeVertical collision tile.
+	TileCollisionLedgeVertical
+	// TileCollisionLedgeHorizontal collision tile.
+	TileCollisionLedgeHorizontal
 	// TileCollisionWater collision tile.
 	TileCollisionWater
 )
