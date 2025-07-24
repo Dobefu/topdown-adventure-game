@@ -37,6 +37,14 @@ func (g *GameObject) MoveWithCollisionRect(
 		return velocity, false, collidedTile
 	}
 
+	pos.Add(vectors.Vector3{Z: velocity.Z})
+
+	if pos.Z < 0 {
+		pos.Z = 0
+		velocity.Z = 0
+	}
+	g.SetPosition(*pos)
+
 	if hasCollided, collidedTile = g.canMoveTo(vectors.Vector3{X: velocity.X, Y: 0, Z: 0}, x1, y1, x2, y2); hasCollided {
 		pos.Add(vectors.Vector3{X: velocity.X, Y: 0, Z: 0})
 		g.SetPosition(*pos)
