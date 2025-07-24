@@ -23,6 +23,4 @@ type GameObject interface {
 	SetScene(scene Scene)
 	GetScene() *Scene
 	Move(velocity vectors.Vector3)
-	findMaxMovement(velocity vectors.Vector3) float64
-	canMoveTo(velocity vectors.Vector3) bool
 }

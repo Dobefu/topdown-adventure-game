@@ -21,10 +21,10 @@ func (g *GameObject) MoveWithCollisionRect(
 	y1 float64,
 	x2 float64,
 	y2 float64,
-) (newVelocity vectors.Vector3, hasCollided bool) {
+) (newVelocity vectors.Vector3, hasCollided bool, collidedTile int) {
 	pos := g.GetPosition()
 
-	if g.canMoveTo(velocity, x1, y1, x2, y2) {
+	if hasCollided, collidedTile = g.canMoveTo(velocity, x1, y1, x2, y2); hasCollided {
 		pos.Add(velocity)
 
 		if pos.Z < 0 {
@@ -34,10 +34,10 @@ func (g *GameObject) MoveWithCollisionRect(
 
 		g.SetPosition(*pos)
 
-		return velocity, false
+		return velocity, false, collidedTile
 	}
 
-	if g.canMoveTo(vectors.Vector3{X: velocity.X, Y: 0, Z: 0}, x1, y1, x2, y2) {
+	if hasCollided, collidedTile = g.canMoveTo(vectors.Vector3{X: velocity.X, Y: 0, Z: 0}, x1, y1, x2, y2); hasCollided {
 		pos.Add(vectors.Vector3{X: velocity.X, Y: 0, Z: 0})
 		g.SetPosition(*pos)
 	} else if velocity.X != 0 {
@@ -57,7 +57,7 @@ func (g *GameObject) MoveWithCollisionRect(
 
 	pos = g.GetPosition()
 
-	if g.canMoveTo(vectors.Vector3{X: 0, Y: velocity.Y, Z: 0}, x1, y1, x2, y2) {
+	if hasCollided, collidedTile = g.canMoveTo(vectors.Vector3{X: 0, Y: velocity.Y, Z: 0}, x1, y1, x2, y2); hasCollided {
 		pos.Add(vectors.Vector3{X: 0, Y: velocity.Y, Z: 0})
 	} else if velocity.Y != 0 {
 		maxY := g.findMaxMovement(
@@ -75,7 +75,7 @@ func (g *GameObject) MoveWithCollisionRect(
 
 	g.SetPosition(*pos)
 
-	return velocity, true
+	return velocity, true, collidedTile
 }
 
 func (g *GameObject) findMaxMovement(
@@ -101,8 +101,9 @@ func (g *GameObject) findMaxMovement(
 		center := (minDistance + maxDistance) / 2
 
 		testVelocity := getTestVelocityFromVelocity(velocity, target, center)
+		hasCollided, _ := g.canMoveTo(testVelocity, x1, y1, x2, y2)
 
-		if g.canMoveTo(testVelocity, x1, y1, x2, y2) {
+		if hasCollided {
 			minDistance = center
 		} else {
 			maxDistance = center
@@ -170,10 +171,10 @@ func (g *GameObject) canMoveTo(
 	y1 float64,
 	x2 float64,
 	y2 float64,
-) bool {
-	collidedTile := g.getCollidedTile(velocity, x1, y1, x2, y2)
+) (hasCollided bool, collidedTile int) {
+	collidedTile = g.getCollidedTile(velocity, x1, y1, x2, y2)
 
-	return collidedTile != tiledata.TileCollisionWall
+	return collidedTile != tiledata.TileCollisionWall, collidedTile
 }
 
 func getTestVelocityFromVelocity(

@@ -9,4 +9,6 @@ const (
 	StateDefault = iota
 	// StateHurt is the hurt state.
 	StateHurt
+	// StateJump is the jumping state.
+	StateJump
 )

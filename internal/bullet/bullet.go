@@ -166,7 +166,7 @@ func (b *Bullet) MoveWithCollision(
 	velocity vectors.Vector3,
 ) (newVelocity vectors.Vector3, hasCollided bool) {
 	x1, y1, x2, y2 := b.GetCollisionRect()
-	newVelocity, hasCollided = b.MoveWithCollisionRect(velocity, x1, y1, x2, y2)
+	newVelocity, hasCollided, _ = b.MoveWithCollisionRect(velocity, x1, y1, x2, y2)
 
 	if hasCollided {
 		b.SetIsActive(false)

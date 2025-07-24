@@ -3,6 +3,7 @@ package player
 import (
 	"github.com/Dobefu/topdown-adventure-game/internal/input"
 	"github.com/Dobefu/topdown-adventure-game/internal/state"
+	"github.com/Dobefu/topdown-adventure-game/internal/tiledata"
 	"github.com/Dobefu/vectors"
 )
 
@@ -46,18 +47,42 @@ func (p *Player) handleMovement() {
 		p.velocity.Z -= Acceleration / 2
 	}
 
+	// Reset the jump state.
+	if p.state == state.StateJump && pos.Z <= 0 {
+		p.state = state.StateDefault
+	}
+
 	if p.state != state.StateHurt {
 		if _, ok := p.input.PressedActionInfo(input.ActionAimAnalog); ok ||
 			p.input.ActionIsPressed(input.ActionAimMouse) {
 
 			p.velocity.ClampMagnitude(RunningThreshold)
-		} else {
+		} else if p.state == state.StateDefault {
 			p.velocity.ClampMagnitude(MaxSpeed)
 		}
 	}
 
 	x1, y1, x2, y2 := p.GetCollisionRect()
-	p.velocity, _ = p.MoveWithCollisionRect(p.velocity, x1, y1, x2, y2)
+	newVelocity, _, collidedTile := p.MoveWithCollisionRect(p.velocity, x1, y1, x2, y2)
+	p.velocity = newVelocity
+
+	if collidedTile == tiledata.TileCollisionLedgeVertical && p.state != state.StateJump {
+		p.state = state.StateJump
+		p.velocity.Normalize()
+
+		p.velocity.X = 0
+		p.velocity.Y *= 8
+		p.velocity.Z = 4
+	}
+
+	if collidedTile == tiledata.TileCollisionLedgeHorizontal && p.state != state.StateJump {
+		p.state = state.StateJump
+		p.velocity.Normalize()
+
+		p.velocity.X *= 8
+		p.velocity.Y = 0
+		p.velocity.Z = 4
+	}
 }
 
 func (p *Player) handleInput() {

@@ -90,7 +90,7 @@ func (c *CollidableGameObject) SetOnCollision(
 // MoveWithCollision moves the game object with collision checks.
 func (c *CollidableGameObject) MoveWithCollision(
 	velocity vectors.Vector3,
-) (newVelocity vectors.Vector3, hasCollided bool) {
+) (newVelocity vectors.Vector3, hasCollided bool, collidedTile int) {
 	x1, y1, x2, y2 := c.GetCollisionRect()
 
 	return c.MoveWithCollisionRect(velocity, x1, y1, x2, y2)
