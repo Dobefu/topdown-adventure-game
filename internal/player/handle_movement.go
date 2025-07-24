@@ -66,21 +66,27 @@ func (p *Player) handleMovement() {
 	newVelocity, _, collidedTile := p.MoveWithCollisionRect(p.velocity, x1, y1, x2, y2)
 	p.velocity = newVelocity
 
-	if collidedTile == tiledata.TileCollisionLedgeVertical && p.state != state.StateJump {
+	if collidedTile == tiledata.TileCollisionLedgeVertical &&
+		p.state != state.StateJump &&
+		p.velocity.Y != 0 {
 		p.state = state.StateJump
-		p.velocity.Normalize()
 
 		p.velocity.X = 0
+		p.velocity.Normalize()
+
 		p.velocity.Y *= 8
 		p.velocity.Z = 4
 	}
 
-	if collidedTile == tiledata.TileCollisionLedgeHorizontal && p.state != state.StateJump {
+	if collidedTile == tiledata.TileCollisionLedgeHorizontal &&
+		p.state != state.StateJump &&
+		p.velocity.X != 0 {
 		p.state = state.StateJump
+
+		p.velocity.Y = 0
 		p.velocity.Normalize()
 
 		p.velocity.X *= 8
-		p.velocity.Y = 0
 		p.velocity.Z = 4
 	}
 }
