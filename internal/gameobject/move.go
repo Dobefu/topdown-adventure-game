@@ -8,13 +8,6 @@ import (
 	"github.com/Dobefu/vectors"
 )
 
-// Move handles moving a game object.
-func (g *GameObject) Move(
-	velocity vectors.Vector3,
-) {
-	(*g.GetPosition()).Add(velocity)
-}
-
 // MoveWithCollisionRect moves a game object, with a given collision rectangle.
 func (g *GameObject) MoveWithCollisionRect(
 	velocity vectors.Vector3,

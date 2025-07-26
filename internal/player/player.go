@@ -99,6 +99,7 @@ type Player struct {
 	shootCooldown    int
 	shootCooldownMax int
 
+	movementConfig   interfaces.MovementConfig
 	velocity         vectors.Vector3
 	rawInputVelocity vectors.Vector3
 
@@ -115,6 +116,8 @@ type Player struct {
 // NewPlayer creates a new player.
 func NewPlayer(position vectors.Vector3) (player *Player) {
 	player = &Player{}
+
+	player.movementConfig = gameobject.DefaultMovementConfig()
 
 	player.aimOverlayImg = ebiten.NewImage(MaxCursorDistance*2, MaxCursorDistance*2)
 	player.imgOptions = &ebiten.DrawImageOptions{}
@@ -266,7 +269,7 @@ func (p *Player) DrawUI(screen *ebiten.Image) {
 
 // Update runs during the game's Update function.
 func (p *Player) Update() (err error) {
-	p.handleMovement()
+	gameobject.HandleMovement(p, &p.velocity, &p.rawInputVelocity, p.input, &p.state, p.movementConfig)
 	p.handleAnimations()
 	p.CheckCollision(*p.GetScene(), *p.GetPosition())
 

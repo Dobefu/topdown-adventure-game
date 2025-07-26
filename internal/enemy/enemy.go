@@ -11,6 +11,7 @@ import (
 	"github.com/Dobefu/topdown-adventure-game/internal/bullet"
 	"github.com/Dobefu/topdown-adventure-game/internal/gameobject"
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
+	"github.com/Dobefu/topdown-adventure-game/internal/state"
 	"github.com/Dobefu/vectors"
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -84,18 +85,22 @@ type Enemy struct {
 	gameobject.HostileGameObject
 	gameobject.HurtableGameObject
 
-	velocity vectors.Vector3
+	movementConfig interfaces.MovementConfig
+	velocity       vectors.Vector3
 
 	imgOptions *ebiten.DrawImageOptions
 
 	frameCount     int
 	frameIndex     int
 	animationState animation.State
+	state          state.State
 }
 
 // NewEnemy creates a new enemy.
 func NewEnemy(position vectors.Vector3) (enemy *Enemy) {
 	enemy = &Enemy{}
+
+	enemy.movementConfig = gameobject.DefaultMovementConfig()
 
 	enemy.imgOptions = &ebiten.DrawImageOptions{}
 
@@ -106,6 +111,7 @@ func NewEnemy(position vectors.Vector3) (enemy *Enemy) {
 	enemy.SetPosition(position)
 
 	enemy.animationState = animation.StateIdleDown
+	enemy.state = state.StateDefault
 
 	enemy.SetOnCollision(func(self, other interfaces.GameObject) {
 		if hurtable, ok := other.(interfaces.HurtableGameObject); ok {
@@ -191,7 +197,7 @@ func (e *Enemy) DrawAbove(screen *ebiten.Image) {
 
 // Update runs during the update function of the game.
 func (e *Enemy) Update() (err error) {
-	e.handleMovement()
+	gameobject.HandleMovement(e, &e.velocity, nil, nil, &e.state, e.movementConfig)
 	e.handleAnimations()
 	e.CheckCollision(*e.GetScene(), *e.GetPosition())
 
@@ -200,11 +206,12 @@ func (e *Enemy) Update() (err error) {
 
 // Damage handles the damaging of the enemy.
 func (e *Enemy) Damage(amount int, source interfaces.GameObject) {
-	// if e.state != state.StateDefault {
-	// 	return
-	// }
+	if e.state != state.StateDefault {
+		return
+	}
 
 	e.HurtableGameObject.Damage(amount, source)
+	e.state = state.StateHurt
 
 	pos := *e.GetPosition()
 	pos.Z = 0
