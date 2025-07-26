@@ -16,6 +16,8 @@ const (
 	StateOffsetShoot
 	// StateOffsetHurt animation state offset.
 	StateOffsetHurt
+	// StateOffsetJump animation state offset.
+	StateOffsetJump
 )
 
 const (
@@ -113,4 +115,20 @@ const (
 	StateHurtUp
 	// StateHurtUpRight animation state index.
 	StateHurtUpRight
+	// StateJumpRight animation state index.
+	StateJumpRight
+	// StateJumpDownRight animation state index.
+	StateJumpDownRight
+	// StateJumpDown animation state index.
+	StateJumpDown
+	// StateJumpDownLeft animation state index.
+	StateJumpDownLeft
+	// StateJumpLeft animation state index.
+	StateJumpLeft
+	// StateJumpUpLeft animation state index.
+	StateJumpUpLeft
+	// StateJumpUp animation state index.
+	StateJumpUp
+	// StateJumpUpRight animation state index.
+	StateJumpUpRight
 )
