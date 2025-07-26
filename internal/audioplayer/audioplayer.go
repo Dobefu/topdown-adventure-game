@@ -2,15 +2,12 @@
 package audioplayer
 
 import (
-	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 	"github.com/Dobefu/topdown-adventure-game/internal/storage"
 	"github.com/hajimehoshi/ebiten/v2/audio"
 )
 
 // AudioPlayer struct provides a wrapper for the Ebiten audio player.
 type AudioPlayer struct {
-	interfaces.AudioPlayer
-
 	player *audio.Player
 }
 
