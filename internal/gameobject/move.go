@@ -82,9 +82,7 @@ func (g *GameObject) MoveWithCollisionRect(
 
 	g.SetPosition(*pos)
 
-	hasCollision := len(allCollidedTiles) > 0
-
-	return velocity, hasCollision, allCollidedTiles
+	return velocity, slices.Contains(allCollidedTiles, tiledata.TileCollisionWall), allCollidedTiles
 }
 
 func (g *GameObject) findMaxMovement(
