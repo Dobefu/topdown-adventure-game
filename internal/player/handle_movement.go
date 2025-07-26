@@ -52,12 +52,12 @@ func (p *Player) handleMovement() {
 		p.state = state.StateDefault
 	}
 
-	if p.state != state.StateHurt {
+	if p.state == state.StateDefault {
 		if _, ok := p.input.PressedActionInfo(input.ActionAimAnalog); ok ||
 			p.input.ActionIsPressed(input.ActionAimMouse) {
 
 			p.velocity.ClampMagnitude(RunningThreshold)
-		} else if p.state == state.StateDefault {
+		} else {
 			p.velocity.ClampMagnitude(MaxSpeed)
 		}
 	}
