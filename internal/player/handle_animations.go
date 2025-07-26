@@ -36,6 +36,11 @@ func (p *Player) handleAnimations() {
 		p.animationState = animation.State(
 			int(p.animationState)%8 + int(animation.StateOffsetHurt),
 		)
+	} else if p.state == state.StateJump {
+		// Jump state.
+		p.animationState = animation.State(
+			int(p.animationState)%8 + int(animation.StateOffsetJump),
+		)
 	} else if _, ok := p.input.PressedActionInfo(input.ActionAimAnalog); ok ||
 		p.input.ActionIsPressed(input.ActionAimMouse) {
 
