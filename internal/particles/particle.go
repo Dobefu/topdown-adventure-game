@@ -2,7 +2,6 @@ package particles
 
 import (
 	"github.com/Dobefu/topdown-adventure-game/internal/gameobject"
-	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 	"github.com/Dobefu/vectors"
 )
 
@@ -10,7 +9,6 @@ import (
 // Do not use this struct on its own.
 type Particle struct {
 	gameobject.GameObject
-	interfaces.Particle
 
 	lifetime int
 	velocity vectors.Vector3
