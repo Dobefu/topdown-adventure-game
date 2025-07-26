@@ -90,6 +90,7 @@ func init() {
 
 // Player struct defines the player.
 type Player struct {
+	gameobject.CollidableGameObject
 	gameobject.HurtableGameObject
 
 	audioPlayer *audioplayer.AudioPlayer

@@ -82,6 +82,7 @@ func init() {
 
 // Enemy struct defines a base enemy type.
 type Enemy struct {
+	gameobject.CollidableGameObject
 	gameobject.HostileGameObject
 	gameobject.HurtableGameObject
 

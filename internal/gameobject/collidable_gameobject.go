@@ -11,7 +11,6 @@ import (
 // CollidableGameObject defines a game object that can collide.
 type CollidableGameObject struct {
 	GameObject
-	interfaces.Collidable
 
 	OnCollision func(self interfaces.GameObject, other interfaces.GameObject)
 
@@ -130,8 +129,12 @@ func (c *CollidableGameObject) CheckCollisionWithCollisionRect(
 	}
 
 	for _, activeGameObject := range activeGameObjects {
+		type iCollidable interface {
+			GetCollisionRect() (x1, y1, x2, y2 float64)
+		}
+
 		// Skip non-collidable gameObjects.
-		if _, ok := activeGameObject.(interfaces.Collidable); !ok {
+		if _, ok := activeGameObject.(iCollidable); !ok {
 			continue
 		}
 
@@ -140,7 +143,8 @@ func (c *CollidableGameObject) CheckCollisionWithCollisionRect(
 			continue
 		}
 
-		collidable := activeGameObject.(interfaces.Collidable)
+		collidable := activeGameObject.(iCollidable)
+
 		otherX1, otherY1, otherX2, otherY2 := collidable.GetCollisionRect()
 		otherPosition := activeGameObject.GetPosition()
 
