@@ -2,6 +2,7 @@ package gameobject
 
 import (
 	"math"
+	"slices"
 
 	"github.com/Dobefu/topdown-adventure-game/internal/tiledata"
 	"github.com/Dobefu/vectors"
@@ -21,21 +22,8 @@ func (g *GameObject) MoveWithCollisionRect(
 	y1 float64,
 	x2 float64,
 	y2 float64,
-) (newVelocity vectors.Vector3, hasCollided bool, collidedTile int) {
+) (newVelocity vectors.Vector3, hasCollided bool, collidedTiles []int) {
 	pos := g.GetPosition()
-
-	if hasCollided, collidedTile = g.canMoveTo(velocity, x1, y1, x2, y2); hasCollided {
-		pos.Add(velocity)
-
-		if pos.Z < 0 {
-			pos.Z = 0
-			velocity.Z = 0
-		}
-
-		g.SetPosition(*pos)
-
-		return velocity, false, collidedTile
-	}
 
 	pos.Add(vectors.Vector3{Z: velocity.Z})
 
@@ -43,11 +31,16 @@ func (g *GameObject) MoveWithCollisionRect(
 		pos.Z = 0
 		velocity.Z = 0
 	}
+
 	g.SetPosition(*pos)
 
-	if hasCollided, collidedTile = g.canMoveTo(vectors.Vector3{X: velocity.X, Y: 0, Z: 0}, x1, y1, x2, y2); hasCollided {
+	var allCollidedTiles []int
+
+	hasCollided, tilesCollidedWith := g.canMoveTo(vectors.Vector3{X: velocity.X, Y: 0, Z: 0}, x1, y1, x2, y2)
+	if !hasCollided {
 		pos.Add(vectors.Vector3{X: velocity.X, Y: 0, Z: 0})
 		g.SetPosition(*pos)
+		allCollidedTiles = append(allCollidedTiles, tilesCollidedWith...)
 	} else if velocity.X != 0 {
 		maxX := g.findMaxMovement(
 			vectors.Vector3{X: velocity.X, Y: 0, Z: 0},
@@ -61,12 +54,16 @@ func (g *GameObject) MoveWithCollisionRect(
 			pos.Add(vectors.Vector3{X: maxX, Y: 0, Z: 0})
 			g.SetPosition(*pos)
 		}
+
+		allCollidedTiles = append(allCollidedTiles, tilesCollidedWith...)
 	}
 
 	pos = g.GetPosition()
 
-	if hasCollided, collidedTile = g.canMoveTo(vectors.Vector3{X: 0, Y: velocity.Y, Z: 0}, x1, y1, x2, y2); hasCollided {
+	hasCollided, tilesCollidedWith = g.canMoveTo(vectors.Vector3{X: 0, Y: velocity.Y, Z: 0}, x1, y1, x2, y2)
+	if !hasCollided {
 		pos.Add(vectors.Vector3{X: 0, Y: velocity.Y, Z: 0})
+		allCollidedTiles = append(allCollidedTiles, tilesCollidedWith...)
 	} else if velocity.Y != 0 {
 		maxY := g.findMaxMovement(
 			vectors.Vector3{X: 0, Y: velocity.Y, Z: 0},
@@ -79,11 +76,15 @@ func (g *GameObject) MoveWithCollisionRect(
 		if maxY != 0 {
 			pos.Add(vectors.Vector3{X: 0, Y: maxY, Z: 0})
 		}
+
+		allCollidedTiles = append(allCollidedTiles, tilesCollidedWith...)
 	}
 
 	g.SetPosition(*pos)
 
-	return velocity, true, collidedTile
+	hasCollision := len(allCollidedTiles) > 0
+
+	return velocity, hasCollision, allCollidedTiles
 }
 
 func (g *GameObject) findMaxMovement(
@@ -112,9 +113,9 @@ func (g *GameObject) findMaxMovement(
 		hasCollided, _ := g.canMoveTo(testVelocity, x1, y1, x2, y2)
 
 		if hasCollided {
-			minDistance = center
-		} else {
 			maxDistance = center
+		} else {
+			minDistance = center
 		}
 	}
 
@@ -131,7 +132,7 @@ func (g *GameObject) getCollidedTile(
 	y1 float64,
 	x2 float64,
 	y2 float64,
-) int {
+) []int {
 	pos := g.GetPosition()
 	scene := *g.GetScene()
 
@@ -162,15 +163,19 @@ func (g *GameObject) getCollidedTile(
 		corners = append(corners, bottomRight)
 	}
 
-	minCorner := math.MaxInt
+	uniqueTiles := make(map[int]bool)
+	var result []int
 
 	for _, corner := range corners {
-		if minCorner > corner {
-			minCorner = corner
+		if uniqueTiles[corner] {
+			continue
 		}
+
+		uniqueTiles[corner] = true
+		result = append(result, corner)
 	}
 
-	return minCorner
+	return result
 }
 
 func (g *GameObject) canMoveTo(
@@ -179,10 +184,10 @@ func (g *GameObject) canMoveTo(
 	y1 float64,
 	x2 float64,
 	y2 float64,
-) (hasCollided bool, collidedTile int) {
-	collidedTile = g.getCollidedTile(velocity, x1, y1, x2, y2)
+) (hasCollided bool, collidedTiles []int) {
+	collidedTiles = g.getCollidedTile(velocity, x1, y1, x2, y2)
 
-	return collidedTile != tiledata.TileCollisionWall, collidedTile
+	return slices.Contains(collidedTiles, tiledata.TileCollisionWall), collidedTiles
 }
 
 func getTestVelocityFromVelocity(

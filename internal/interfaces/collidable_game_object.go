@@ -6,7 +6,7 @@ import (
 
 // CollidableGameObject defines the interface for a collidable game object.
 type CollidableGameObject interface {
-	MoveWithCollision(velocity vectors.Vector3)
+	MoveWithCollision(velocity vectors.Vector3) (newVelocity vectors.Vector3, hasCollided bool, collidedTiles []int)
 	GetCollisionRect() (x1, y1, x2, y2 float64)
 	CheckCollision()
 	CheckCollisionWithCollisionRect(x1 float64, y1 float64, x2 float64, y2 float64)

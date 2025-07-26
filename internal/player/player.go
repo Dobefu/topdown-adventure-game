@@ -172,7 +172,7 @@ func (p *Player) GetCollisionRect() (x1, y1, x2, y2 float64) {
 // MoveWithCollision moves the player with collision checks.
 func (p *Player) MoveWithCollision(
 	velocity vectors.Vector3,
-) (newVelocity vectors.Vector3, hasCollided bool, collidedTile int) {
+) (newVelocity vectors.Vector3, hasCollided bool, collidedTiles []int) {
 	x1, y1, x2, y2 := p.GetCollisionRect()
 
 	return p.MoveWithCollisionRect(velocity, x1, y1, x2, y2)
