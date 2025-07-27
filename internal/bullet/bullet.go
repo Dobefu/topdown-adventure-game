@@ -90,6 +90,13 @@ func NewBullet() (bullet *Bullet) {
 
 	bullet.SetIsActive(false)
 
+	bullet.CollisionRect = gameobject.CollisionRect{
+		X1: 12,
+		Y1: 12,
+		X2: 19,
+		Y2: 19,
+	}
+
 	bullet.SetOnCollision(func(self, other interfaces.GameObject) {
 		// Skip collision with the owner of the bullet.
 		if other.GetID() == bullet.owner.GetID() {
@@ -129,11 +136,6 @@ func (b *Bullet) SetOwner(owner interfaces.GameObject) {
 	b.owner = owner
 }
 
-// GetCollisionRect gets the four points of the collision rectangle.
-func (b *Bullet) GetCollisionRect() (x1, y1, x2, y2 float64) {
-	return 12, 12, 19, 19
-}
-
 // Fire fires a single bullet.
 func (b *Bullet) Fire(
 	from vectors.Vector3,
@@ -161,8 +163,13 @@ func (b *Bullet) SetVelocity(velocity vectors.Vector3) {
 func (b *Bullet) MoveWithCollision(
 	velocity vectors.Vector3,
 ) (newVelocity vectors.Vector3, hasCollided bool) {
-	x1, y1, x2, y2 := b.GetCollisionRect()
-	newVelocity, hasCollided, _ = b.MoveWithCollisionRect(velocity, x1, y1, x2, y2)
+	newVelocity, hasCollided, _ = b.MoveWithCollisionRect(
+		velocity,
+		b.CollisionRect.X1,
+		b.CollisionRect.Y1,
+		b.CollisionRect.X2,
+		b.CollisionRect.Y2,
+	)
 
 	if hasCollided {
 		b.SetIsActive(false)
@@ -188,8 +195,7 @@ func (b *Bullet) Draw(screen *ebiten.Image) {
 
 // DrawAbove draws above the bullet.
 func (b *Bullet) DrawAbove(screen *ebiten.Image) {
-	x1, y1, x2, y2 := b.GetCollisionRect()
-	b.DrawDebugCollision(screen, x1, y1, x2, y2)
+	b.DrawDebugCollision(screen)
 }
 
 // Update runs during the update function of the game.

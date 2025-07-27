@@ -111,6 +111,13 @@ func NewEnemy(position vectors.Vector3) (enemy *Enemy) {
 	enemy.SetIsActive(true)
 	enemy.SetPosition(position)
 
+	enemy.CollisionRect = gameobject.CollisionRect{
+		X1: 4,
+		Y1: 19,
+		X2: 27,
+		Y2: 31,
+	}
+
 	enemy.animationState = animation.StateIdleDown
 	enemy.state = state.StateDefault
 
@@ -137,18 +144,17 @@ func (e *Enemy) Init() {
 	}
 }
 
-// GetCollisionRect gets the four points of the collision rectangle.
-func (e *Enemy) GetCollisionRect() (x1, y1, x2, y2 float64) {
-	return 4, 19, 27, 31
-}
-
 // MoveWithCollision moves the enemy, and checks for collision.
 func (e *Enemy) MoveWithCollision(
 	velocity vectors.Vector3,
 ) (newVelocity vectors.Vector3, hasCollided bool, collidedTiles []int) {
-	x1, y1, x2, y2 := e.GetCollisionRect()
-
-	return e.MoveWithCollisionRect(velocity, x1, y1, x2, y2)
+	return e.MoveWithCollisionRect(
+		velocity,
+		e.CollisionRect.X1,
+		e.CollisionRect.Y1,
+		e.CollisionRect.X2,
+		e.CollisionRect.Y2,
+	)
 }
 
 // Draw draws the enemy.
@@ -188,13 +194,19 @@ func (e *Enemy) DrawBelow(screen *ebiten.Image) {
 
 // DrawAbove draws above the enemy.
 func (e *Enemy) DrawAbove(screen *ebiten.Image) {
-	x1, y1, x2, y2 := e.GetCollisionRect()
-	e.DrawDebugCollision(screen, x1, y1, x2, y2)
+	e.DrawDebugCollision(screen)
 }
 
 // Update runs during the update function of the game.
 func (e *Enemy) Update() (err error) {
-	gameobject.HandleMovement(&e.CollidableGameObject, &e.velocity, nil, nil, &e.state, e.movementConfig)
+	gameobject.HandleMovement(
+		&e.CollidableGameObject,
+		&e.velocity,
+		nil,
+		nil,
+		&e.state,
+		e.movementConfig,
+	)
 	e.handleAnimations()
 	e.CheckCollision(*e.GetScene(), e.Position)
 

@@ -58,8 +58,13 @@ func HandleMovement(
 
 	handleMovementState(currentState, velocity, obj.Position, inputHandler, config)
 
-	x1, y1, x2, y2 := obj.GetCollisionRect()
-	newVelocity, _, collidedTiles := obj.MoveWithCollisionRect(*velocity, x1, y1, x2, y2)
+	newVelocity, _, collidedTiles := obj.MoveWithCollisionRect(
+		*velocity,
+		obj.CollisionRect.X1,
+		obj.CollisionRect.Y1,
+		obj.CollisionRect.X2,
+		obj.CollisionRect.Y2,
+	)
 	*velocity = newVelocity
 
 	// Handle ledge jumping if state is provided.

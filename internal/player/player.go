@@ -178,9 +178,13 @@ func (p *Player) Init() {
 func (p *Player) MoveWithCollision(
 	velocity vectors.Vector3,
 ) (newVelocity vectors.Vector3, hasCollided bool, collidedTiles []int) {
-	x1, y1, x2, y2 := p.GetCollisionRect()
-
-	return p.MoveWithCollisionRect(velocity, x1, y1, x2, y2)
+	return p.MoveWithCollisionRect(
+		velocity,
+		p.CollisionRect.X1,
+		p.CollisionRect.Y1,
+		p.CollisionRect.X2,
+		p.CollisionRect.Y2,
+	)
 }
 
 // Draw runs during the game's Draw function.
@@ -255,8 +259,7 @@ func (p *Player) DrawBelow(screen *ebiten.Image) {
 
 // DrawAbove draws a debug overlay if debugging is enabled and active.
 func (p *Player) DrawAbove(screen *ebiten.Image) {
-	x1, y1, x2, y2 := p.GetCollisionRect()
-	p.DrawDebugCollision(screen, x1, y1, x2, y2)
+	p.DrawDebugCollision(screen)
 }
 
 // DrawUI draws the player's health bar.
@@ -271,7 +274,14 @@ func (p *Player) DrawUI(screen *ebiten.Image) {
 
 // Update runs during the game's Update function.
 func (p *Player) Update() (err error) {
-	gameobject.HandleMovement(&p.CollidableGameObject, &p.velocity, &p.rawInputVelocity, p.input, &p.state, p.movementConfig)
+	gameobject.HandleMovement(
+		&p.CollidableGameObject,
+		&p.velocity,
+		&p.rawInputVelocity,
+		p.input,
+		&p.state,
+		p.movementConfig,
+	)
 	p.handleAnimations()
 	p.CheckCollision(*p.GetScene(), p.Position)
 
