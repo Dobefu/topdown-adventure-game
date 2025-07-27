@@ -155,7 +155,7 @@ func (e *Enemy) MoveWithCollision(
 
 // Draw draws the enemy.
 func (e *Enemy) Draw(screen *ebiten.Image) {
-	pos := e.GetPosition()
+	pos := e.Position
 
 	scene := (*e.GetScene())
 	camera := scene.GetCamera()
@@ -172,15 +172,13 @@ func (e *Enemy) Draw(screen *ebiten.Image) {
 
 // DrawBelow draws a shadow beneath the enemy.
 func (e *Enemy) DrawBelow(screen *ebiten.Image) {
-	pos := e.GetPosition()
-
 	scene := (*e.GetScene())
 	camera := scene.GetCamera()
 
 	e.imgOptions.GeoM.Reset()
 	e.imgOptions.GeoM.Translate(
-		pos.X,
-		pos.Y+FrameHeight*.75,
+		e.Position.X,
+		e.Position.Y+FrameHeight*.75,
 	)
 
 	camera.Draw(
@@ -200,7 +198,7 @@ func (e *Enemy) DrawAbove(screen *ebiten.Image) {
 func (e *Enemy) Update() (err error) {
 	gameobject.HandleMovement(e, &e.velocity, nil, nil, &e.state, e.movementConfig)
 	e.handleAnimations()
-	e.CheckCollision(*e.GetScene(), *e.GetPosition())
+	e.CheckCollision(*e.GetScene(), e.Position)
 
 	return nil
 }
@@ -214,10 +212,10 @@ func (e *Enemy) Damage(amount int, source interfaces.GameObject) {
 	e.HurtableGameObject.Damage(amount, source)
 	e.state = state.StateHurt
 
-	pos := *e.GetPosition()
+	pos := e.Position
 	pos.Z = 0
 
-	srcPosition := (*source.GetPosition())
+	srcPosition := *source.GetPosition()
 	srcPosition.Z = 0
 	srcPosition.Sub(pos)
 	srcPosition.ClampMagnitude(1)

@@ -45,7 +45,7 @@ func (p *Player) handleAnimations() {
 		p.input.ActionIsPressed(input.ActionAimMouse) {
 
 		cameraPos := *p.GetCameraPosition()
-		pos := *p.GetPosition()
+		pos := p.Position
 		pos.Add(vectors.Vector3{
 			X: FrameWidth / 2,
 			Y: FrameHeight / 2,

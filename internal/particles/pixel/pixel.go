@@ -40,10 +40,9 @@ func (p *Pixel) Update() (err error) {
 func (p *Pixel) Draw(screen *ebiten.Image) {
 	scene := *p.GetScene()
 	camera := scene.GetCamera()
-	position := p.GetPosition()
 
 	p.imgOptions.GeoM.Reset()
-	p.imgOptions.GeoM.Translate(position.X, position.Y)
+	p.imgOptions.GeoM.Translate(p.Position.X, p.Position.Y)
 
 	camera.Draw(
 		p.img,

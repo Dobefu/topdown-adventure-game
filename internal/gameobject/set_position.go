@@ -6,10 +6,10 @@ import (
 
 // SetPosition sets the current position of a game object.
 func (g *GameObject) SetPosition(position vectors.Vector3) {
-	if g.position.Z == position.Z {
-		g.position = position
+	if g.Position.Z == position.Z {
+		g.Position = position
 		return
 	}
 
-	g.position = position
+	g.Position = position
 }

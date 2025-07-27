@@ -22,9 +22,7 @@ func (p *Particle) Update() {
 		p.SetIsActive(false)
 	}
 
-	position := p.GetPosition()
-
-	position.Add(p.velocity)
+	p.Position.Add(p.velocity)
 }
 
 // GetLifetime gets the lifetime that a particle has left.

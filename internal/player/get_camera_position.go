@@ -26,11 +26,9 @@ func (p *Player) GetCameraPosition() (position *vectors.Vector3) {
 		return prevCameraPosition
 	}
 
-	playerPosition := *p.GetPosition()
-
 	playerCenter := vectors.Vector3{
-		X: playerPosition.X + (FrameWidth / 2),
-		Y: playerPosition.Y + (FrameHeight / 2),
+		X: p.Position.X + (FrameWidth / 2),
+		Y: p.Position.Y + (FrameHeight / 2),
 		Z: 0,
 	}
 

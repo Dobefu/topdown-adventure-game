@@ -56,13 +56,12 @@ func (c *CollidableGameObject) DrawDebugCollision(
 		c.debugCollisionImage.Fill(color.RGBA{R: 255, G: 0, B: 0, A: 128})
 	}
 
-	pos := c.GetPosition()
 	camera := scene.GetCamera()
 
 	c.debugCollisionImageOptions.GeoM.Reset()
 	c.debugCollisionImageOptions.GeoM.Translate(
-		pos.X+x1,
-		pos.Y+y1,
+		c.Position.X+x1,
+		c.Position.Y+y1,
 	)
 
 	camera.Draw(

@@ -6,5 +6,5 @@ import (
 
 // GetPosition gets the current position of the game object.
 func (g *GameObject) GetPosition() (position *vectors.Vector3) {
-	return &g.position
+	return &g.Position
 }

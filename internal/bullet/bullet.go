@@ -176,13 +176,11 @@ func (b *Bullet) MoveWithCollision(
 
 // Draw draws the bullet.
 func (b *Bullet) Draw(screen *ebiten.Image) {
-	pos := b.GetPosition()
-
 	scene := (*b.GetScene())
 	camera := scene.GetCamera()
 
 	b.imgOptions.GeoM.Reset()
-	b.imgOptions.GeoM.Translate(pos.X, pos.Y)
+	b.imgOptions.GeoM.Translate(b.Position.X, b.Position.Y)
 
 	camera.Draw(
 		bulletSubImgs[int(b.animationState)*NumFrames+b.frameIndex],
@@ -216,21 +214,19 @@ func (b *Bullet) Update() (err error) {
 		int((angle+22.5)/45) % 8,
 	)
 
-	b.CheckCollision(*b.GetScene(), *b.GetPosition())
+	b.CheckCollision(*b.GetScene(), b.Position)
 	b.MoveWithCollision(b.velocity)
-
-	position := b.GetPosition()
 
 	for _, particle := range b.trailParticles {
 		if particle.GetIsActive() {
 			continue
 		}
 
-		particle.SetPosition(vectors.Vector3{
-			X: position.X + 16 + float64(int(fastrand.Rand.Next()>>28)-8),
-			Y: position.Y + 16 + float64(int(fastrand.Rand.Next()>>28)-8),
+		particle.Position = vectors.Vector3{
+			X: b.Position.X + 16 + float64(int(fastrand.Rand.Next()>>28)-8),
+			Y: b.Position.Y + 16 + float64(int(fastrand.Rand.Next()>>28)-8),
 			Z: 0,
-		})
+		}
 		particle.SetVelocity(vectors.Vector3{
 			X: float64(int(fastrand.Rand.Next()>>28)-8) / 10,
 			Y: float64(int(fastrand.Rand.Next()>>28)-8) / 10,

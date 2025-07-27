@@ -43,7 +43,7 @@ func (p *Player) Shoot() {
 		cameraPos := *p.GetCameraPosition()
 		cameraPos.Z = 0
 
-		pos := *p.GetPosition()
+		pos := p.Position
 		pos.Z = 0
 
 		pos.Add(vectors.Vector3{
@@ -68,7 +68,7 @@ func (p *Player) Shoot() {
 				slog.Error(err.Error())
 			}
 
-			pos = *p.GetPosition()
+			pos = p.Position
 			pos.Z = 0
 
 			b.SetOwner(p)

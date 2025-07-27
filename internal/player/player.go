@@ -183,13 +183,13 @@ func (p *Player) MoveWithCollision(
 
 // Draw runs during the game's Draw function.
 func (p *Player) Draw(screen *ebiten.Image) {
-	pos := p.GetPosition()
+	pos := p.Position
 
 	scene := (*p.GetScene())
 	camera := scene.GetCamera()
 
 	cameraPos := *p.GetCameraPosition()
-	currentPos := *p.GetPosition()
+	currentPos := p.Position
 	currentPos.Z = 0
 
 	currentPos.Add(vectors.Vector3{
@@ -233,7 +233,7 @@ func (p *Player) Draw(screen *ebiten.Image) {
 
 // DrawBelow draws a shadow below the player.
 func (p *Player) DrawBelow(screen *ebiten.Image) {
-	pos := p.GetPosition()
+	pos := p.Position
 
 	scene := (*p.GetScene())
 	camera := scene.GetCamera()
@@ -271,7 +271,7 @@ func (p *Player) DrawUI(screen *ebiten.Image) {
 func (p *Player) Update() (err error) {
 	gameobject.HandleMovement(p, &p.velocity, &p.rawInputVelocity, p.input, &p.state, p.movementConfig)
 	p.handleAnimations()
-	p.CheckCollision(*p.GetScene(), *p.GetPosition())
+	p.CheckCollision(*p.GetScene(), p.Position)
 
 	if p.shootCooldown > 0 {
 		p.shootCooldown--
@@ -290,17 +290,17 @@ func (p *Player) Damage(amount int, source interfaces.GameObject) {
 		return
 	}
 
-	scene := (*p.GetScene())
+	scene := *p.GetScene()
 	camera := scene.GetCamera()
 	camera.AddTrauma(.5)
 
 	p.HurtableGameObject.Damage(amount, source)
 	p.state = state.StateHurt
 
-	pos := *p.GetPosition()
+	pos := p.Position
 	pos.Z = 0
 
-	srcPosition := (*source.GetPosition())
+	srcPosition := *source.GetPosition()
 	srcPosition.Z = 0
 	srcPosition.Sub(pos)
 	srcPosition.ClampMagnitude(1)

@@ -16,23 +16,18 @@ func (g *GameObject) MoveWithCollisionRect(
 	x2 float64,
 	y2 float64,
 ) (newVelocity vectors.Vector3, hasCollided bool, collidedTiles []int) {
-	pos := g.GetPosition()
+	g.Position.Add(vectors.Vector3{Z: velocity.Z})
 
-	pos.Add(vectors.Vector3{Z: velocity.Z})
-
-	if pos.Z < 0 {
-		pos.Z = 0
+	if g.Position.Z < 0 {
+		g.Position.Z = 0
 		velocity.Z = 0
 	}
-
-	g.SetPosition(*pos)
 
 	var allCollidedTiles []int
 
 	hasCollided, tilesCollidedWith := g.canMoveTo(vectors.Vector3{X: velocity.X, Y: 0, Z: 0}, x1, y1, x2, y2)
 	if !hasCollided {
-		pos.Add(vectors.Vector3{X: velocity.X, Y: 0, Z: 0})
-		g.SetPosition(*pos)
+		g.Position.Add(vectors.Vector3{X: velocity.X, Y: 0, Z: 0})
 		allCollidedTiles = append(allCollidedTiles, tilesCollidedWith...)
 	} else if velocity.X != 0 {
 		maxX := g.findMaxMovement(
@@ -44,18 +39,15 @@ func (g *GameObject) MoveWithCollisionRect(
 		)
 
 		if maxX != 0 {
-			pos.Add(vectors.Vector3{X: maxX, Y: 0, Z: 0})
-			g.SetPosition(*pos)
+			g.Position.Add(vectors.Vector3{X: maxX, Y: 0, Z: 0})
 		}
 
 		allCollidedTiles = append(allCollidedTiles, tilesCollidedWith...)
 	}
 
-	pos = g.GetPosition()
-
 	hasCollided, tilesCollidedWith = g.canMoveTo(vectors.Vector3{X: 0, Y: velocity.Y, Z: 0}, x1, y1, x2, y2)
 	if !hasCollided {
-		pos.Add(vectors.Vector3{X: 0, Y: velocity.Y, Z: 0})
+		g.Position.Add(vectors.Vector3{X: 0, Y: velocity.Y, Z: 0})
 		allCollidedTiles = append(allCollidedTiles, tilesCollidedWith...)
 	} else if velocity.Y != 0 {
 		maxY := g.findMaxMovement(
@@ -67,13 +59,11 @@ func (g *GameObject) MoveWithCollisionRect(
 		)
 
 		if maxY != 0 {
-			pos.Add(vectors.Vector3{X: 0, Y: maxY, Z: 0})
+			g.Position.Add(vectors.Vector3{X: 0, Y: maxY, Z: 0})
 		}
 
 		allCollidedTiles = append(allCollidedTiles, tilesCollidedWith...)
 	}
-
-	g.SetPosition(*pos)
 
 	return velocity, slices.Contains(allCollidedTiles, tiledata.TileCollisionWall), allCollidedTiles
 }
@@ -124,12 +114,11 @@ func (g *GameObject) getCollidedTile(
 	x2 float64,
 	y2 float64,
 ) []int {
-	pos := g.GetPosition()
 	scene := *g.GetScene()
 
 	target := vectors.Vector2{
-		X: pos.X + velocity.X,
-		Y: pos.Y + velocity.Y,
+		X: g.Position.X + velocity.X,
+		Y: g.Position.Y + velocity.Y,
 	}
 
 	var corners []int

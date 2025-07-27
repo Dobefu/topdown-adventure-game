@@ -20,7 +20,7 @@ type GameObject struct {
 	id uint64
 
 	scene    *interfaces.Scene
-	position vectors.Vector3
+	Position vectors.Vector3
 	isActive bool
 }
 
