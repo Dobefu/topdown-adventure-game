@@ -115,7 +115,7 @@ func NewEnemy(position vectors.Vector3) (enemy *Enemy) {
 	enemy.state = state.StateDefault
 
 	enemy.SetOnCollision(func(self, other interfaces.GameObject) {
-		if hurtable, ok := other.(interfaces.HurtableGameObject); ok {
+		if hurtable, ok := other.(interfaces.Hurtable); ok {
 			hurtable.Damage(2, self)
 		}
 	})

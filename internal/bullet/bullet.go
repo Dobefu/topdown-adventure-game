@@ -97,7 +97,7 @@ func NewBullet() (bullet *Bullet) {
 			return
 		}
 
-		if hurtable, ok := other.(interfaces.HurtableGameObject); ok {
+		if hurtable, ok := other.(interfaces.Hurtable); ok {
 			hurtable.Damage(2, self)
 		}
 

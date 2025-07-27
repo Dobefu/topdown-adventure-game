@@ -9,7 +9,6 @@ import (
 
 // HurtableGameObject defines a game object that can get damaged and can die.
 type HurtableGameObject struct {
-	interfaces.HurtableGameObject
 	CollidableGameObject
 
 	health        int
