@@ -138,7 +138,7 @@ func NewPlayer(position vectors.Vector3) (player *Player) {
 	player.SetOnCollision(func(_, other interfaces.GameObject) {
 		// Skip the collision callback if the player hits a bullet they own.
 		if bullet, ok := other.(*bullet.Bullet); ok {
-			if bullet.GetOwner().GetID() == player.GetID() {
+			if bullet.GetOwner().GetID() == player.ID {
 				return
 			}
 		}

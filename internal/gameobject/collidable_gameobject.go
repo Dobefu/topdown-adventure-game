@@ -138,7 +138,7 @@ func (c *CollidableGameObject) CheckCollisionWithCollisionRect(
 		}
 
 		// Skip GameObjects with the same ID.
-		if c.GetID() == activeGameObject.GetID() {
+		if c.ID == activeGameObject.GetID() {
 			continue
 		}
 

@@ -17,7 +17,7 @@ var (
 // It can be used directly, and other game object types may be embedded
 // to expand its functionality.
 type GameObject struct {
-	id uint64
+	ID uint64
 
 	scene    *interfaces.Scene
 	Position vectors.Vector3
@@ -26,19 +26,14 @@ type GameObject struct {
 
 // Init initializes the game object.
 func (g *GameObject) Init() {
-	if g.id == 0 {
-		g.id = atomic.AddUint64(&nextGameObjectID, 1)
+	if g.ID == 0 {
+		g.ID = atomic.AddUint64(&nextGameObjectID, 1)
 	}
 }
 
 // GetID gets the ID of the game object.
 func (g *GameObject) GetID() (id uint64) {
-	return g.id
-}
-
-// SetID sets the ID of the game object.
-func (g *GameObject) SetID(id uint64) {
-	g.id = id
+	return g.ID
 }
 
 // Draw draws the game object.
