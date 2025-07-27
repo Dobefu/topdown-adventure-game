@@ -19,7 +19,7 @@ import (
 // Scene defines a base scene instance.
 // This is meant to be embedded, it should not be used directly.
 type Scene struct {
-	game interfaces.Game
+	Game interfaces.Game
 
 	camera           *kamera.Camera
 	cameraTarget     *interfaces.GameObject
@@ -72,12 +72,12 @@ func (s *Scene) InitSceneMap(path string) {
 
 // SetGame sets the game instance.
 func (s *Scene) SetGame(game interfaces.Game) {
-	s.game = game
+	s.Game = game
 }
 
 // GetGame gets the game instance.
 func (s *Scene) GetGame() (game interfaces.Game) {
-	return s.game
+	return s.Game
 }
 
 // GetGameObjects gets all the game objects in the scene.

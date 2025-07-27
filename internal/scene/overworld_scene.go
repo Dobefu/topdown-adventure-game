@@ -50,7 +50,7 @@ func (s *OverworldScene) InitPauseScreenUI() {
 	btnMainMenu := ui.NewButton(
 		"Main Menu",
 		widget.ButtonOpts.ClickedHandler(func(_ *widget.ButtonClickedEventArgs) {
-			s.game.SetScene(&MainMenuScene{})
+			s.Game.SetScene(&MainMenuScene{})
 		}),
 	)
 
