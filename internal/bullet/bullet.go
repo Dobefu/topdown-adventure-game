@@ -66,7 +66,6 @@ func init() {
 
 // Bullet struct provides a single bullet.
 type Bullet struct {
-	interfaces.Bullet
 	gameobject.CollidableGameObject
 
 	owner interfaces.GameObject
