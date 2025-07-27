@@ -4,15 +4,6 @@ import (
 	"github.com/Dobefu/vectors"
 )
 
-// MovementConfig defines the configuration for movement behaviour.
-type MovementConfig struct {
-	VelocityDamping  float64
-	StopThreshold    float64
-	Acceleration     float64
-	MaxSpeed         float64
-	RunningThreshold float64
-}
-
 // MovementHandler defines methods for objects that can handle movement.
 type MovementHandler interface {
 	GetPosition() *vectors.Vector3

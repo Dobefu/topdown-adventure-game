@@ -9,9 +9,18 @@ import (
 	ebitengine_input "github.com/quasilyte/ebitengine-input"
 )
 
+// MovementConfig defines the configuration for movement behaviour.
+type MovementConfig struct {
+	VelocityDamping  float64
+	StopThreshold    float64
+	Acceleration     float64
+	MaxSpeed         float64
+	RunningThreshold float64
+}
+
 // DefaultMovementConfig gets the default movement configuration.
-func DefaultMovementConfig() interfaces.MovementConfig {
-	return interfaces.MovementConfig{
+func DefaultMovementConfig() MovementConfig {
+	return MovementConfig{
 		VelocityDamping:  .9,
 		StopThreshold:    .15,
 		Acceleration:     .6,
@@ -27,7 +36,7 @@ func HandleMovement(
 	rawInputVelocity *vectors.Vector3,
 	inputHandler *ebitengine_input.Handler,
 	currentState *state.State,
-	config interfaces.MovementConfig,
+	config MovementConfig,
 ) {
 	if rawInputVelocity != nil {
 		HandleInput(rawInputVelocity, inputHandler, currentState, config)
@@ -65,7 +74,7 @@ func HandleInput(
 	rawInputVelocity *vectors.Vector3,
 	inputHandler *ebitengine_input.Handler,
 	currentState *state.State,
-	config interfaces.MovementConfig,
+	config MovementConfig,
 ) {
 	if inputHandler == nil || rawInputVelocity == nil {
 		return
@@ -110,7 +119,7 @@ func handleMovementState(
 	velocity *vectors.Vector3,
 	pos vectors.Vector3,
 	inputHandler *ebitengine_input.Handler,
-	config interfaces.MovementConfig,
+	config MovementConfig,
 ) {
 	if currentState == nil {
 		velocity.ClampMagnitude(config.MaxSpeed)
