@@ -128,6 +128,13 @@ func NewPlayer(position vectors.Vector3) (player *Player) {
 	player.SetIsActive(true)
 	player.SetPosition(position)
 
+	player.CollisionRect = gameobject.CollisionRect{
+		X1: 4,
+		Y1: 19,
+		X2: 27,
+		Y2: 31,
+	}
+
 	player.input = input.Input.NewHandler(0, input.PlayerKeymap)
 	player.input.GamepadDeadzone = GamepadDeadzone
 
@@ -165,11 +172,6 @@ func (p *Player) Init() {
 
 	audioContext := scene.GetGame().GetAudioContext()
 	p.audioPlayer = audioplayer.NewAudioPlayerFromBytes(audioContext, playerShootSound)
-}
-
-// GetCollisionRect gets the four points of the collision rectangle.
-func (p *Player) GetCollisionRect() (x1, y1, x2, y2 float64) {
-	return 4, 19, 27, 31
 }
 
 // MoveWithCollision moves the player with collision checks.

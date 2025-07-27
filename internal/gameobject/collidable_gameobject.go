@@ -12,7 +12,8 @@ import (
 type CollidableGameObject struct {
 	GameObject
 
-	OnCollision func(self interfaces.GameObject, other interfaces.GameObject)
+	CollisionRect CollisionRect
+	OnCollision   func(self interfaces.GameObject, other interfaces.GameObject)
 
 	debugCollisionImage        *ebiten.Image
 	debugCollisionImageOptions *ebiten.DrawImageOptions
@@ -96,7 +97,7 @@ func (c *CollidableGameObject) MoveWithCollision(
 
 // GetCollisionRect gets the four points of the collision rectangle.
 func (c *CollidableGameObject) GetCollisionRect() (x1, y1, x2, y2 float64) {
-	return 0, 0, 31, 31
+	return c.CollisionRect.X1, c.CollisionRect.Y1, c.CollisionRect.X2, c.CollisionRect.Y2
 }
 
 // CheckCollision checks if the game object collides with another game object.
