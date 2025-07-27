@@ -18,4 +18,5 @@ type GameObject interface {
 	GetCameraPosition() (position *vectors.Vector3)
 	GetIsActive() (isActive bool)
 	SetScene(scene Scene)
+	Damage(amount int, source GameObject)
 }

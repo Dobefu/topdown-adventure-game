@@ -64,3 +64,8 @@ func (g *GameObject) DrawUI(_ *ebiten.Image) {
 func (g *GameObject) Update() (err error) {
 	return nil
 }
+
+// Damage handles damaging a game object.
+func (g *GameObject) Damage(amount int, source interfaces.GameObject) {
+	// noop
+}

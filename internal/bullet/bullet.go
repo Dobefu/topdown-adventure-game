@@ -96,10 +96,7 @@ func NewBullet() (bullet *Bullet) {
 			return
 		}
 
-		if hurtable, ok := other.(interfaces.Hurtable); ok {
-			hurtable.Damage(2, self)
-		}
-
+		other.Damage(2, self)
 		bullet.SetIsActive(false)
 	})
 
