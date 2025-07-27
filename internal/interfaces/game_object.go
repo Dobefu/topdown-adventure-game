@@ -22,5 +22,4 @@ type GameObject interface {
 	GetIsActive() (isActive bool)
 	SetScene(scene Scene)
 	GetScene() *Scene
-	Move(velocity vectors.Vector3)
 }

@@ -17,8 +17,6 @@ var (
 // It can be used directly, and other game object types may be embedded
 // to expand its functionality.
 type GameObject struct {
-	interfaces.GameObject
-
 	id uint64
 
 	scene    *interfaces.Scene
