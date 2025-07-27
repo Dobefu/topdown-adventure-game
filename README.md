@@ -24,7 +24,7 @@ go build
 - Aim: Right mouse button
 - Shoot: Left mouse button / Spacebar
 
-### Controller:
+### Controller
 
 - Pause: Start
 - Move: Left analog stick

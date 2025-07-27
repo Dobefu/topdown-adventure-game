@@ -2,6 +2,7 @@ package enemy
 
 import (
 	"github.com/Dobefu/topdown-adventure-game/internal/animation"
+	"github.com/Dobefu/topdown-adventure-game/internal/state"
 )
 
 const (
@@ -19,12 +20,26 @@ func (e *Enemy) handleAnimations() {
 
 		if e.frameIndex >= NumFrames {
 			e.frameIndex = 0
+
+			if e.state == state.StateHurt {
+				e.state = state.StateDefault
+			}
 		}
 	}
 
 	angle := e.velocity.AngleDegrees()
 
-	if e.velocity.IsZero() {
+	if e.state == state.StateHurt {
+		// Hurt state.
+		e.animationState = animation.State(
+			int(e.animationState)%8 + int(animation.StateOffsetHurt),
+		)
+	} else if e.state == state.StateJump {
+		// Jump state.
+		e.animationState = animation.State(
+			int(e.animationState)%8 + int(animation.StateOffsetJump),
+		)
+	} else if e.velocity.IsZero() {
 		// Idle state.
 		e.animationState = animation.State(
 			int(e.animationState)%8 + int(animation.StateOffsetIdle),
