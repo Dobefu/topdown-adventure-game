@@ -19,8 +19,6 @@ import (
 // Scene defines a base scene instance.
 // This is meant to be embedded, it should not be used directly.
 type Scene struct {
-	interfaces.Scene
-
 	game interfaces.Game
 
 	camera           *kamera.Camera
