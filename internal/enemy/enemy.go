@@ -86,7 +86,7 @@ type Enemy struct {
 	gameobject.HostileGameObject
 	gameobject.HurtableGameObject
 
-	movementConfig interfaces.MovementConfig
+	movementConfig gameobject.MovementConfig
 	velocity       vectors.Vector3
 
 	imgOptions *ebiten.DrawImageOptions
@@ -196,7 +196,7 @@ func (e *Enemy) DrawAbove(screen *ebiten.Image) {
 
 // Update runs during the update function of the game.
 func (e *Enemy) Update() (err error) {
-	gameobject.HandleMovement(e, &e.velocity, nil, nil, &e.state, e.movementConfig)
+	gameobject.HandleMovement(&e.CollidableGameObject, &e.velocity, nil, nil, &e.state, e.movementConfig)
 	e.handleAnimations()
 	e.CheckCollision(*e.GetScene(), e.Position)
 

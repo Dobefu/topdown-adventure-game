@@ -99,7 +99,7 @@ type Player struct {
 	shootCooldown    int
 	shootCooldownMax int
 
-	movementConfig   interfaces.MovementConfig
+	movementConfig   gameobject.MovementConfig
 	velocity         vectors.Vector3
 	rawInputVelocity vectors.Vector3
 
@@ -269,7 +269,7 @@ func (p *Player) DrawUI(screen *ebiten.Image) {
 
 // Update runs during the game's Update function.
 func (p *Player) Update() (err error) {
-	gameobject.HandleMovement(p, &p.velocity, &p.rawInputVelocity, p.input, &p.state, p.movementConfig)
+	gameobject.HandleMovement(&p.CollidableGameObject, &p.velocity, &p.rawInputVelocity, p.input, &p.state, p.movementConfig)
 	p.handleAnimations()
 	p.CheckCollision(*p.GetScene(), p.Position)
 

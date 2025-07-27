@@ -2,7 +2,6 @@ package gameobject
 
 import (
 	"github.com/Dobefu/topdown-adventure-game/internal/input"
-	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
 	"github.com/Dobefu/topdown-adventure-game/internal/state"
 	"github.com/Dobefu/topdown-adventure-game/internal/tiledata"
 	"github.com/Dobefu/vectors"
@@ -31,7 +30,7 @@ func DefaultMovementConfig() MovementConfig {
 
 // HandleMovement handles the movement logic.
 func HandleMovement(
-	obj interfaces.MovementHandler,
+	obj *CollidableGameObject,
 	velocity *vectors.Vector3,
 	rawInputVelocity *vectors.Vector3,
 	inputHandler *ebitengine_input.Handler,
@@ -52,14 +51,12 @@ func HandleMovement(
 		velocity.Mul(vectors.Vector3{X: 0, Y: 0, Z: 1})
 	}
 
-	pos := *obj.GetPosition()
-
 	// Apply gravity.
-	if pos.Z > 0 {
+	if obj.Position.Z > 0 {
 		velocity.Z -= config.Acceleration / 2
 	}
 
-	handleMovementState(currentState, velocity, pos, inputHandler, config)
+	handleMovementState(currentState, velocity, obj.Position, inputHandler, config)
 
 	x1, y1, x2, y2 := obj.GetCollisionRect()
 	newVelocity, _, collidedTiles := obj.MoveWithCollisionRect(*velocity, x1, y1, x2, y2)
@@ -161,6 +158,7 @@ func handleLedgeJump(
 			*currentState = state.StateJump
 
 			velocity.X = 0
+			velocity.Z = 0
 			velocity.Normalize()
 
 			velocity.Y *= 8
@@ -174,6 +172,7 @@ func handleLedgeJump(
 			*currentState = state.StateJump
 
 			velocity.Y = 0
+			velocity.Z = 0
 			velocity.Normalize()
 
 			velocity.X *= 8
