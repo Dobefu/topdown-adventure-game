@@ -66,6 +66,6 @@ func (g *GameObject) Update() (err error) {
 }
 
 // Damage handles damaging a game object.
-func (g *GameObject) Damage(amount int, source interfaces.GameObject) {
+func (g *GameObject) Damage(_ int, _ interfaces.GameObject) {
 	// noop
 }
