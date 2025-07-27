@@ -29,8 +29,6 @@ const (
 
 // Game struct provides the game.
 type Game struct {
-	interfaces.Game
-
 	isDebugEnabled bool
 	isDebugActive  bool
 
