@@ -19,7 +19,6 @@ import (
 	"github.com/Dobefu/vectors"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/vector"
-	ebitengine_input "github.com/quasilyte/ebitengine-input"
 )
 
 var (
@@ -100,17 +99,10 @@ type Player struct {
 	shootCooldownMax int
 
 	movementConfig   gameobject.MovementConfig
-	velocity         vectors.Vector3
 	rawInputVelocity vectors.Vector3
 
-	input         *ebitengine_input.Handler
 	aimOverlayImg *ebiten.Image
 	imgOptions    *ebiten.DrawImageOptions
-
-	frameCount     int
-	frameIndex     int
-	animationState animation.State
-	state          state.State
 }
 
 // NewPlayer creates a new player.
@@ -119,7 +111,10 @@ func NewPlayer(position vectors.Vector3) (player *Player) {
 
 	player.movementConfig = gameobject.DefaultMovementConfig()
 
-	player.aimOverlayImg = ebiten.NewImage(MaxCursorDistance*2, MaxCursorDistance*2)
+	player.aimOverlayImg = ebiten.NewImage(
+		gameobject.MaxCameraCursorDistance*2,
+		gameobject.MaxCameraCursorDistance*2,
+	)
 	player.imgOptions = &ebiten.DrawImageOptions{}
 
 	player.SetMaxHealth(MaxHealth)
@@ -135,12 +130,12 @@ func NewPlayer(position vectors.Vector3) (player *Player) {
 		Y2: 31,
 	}
 
-	player.input = input.Input.NewHandler(0, input.PlayerKeymap)
-	player.input.GamepadDeadzone = GamepadDeadzone
+	player.Input = input.Input.NewHandler(0, input.PlayerKeymap)
+	player.Input.GamepadDeadzone = GamepadDeadzone
 
 	player.shootCooldownMax = 20
 
-	player.animationState = animation.StateIdleDown
+	player.AnimationState = animation.StateIdleDown
 
 	player.SetOnCollision(func(_, other interfaces.GameObject) {
 		// Skip the collision callback if the player hits a bullet they own.
@@ -160,6 +155,10 @@ func NewPlayer(position vectors.Vector3) (player *Player) {
 func (p *Player) Init() {
 	p.GameObject.Init()
 	p.CollidableGameObject.Init()
+
+	p.NumFrames = NumFrames
+	p.FrameHeight = FrameHeight
+	p.FrameWidth = FrameWidth
 
 	scene := *p.GetScene()
 
@@ -205,25 +204,25 @@ func (p *Player) Draw(screen *ebiten.Image) {
 	})
 
 	cameraPos.Sub(currentPos)
-	cameraPos.ClampMagnitude(MaxCameraOffset)
+	cameraPos.ClampMagnitude(gameobject.MaxCameraOffset)
 
 	p.aimOverlayImg.Clear()
 
 	vector.StrokeLine(
 		p.aimOverlayImg,
-		MaxCursorDistance,
-		MaxCursorDistance,
-		MaxCursorDistance+float32(cameraPos.X*2),
-		MaxCursorDistance+float32(cameraPos.Y*2),
+		gameobject.MaxCameraCursorDistance,
+		gameobject.MaxCameraCursorDistance,
+		gameobject.MaxCameraCursorDistance+float32(cameraPos.X*2),
+		gameobject.MaxCameraCursorDistance+float32(cameraPos.Y*2),
 		1,
-		color.Alpha{A: uint8(cameraPos.Magnitude() / MaxCameraOffset * 255)},
+		color.Alpha{A: uint8(cameraPos.Magnitude() / gameobject.MaxCameraOffset * 255)},
 		false,
 	)
 
 	p.imgOptions.GeoM.Reset()
 	p.imgOptions.GeoM.Translate(
-		(pos.X + (FrameWidth / 2) - MaxCursorDistance),
-		(pos.Y + (FrameHeight / 2) - MaxCursorDistance),
+		(pos.X + (FrameWidth / 2) - gameobject.MaxCameraCursorDistance),
+		(pos.Y + (FrameHeight / 2) - gameobject.MaxCameraCursorDistance),
 	)
 	camera.Draw(p.aimOverlayImg, p.imgOptions, screen)
 
@@ -231,7 +230,7 @@ func (p *Player) Draw(screen *ebiten.Image) {
 	p.imgOptions.GeoM.Translate(pos.X, pos.Y-pos.Z)
 
 	camera.Draw(
-		playerSubImgs[int(p.animationState)*NumFrames+p.frameIndex],
+		playerSubImgs[int(p.AnimationState)*NumFrames+p.FrameIndex],
 		p.imgOptions,
 		screen,
 	)
@@ -276,20 +275,20 @@ func (p *Player) DrawUI(screen *ebiten.Image) {
 func (p *Player) Update() (err error) {
 	gameobject.HandleMovement(
 		&p.CollidableGameObject,
-		&p.velocity,
+		&p.Velocity,
 		&p.rawInputVelocity,
-		p.input,
-		&p.state,
+		p.Input,
+		&p.State,
 		p.movementConfig,
 	)
-	p.handleAnimations()
+	gameobject.HandleAnimations(&p.GameObject)
 	p.CheckCollision(*p.GetScene(), p.Position)
 
 	if p.shootCooldown > 0 {
 		p.shootCooldown--
 	}
 
-	if p.input.ActionIsPressed(input.ActionShoot) && p.shootCooldown <= 0 {
+	if p.Input.ActionIsPressed(input.ActionShoot) && p.shootCooldown <= 0 {
 		p.Shoot()
 	}
 
@@ -298,7 +297,7 @@ func (p *Player) Update() (err error) {
 
 // Damage handles damaging the player.
 func (p *Player) Damage(amount int, source interfaces.GameObject) {
-	if p.state != state.StateDefault {
+	if p.State != state.StateDefault {
 		return
 	}
 
@@ -307,7 +306,7 @@ func (p *Player) Damage(amount int, source interfaces.GameObject) {
 	camera.AddTrauma(.5)
 
 	p.HurtableGameObject.Damage(amount, source)
-	p.state = state.StateHurt
+	p.State = state.StateHurt
 
 	pos := p.Position
 	pos.Z = 0
@@ -318,8 +317,8 @@ func (p *Player) Damage(amount int, source interfaces.GameObject) {
 	srcPosition.ClampMagnitude(1)
 	srcPosition.Bounce()
 	srcPosition.Mul(vectors.Vector3{X: Knockback, Y: Knockback, Z: 1})
-	p.velocity.Add(srcPosition)
-	p.velocity.Z += Knockback / 2
+	p.Velocity.Add(srcPosition)
+	p.Velocity.Z += Knockback / 2
 }
 
 // Die handles the player death.

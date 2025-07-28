@@ -4,9 +4,12 @@ package gameobject
 import (
 	"sync/atomic"
 
+	"github.com/Dobefu/topdown-adventure-game/internal/animation"
 	"github.com/Dobefu/topdown-adventure-game/internal/interfaces"
+	"github.com/Dobefu/topdown-adventure-game/internal/state"
 	"github.com/Dobefu/vectors"
 	"github.com/hajimehoshi/ebiten/v2"
+	ebitengine_input "github.com/quasilyte/ebitengine-input"
 )
 
 var (
@@ -22,6 +25,19 @@ type GameObject struct {
 	scene    *interfaces.Scene
 	Position vectors.Vector3
 	isActive bool
+
+	Input    *ebitengine_input.Handler
+	Velocity vectors.Vector3
+
+	FrameHeight int
+	FrameWidth  int
+	FrameIndex  int
+
+	GameFrameCount int
+	NumFrames      int
+
+	AnimationState animation.State
+	State          state.State
 }
 
 // Init initializes the game object.
@@ -29,6 +45,8 @@ func (g *GameObject) Init() {
 	if g.ID == 0 {
 		g.ID = atomic.AddUint64(&nextGameObjectID, 1)
 	}
+
+	g.NumFrames = 1
 }
 
 // GetID gets the ID of the game object.

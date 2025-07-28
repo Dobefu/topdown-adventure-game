@@ -87,14 +87,8 @@ type Enemy struct {
 	gameobject.HurtableGameObject
 
 	movementConfig gameobject.MovementConfig
-	velocity       vectors.Vector3
 
 	imgOptions *ebiten.DrawImageOptions
-
-	frameCount     int
-	frameIndex     int
-	animationState animation.State
-	state          state.State
 }
 
 // NewEnemy creates a new enemy.
@@ -118,8 +112,8 @@ func NewEnemy(position vectors.Vector3) (enemy *Enemy) {
 		Y2: 31,
 	}
 
-	enemy.animationState = animation.StateIdleDown
-	enemy.state = state.StateDefault
+	enemy.AnimationState = animation.StateIdleDown
+	enemy.State = state.StateDefault
 
 	enemy.SetOnCollision(func(self, other interfaces.GameObject) {
 		other.Damage(2, self)
@@ -134,6 +128,10 @@ func NewEnemy(position vectors.Vector3) (enemy *Enemy) {
 func (e *Enemy) Init() {
 	e.GameObject.Init()
 	e.CollidableGameObject.Init()
+
+	e.NumFrames = NumFrames
+	e.FrameHeight = FrameHeight
+	e.FrameWidth = FrameWidth
 
 	scene := *e.GetScene()
 
@@ -168,7 +166,7 @@ func (e *Enemy) Draw(screen *ebiten.Image) {
 	e.imgOptions.GeoM.Translate(pos.X, pos.Y-pos.Z)
 
 	camera.Draw(
-		enemySubImgs[int(e.animationState)*NumFrames+e.frameIndex],
+		enemySubImgs[int(e.AnimationState)*NumFrames+e.FrameIndex],
 		e.imgOptions,
 		screen,
 	)
@@ -201,13 +199,13 @@ func (e *Enemy) DrawAbove(screen *ebiten.Image) {
 func (e *Enemy) Update() (err error) {
 	gameobject.HandleMovement(
 		&e.CollidableGameObject,
-		&e.velocity,
+		&e.Velocity,
 		nil,
 		nil,
-		&e.state,
+		&e.State,
 		e.movementConfig,
 	)
-	e.handleAnimations()
+	gameobject.HandleAnimations(&e.GameObject)
 	e.CheckCollision(*e.GetScene(), e.Position)
 
 	return nil
@@ -215,12 +213,12 @@ func (e *Enemy) Update() (err error) {
 
 // Damage handles the damaging of the enemy.
 func (e *Enemy) Damage(amount int, source interfaces.GameObject) {
-	if e.state != state.StateDefault {
+	if e.State != state.StateDefault {
 		return
 	}
 
 	e.HurtableGameObject.Damage(amount, source)
-	e.state = state.StateHurt
+	e.State = state.StateHurt
 
 	pos := e.Position
 	pos.Z = 0
@@ -231,8 +229,8 @@ func (e *Enemy) Damage(amount int, source interfaces.GameObject) {
 	srcPosition.ClampMagnitude(1)
 	srcPosition.Bounce()
 	srcPosition.Mul(vectors.Vector3{X: Knockback, Y: Knockback, Z: 1})
-	e.velocity.Add(srcPosition)
-	e.velocity.Z += Knockback / 2
+	e.Velocity.Add(srcPosition)
+	e.Velocity.Z += Knockback / 2
 }
 
 // Die handles the death of the enemy.
